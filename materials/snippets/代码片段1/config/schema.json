@@ -1,0 +1,9 @@
+{
+	"type": "object",
+	"properties": {
+		"title": {
+			"title": "代码片段1",
+			"type": "string"
+		}
+	}
+}

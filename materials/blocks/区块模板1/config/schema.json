@@ -1,0 +1,9 @@
+{
+	"type": "object",
+	"properties": {
+		"title": {
+			"title": "区块模板1",
+			"type": "string"
+		}
+	}
+}
