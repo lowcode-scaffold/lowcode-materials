@@ -1,0 +1,12 @@
+import { useState } from '@/hooks/useState';
+import { createModel } from 'hox';
+
+const useContext = createModel(() => {
+  const [name, setName] = useState('');
+  return {
+	name,
+	setName,
+  };
+});
+
+export default useContext;
