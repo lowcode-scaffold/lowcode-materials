@@ -9,3 +9,4 @@ module.exports = {
 		console.log(__dirname, __filename, process.cwd())
 	},
 }
+vbvbvbv  
