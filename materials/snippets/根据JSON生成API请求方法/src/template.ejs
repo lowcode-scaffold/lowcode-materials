@@ -1,0 +1,20 @@
+<%- type %>
+
+export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params {
+	id: number;
+  }
+  
+  export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data {
+	xx: string;
+  }
+  
+  export function <%= funcName %>(
+	params: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params,
+	data: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data,
+  ) {
+	return request<<%= typeName %>>(`xxx`, {
+	  method: 'GET',
+	  params,
+	  data,
+	});
+  }
