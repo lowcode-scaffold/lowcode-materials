@@ -1,4 +1,8 @@
-<%- type %>
+export interface <%= typeName %> {
+	code: number;
+	msg: string;
+	result: <%- rawClipboardText %>
+}
 
 export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params {
 	id: number;
