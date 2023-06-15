@@ -1,5 +1,8 @@
 {
 	"title": "根据JSON生成API请求方法",
 	"description": "根据JSON生成API请求方法",
-	"img": "https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
+	"img": "https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg",
+	"chatGPT": {
+		"commandPrompt": "<%- rawClipboardText %> 根据这段 json 生成 ts 类型，名字为 I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Result ，和下面的代码一起返回export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params {\n\t\t\t\t\t\t\t\t\t\t\t\t\tid: number;\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\texport interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data {\n\t\t\t\t\t\t\t\t\t\t\t\t\txx: string;\n\t\t\t\t\t\t\t\t\t\t\t}\n\t\t\t\t\t\t\t\t\t\t\t\n\t\t\t\t\t\t\t\t\t\t\texport function <%= rawSelectedText %>(\n\t\t\t\t\t\t\t\t\t\t\t\t\tparams: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params,\n\t\t\t\t\t\t\t\t\t\t\t\t\tdata: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data,\n\t\t\t\t\t\t\t\t\t\t\t) {\n\t\t\t\t\t\t\t\t\t\t\t\t\treturn request<I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Result>({\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\turl: `xxxx`,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tmethod: 'GET',\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tparams,\n\t\t\t\t\t\t\t\t\t\t\t\t\t\t\tdata,\n\t\t\t\t\t\t\t\t\t\t\t\t\t});\n\t\t\t\t\t\t\t\t\t\t\t}\r\n返回markdown代码块"
+	}
 }
