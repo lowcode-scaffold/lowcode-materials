@@ -1,0 +1,22 @@
+{
+  "name": "lowcode-materials",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lowcode-scaffold/lowcode-materials.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/lowcode-scaffold/lowcode-materials/issues"
+  },
+  "homepage": "https://github.com/lowcode-scaffold/lowcode-materials#readme",
+  "dependencies": {
+    "mockjs": "^1.1.0"
+  }
+}
