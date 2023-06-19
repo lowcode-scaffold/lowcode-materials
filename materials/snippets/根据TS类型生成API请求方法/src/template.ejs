@@ -6,20 +6,20 @@ export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedTex
 
 export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params {
 	id: number;
-  }
+}
   
-  export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data {
+export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data {
 	xx: string;
-  }
+}
   
-  export function <%= rawSelectedText %>(
+export function <%= rawSelectedText %>(
 	params: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params,
 	data: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data,
-  ) {
+) {
 	return request<I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Result>({
-	  url: `xxxx`,
-	  method: 'GET',
-	  params,
-	  data,
+		url: `xxxx`,
+		method: 'GET',
+		params,
+		data,
 	});
-  }
+}
