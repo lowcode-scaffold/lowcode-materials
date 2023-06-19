@@ -1,21 +1,21 @@
 <%- type %>
 
 export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params {
-	id: number;
-  }
+  id: number;
+}
   
-  export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data {
+export interface I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data {
 	xx: string;
-  }
+}
   
-  export function <%= rawSelectedText %>(
-	params: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params,
-	data: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data,
-  ) {
-	return request<I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Result>({
-	  url: `xxxx`,
-	  method: 'GET',
-	  params,
-	  data,
-	});
-  }
+export function <%= rawSelectedText %>(
+  params: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Params,
+  data: I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Data,
+) {
+  return request<I<%= rawSelectedText.slice(0, 1).toUpperCase() + rawSelectedText.slice(1) %>Result>({
+    url: `xxxx`,
+    method: 'GET',
+    params,
+    data,
+  });
+}
