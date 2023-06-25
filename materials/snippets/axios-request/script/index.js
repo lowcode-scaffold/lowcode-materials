@@ -1,4 +1,4 @@
 module.exports = {
-	beforeCompile: (context) => {},
-	afterCompile: (constext) => {},
+	beforeCompile: (context) => { },
+	afterCompile: (constext) => { },
 }

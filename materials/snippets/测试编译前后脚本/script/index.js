@@ -1,11 +1,10 @@
 module.exports = {
 	beforeCompile: (context) => {
-		console.log(context, 3333)
+		context.outputChannel.appendLine(Object.keys(context))
 		context.vscode.window.showErrorMessage('12134')
-		return { a: 'vbvbvbv' }
+		return { a: 'lowcode' }
 	},
 	afterCompile: (constext) => {
-		console.log(constext, 3333)
-		console.log(__dirname, __filename, process.cwd())
+		context.outputChannel.appendLine(Object.keys(context))
 	},
 }

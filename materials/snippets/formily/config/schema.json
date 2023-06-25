@@ -1,0 +1,32 @@
+{
+	"formSchema": {
+		"schema": {
+			"form": {
+				"labelCol": 6,
+				"wrapperCol": 12,
+				"layout": "vertical",
+				"labelAlign": "left",
+				"fullness": false,
+				"inset": false
+			},
+			"schema": {
+				"type": "object",
+				"properties": {
+					"name": {
+						"type": "string",
+						"title": "测试表单",
+						"x-decorator": "FormItem",
+						"x-component": "Input",
+						"x-validator": [],
+						"x-component-props": {},
+						"x-decorator-props": {},
+						"x-designable-id": "v3zwx2xtcfx",
+						"x-index": 0,
+						"name": "name"
+					}
+				},
+				"x-designable-id": "d4ogui2afmr"
+			}
+		}
+	}
+}

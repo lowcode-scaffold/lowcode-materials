@@ -1,0 +1,16 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "object",
+			"column": 1,
+			"displayType": "column",
+			"properties": {
+				"name": {
+					"title": "测试表单",
+					"type": "string",
+					"props": {}
+				}
+			}
+		}
+	}
+}
