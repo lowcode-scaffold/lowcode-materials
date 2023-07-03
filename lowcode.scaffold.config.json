@@ -1,6 +1,0 @@
-{
-	"excludeCompile": [
-		"codeTemplate/",
-		"materials/"
-	]
-}
