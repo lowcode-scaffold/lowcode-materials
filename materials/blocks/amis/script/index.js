@@ -7,20 +7,21 @@ require('ts-node').register({
 const path = require('path')
 // 清除缓存，保证每次修改代码后实时生效
 delete require.cache[require.resolve(path.join(__dirname, 'handle.ts'))]
-const title = require('./handle.ts')
+const Handler = require('./handle.ts')
 module.exports = {
-	beforeCompile: context => {
-		context.outputChannel.appendLine('compile amis start')
+	beforeCompile: (context) => {
+		const compileHandler = new Handler.CompileHandler(context)
+		compileHandler.log('compile amis start')
 	},
-	afterCompile: context => {
-		context.outputChannel.appendLine('compile amis end')
+	afterCompile: (context) => {
+		const compileHandler = new Handler.CompileHandler(context)
+		compileHandler.log('compile amis end')
 	},
-	IntFromOcrText: (context) => {
-		context.outputChannel.appendLine(Object.keys(context))
-		context.outputChannel.appendLine(JSON.stringify(context.model))
-		context.outputChannel.appendLine(context.params)
-		context.outputChannel.appendLine(title.getTitle('lowcode'))
-		return { ...context.model, name: '测试一下' }
+	intFromOcrText: (context) => {
+		const viewCallHandler = new Handler.ViewCallHandler(context)
+		viewCallHandler.log('call method intFromOcrText')
+		viewCallHandler.showInformationMessage('lowcode')
+		return viewCallHandler.intFromOcrText()
 	},
 }
 

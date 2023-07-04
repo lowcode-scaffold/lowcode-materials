@@ -8,7 +8,7 @@
 	"schema": "amis",
 	"scripts": [
 		{
-			"method": "IntFromOcrText",
+			"method": "intFromOcrText",
 			"remark": "使用 ocr 结果初始化表单"
 		}
 	]

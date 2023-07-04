@@ -23,6 +23,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.3.1",
+    "@types/vscode": "^1.79.1",
     "tslib": "^2.5.3"
   }
 }
