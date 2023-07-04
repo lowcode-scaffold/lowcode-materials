@@ -24,5 +24,3 @@ module.exports = {
 		return viewCallHandler.intFromOcrText()
 	},
 }
-
-// 以为 node.js 缓存机制，这个文件修改会事实更新（插件内做了处理），require 的模块会被缓存，修改后需要重新打开项目
