@@ -14,9 +14,16 @@
 		"noUnusedParameters": false,
 		"strictNullChecks": true,
 		"noImplicitAny": false,
-		"lib": ["ESNext", "DOM"],
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
 		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
 		"baseUrl": ".",
 		"rootDir": "."
-	}
+	},
+	"exclude": [
+		"node_modules",
+	]
 }

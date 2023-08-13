@@ -17,10 +17,33 @@ interface Context {
 	 */
 	workspaceRootPath: string
 	/**
+	 * @description 区块生成目录
+	 * @type {string}
+	 */
+	createBlockPath?: string
+	/**
 	 * @description OutputChannel
 	 * @type {vscode.OutputChannel}
 	 */
 	outputChannel: vscode.OutputChannel
+	/**
+	 * @description log
+	 * @type {vscode.OutputChannel}
+	 */
+	log: vscode.OutputChannel
+	/**
+	 * @description 调用 ChatGPT
+	 */
+	createChatCompletion: (options: {
+		messages: {
+			role: 'system' | 'user' | 'assistant';
+			content: string;
+		}[];
+		handleChunk?: ((data: {
+			text?: string;
+			hasMore: boolean;
+		}) => void) | undefined;
+	}) => Promise<string>
 	/**
 	 * @description 一些环境变量
 	 */
@@ -172,5 +195,14 @@ export class ViewCallHandler {
 
 	intFromOcrText() {
 		return Promise.resolve({ ...this.context.model, name: '测试一下' })
+	}
+
+	async askChatGPT() {
+		const res = await this.context.createChatCompletion({
+			messages: [{ role: 'user', content: this.context.params }], handleChunk: (data) => {
+				this.context.outputChannel.append(data.text || '')
+			},
+		})
+		return { ...this.context.model, name: res }
 	}
 }
