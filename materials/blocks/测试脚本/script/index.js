@@ -11,25 +11,30 @@ const Handler = require('./handle.ts');
 
 module.exports = {
   beforeCompile: (context) => {
-    const compileHandler = new Handler.CompileHandler(context);
+    const compileHandler =
+      new Handler.CompileHandler3c5a281f3af548fda73cb864dd8f452b(context);
     compileHandler.log('compile start');
   },
   afterCompile: (context) => {
-    const compileHandler = new Handler.CompileHandler(context);
+    const compileHandler =
+      new Handler.CompileHandler3c5a281f3af548fda73cb864dd8f452b(context);
     compileHandler.log('compile end');
   },
   complete: (context) => {
-    const compileHandler = new Handler.CompileHandler(context);
+    const compileHandler =
+      new Handler.CompileHandler3c5a281f3af548fda73cb864dd8f452b(context);
     compileHandler.log('compile complete');
   },
   intFromOcrText: (context) => {
-    const viewCallHandler = new Handler.ViewCallHandler(context);
+    const viewCallHandler =
+      new Handler.ViewCallHandler3c5a281f3af548fda73cb864dd8f452b(context);
     viewCallHandler.log('call method intFromOcrText');
     viewCallHandler.showInformationMessage('lowcode');
     return viewCallHandler.intFromOcrText();
   },
   askChatGPT: (context) => {
-    const viewCallHandler = new Handler.ViewCallHandler(context);
+    const viewCallHandler =
+      new Handler.ViewCallHandler3c5a281f3af548fda73cb864dd8f452b(context);
     viewCallHandler.log('call method askChatGPT');
     return viewCallHandler.askChatGPT();
   },

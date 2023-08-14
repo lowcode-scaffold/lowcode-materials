@@ -1,4 +1,7 @@
 import type vscode from 'vscode';
+import * as typescriptParse from 'recast/parsers/typescript';
+import * as recast from 'recast';
+import { visit, builders } from 'ast-types';
 
 interface Context {
   /**
@@ -165,7 +168,7 @@ interface ViewCallContext extends Context {
   params: string;
 }
 
-export class CompileHandler3c5a281f3af548fda73cb864dd8f452b {
+export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
   private context!: CompileContext;
 
   constructor(context: CompileContext) {
@@ -175,9 +178,86 @@ export class CompileHandler3c5a281f3af548fda73cb864dd8f452b {
   log(value: string) {
     this.context.outputChannel.appendLine(value);
   }
+
+  astTest() {
+    const code = `
+		import { reactive, ref } from 'vue'
+		
+		export interface IFormData {
+			customerPhoneNumber: string
+			contractNumber: string
+			changeName: string
+			changeDuration: number
+			changeCompletionTime?: string
+			changeReason: string
+		}
+		
+		const defaultFormData: IFormData = {
+			customerPhoneNumber: '',
+			contractNumber: '',
+			changeName: '',
+			changeDuration: 1,
+			changeCompletionTime: undefined,
+			changeReason: '',
+		}
+		
+		export const useModel = () => {
+			const formData = reactive<IFormData>({ ...defaultFormData })
+			const loading = ref(false)
+		
+			return {
+				formData,
+				loading,
+			}
+		}
+		
+		export type Model = ReturnType<typeof useModel>
+		`;
+
+    const ast = recast.parse(code, { parser: typescriptParse });
+    const fieldName = 'name';
+    const fieldType = 'string';
+
+    visit(ast, {
+      visitTSInterfaceDeclaration(path) {
+        const members = path.node.body.body;
+        members.push(
+          builders.tsPropertySignature(
+            builders.identifier(fieldName),
+            builders.tsTypeAnnotation(builders.tsStringKeyword()),
+          ),
+        );
+        return false;
+      },
+    });
+
+    visit(ast, {
+      visitVariableDeclaration(path) {
+        const declaration = path.node.declarations[0];
+        if (
+          // @ts-ignore
+          declaration.id.name === 'defaultFormData' &&
+          // @ts-ignore
+          declaration.init.type === 'ObjectExpression'
+        ) {
+          // @ts-ignore
+          declaration.init.properties.push(
+            builders.objectProperty(
+              builders.identifier(fieldName),
+              builders.stringLiteral(''),
+            ),
+          );
+        }
+        return false;
+      },
+    });
+
+    const newCode = recast.print(ast).code;
+    this.log(newCode);
+  }
 }
 
-export class ViewCallHandler3c5a281f3af548fda73cb864dd8f452b {
+export class ViewCallHandlerb9e78736b4ba410186eabffd9a749388 {
   private context!: ViewCallContext;
 
   constructor(context: ViewCallContext) {

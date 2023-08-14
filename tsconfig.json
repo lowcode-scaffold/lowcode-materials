@@ -12,8 +12,9 @@
 		"esModuleInterop": true,
 		"noUnusedLocals": false,
 		"noUnusedParameters": false,
-		"strictNullChecks": true,
+		"strictNullChecks": false,
 		"noImplicitAny": false,
+		"allowJs": true,
 		"lib": [
 			"ESNext",
 			"DOM"

@@ -25,5 +25,7 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': 'off',
     'max-classes-per-file': 'off',
     '@typescript-eslint/no-explicit-any': 'off',
+    'class-methods-use-this': 'off',
+    '@typescript-eslint/ban-ts-comment': 'off',
   },
 };

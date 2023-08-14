@@ -18,6 +18,7 @@
   },
   "homepage": "https://github.com/lowcode-scaffold/lowcode-materials#readme",
   "dependencies": {
+    "@babel/parser": "^7.22.10",
     "ast-types": "^0.14.2",
     "mockjs": "^1.1.0",
     "recast": "^0.23.4",
