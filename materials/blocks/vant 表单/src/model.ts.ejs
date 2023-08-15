@@ -1,0 +1,82 @@
+import { reactive } from 'vue'
+
+export interface IFormData {
+	<% formItems.map(item => { _%>
+		<%= item.key %><% if(item.optional){ _%>?<% } _%>: <%= item.type %>;
+	<% }) _%>
+}
+
+const defaultFormData: IFormData = {
+	<% formItems.map(item => { _%>
+		<%= item.key %>: <%- item.defaultValue || '\'\'' %>,
+	<% }) _%>
+};
+
+<% if(formItems.some(s => s.component === "van-picker" || s.component === "van-datetime-picker")){ %>
+interface IPicker {
+	<% formItems.filter(s => s.component === "van-picker" || s.component === "van-datetime-picker").map(item => { _%>
+		<% if(item.component === "van-picker"){ %>	
+			<%= item.key %>: { visible: boolean; columns: string[] }
+		<% } _%>
+		<% if(item.component === "van-datetime-picker"){ %>	
+			<%= item.key %>: { visible: boolean }
+		<% } _%>
+	<% }) _%>
+}
+<% } %>
+
+
+<% if(formItems.some(s => s.component === "van-checkbox-group" || s.component === "van-radio-group")){ %>
+interface IOptionItem {
+  label: string;
+  value: string;
+}
+
+interface IOptions {
+  <% formItems.filter(s => s.component === "van-checkbox-group" || s.component === "van-radio-group").map(item => { _%>
+		<%= item.key %>: IOptionItem[];
+	<% }) _%>
+}
+
+const defaultOptions: IOptions = {
+  <% formItems.filter(s => s.component === "van-checkbox-group" || s.component === "van-radio-group").map(item => { _%>
+		<%= item.key %>: [],
+	<% }) _%>
+};
+<% } %>
+
+export const useModel = () => {
+  const formData = reactive<IFormData>({ ...defaultFormData });
+	<% if(formItems.some(s => s.component === "van-checkbox-group" || s.component === "van-radio-group")){ _%>
+  const options = reactive<IOptions>({ ...defaultOptions });
+	<% } _%>
+	<% if(formItems.some(s => s.component === "van-picker" || s.component === "van-datetime-picker")){ %>
+		const picker = reactive<IPicker>({
+			<% formItems.filter(s => s.component === "van-picker" || s.component === "van-datetime-picker").map(item => { _%>
+				<% if(item.component === "van-picker"){ %>	
+					<%= item.key %>: {
+						visible: false,
+						columns: []
+					},
+				<% } _%>
+				<% if(item.component === "van-datetime-picker"){ %>	
+					<%= item.key %>: {
+						visible: false
+					}
+				<% } _%>
+			<% }) _%>
+		})
+	<% } %>
+
+  return { 
+		formData, 
+		<% if(formItems.some(s => s.component === "van-checkbox-group" || s.component === "van-radio-group")){ _%>
+		options,
+		<% } _%>
+		<% if(formItems.some(s => s.component === "van-picker" || s.component === "van-datetime-picker")){ _%>
+		picker
+		<% } %>
+	};
+};
+
+export type Model = ReturnType<typeof useModel>;

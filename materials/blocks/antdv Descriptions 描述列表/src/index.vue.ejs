@@ -1,0 +1,52 @@
+<template>
+  <a-descriptions 
+		title="<%= title %>" 
+		:bordered="<%= bordered %>"
+		<% if(column){ _%>
+		:column="<%= column %>"
+		<% } _%>
+		<% if(layout){ _%>
+		:column="<%= layout %>"
+		<% } _%>
+	>
+		<% if(extra){ _%>
+		<template #extra>
+			extra
+		</template>
+		<% } _%>
+		<% items.map((item, index) => { _%>
+			<a-descriptions-item 
+				label="<%= item.label %>"
+				<% if(item.span){ _%>
+					:span="<%= item.span %>"
+				<% } _%>
+			>
+				{{ model.detailInfo.value?.<%= item.key || `item${index+1}` %> }}
+			</a-descriptions-item>
+		<% }) _%>
+  </a-descriptions>
+</template>
+<script lang="ts" setup>
+<% if(defineProps || defineEmits){ _%>
+import {<% if(defineProps){ %>defineProps,<% } %> <% if(defineEmits){ %>defineEmits<% } %> } from 'vue'
+<% } _%>
+import { usePresenter } from './presenter'
+<% if(defineProps){ %>
+interface IProps {
+  id: number
+}
+<% } _%>
+<% if(defineEmits){ %>
+interface IEmit {
+  (event: 'update', id: number): void
+}
+<% } %>
+<% if(defineProps){ %>
+const props = defineProps<IProps>()
+<% } _%>
+<% if(defineEmits){ %>
+const emit = defineEmits<IEmit>()
+<% } _%>
+const presenter = usePresenter(<% if(defineProps){ %>props,<% } _%> <% if(defineEmits){ %>emit<% } %>)
+const { model } = presenter
+</script>

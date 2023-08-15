@@ -1,0 +1,12 @@
+{
+	"defineProps": false,
+	"defineEmits": false,
+	"items": [],
+	"fetchName": "fetchDetailInfo",
+	"serviceName": "getDetailInfo",
+	"bordered": false,
+	"extra": false,
+	"layout": "",
+	"title": "",
+	"column": ""
+}

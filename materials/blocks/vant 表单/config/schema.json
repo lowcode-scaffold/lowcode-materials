@@ -1,0 +1,676 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"body": [
+				{
+					"type": "form",
+					"title": "",
+					"body": [
+						{
+							"type": "switch",
+							"label": "defineProps",
+							"option": "",
+							"name": "defineProps",
+							"falseValue": false,
+							"trueValue": true,
+							"id": "u:9e7d1ee83373",
+							"value": false
+						},
+						{
+							"type": "switch",
+							"label": "defineEmits",
+							"option": "",
+							"name": "defineEmits",
+							"falseValue": false,
+							"trueValue": true,
+							"id": "u:4ef4be234efc",
+							"value": false
+						},
+						{
+							"type": "combo",
+							"label": "表单项",
+							"name": "formItems",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "button",
+							"tabsLabelTpl": "表单项${index+1}",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:47ecb9e15ff1"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "key",
+									"placeholder": "字段名",
+									"id": "u:25b0c7b5e5a0",
+									"label": "字段名（key）"
+								},
+								{
+									"type": "select",
+									"name": "type",
+									"placeholder": "选项",
+									"options": [
+										{
+											"label": "string",
+											"value": "string"
+										},
+										{
+											"label": "number",
+											"value": "number"
+										},
+										{
+											"label": "boolean",
+											"value": "boolean"
+										},
+										{
+											"label": "string[]",
+											"value": "string[]"
+										},
+										{
+											"label": "number[]",
+											"value": "number[]"
+										},
+										{
+											"label": "boolean[]",
+											"value": "boolean[]"
+										}
+									],
+									"id": "u:5bb823bc0afb",
+									"multiple": false,
+									"label": "字段类型",
+									"value": ""
+								},
+								{
+									"type": "switch",
+									"label": "字段可选（字段名字后加?）",
+									"option": "",
+									"name": "optional",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:f22b76a31198",
+									"value": false,
+									"description": ""
+								},
+								{
+									"type": "select",
+									"label": "默认值",
+									"name": "defaultValue",
+									"options": [
+										{
+											"label": "\"\"",
+											"value": "\"\""
+										},
+										{
+											"label": "false",
+											"value": "false"
+										},
+										{
+											"label": "true",
+											"value": "true"
+										},
+										{
+											"label": "0",
+											"value": "0"
+										},
+										{
+											"label": "undefined",
+											"value": "undefined"
+										},
+										{
+											"label": "[]",
+											"value": "[]"
+										}
+									],
+									"id": "u:d721f505457e",
+									"multiple": false,
+									"value": "",
+									"creatable": true
+								},
+								{
+									"type": "flex",
+									"items": [
+										{
+											"type": "container",
+											"body": [
+												{
+													"type": "select",
+													"name": "component",
+													"placeholder": "选项",
+													"options": [
+														{
+															"label": "input(van-field)",
+															"value": "input"
+														},
+														{
+															"label": "van-cell(常规表单组件布局无法满足时使用)",
+															"value": "van-cell"
+														},
+														{
+															"label": "van-switch",
+															"value": "van-switch"
+														},
+														{
+															"label": "van-checkbox",
+															"value": "van-checkbox"
+														},
+														{
+															"label": "van-checkbox-group",
+															"value": "van-checkbox-group"
+														},
+														{
+															"label": "van-radio-group",
+															"value": "van-radio-group"
+														},
+														{
+															"label": "van-stepper",
+															"value": "van-stepper"
+														},
+														{
+															"label": "van-uploader",
+															"value": "van-uploader"
+														},
+														{
+															"label": "van-picker",
+															"value": "van-picker"
+														},
+														{
+															"label": "van-datetime-picker",
+															"value": "van-datetime-picker"
+														}
+													],
+													"id": "u:995915eabcca",
+													"multiple": false,
+													"label": "组件",
+													"value": ""
+												}
+											],
+											"size": "xs",
+											"style": {
+												"position": "static",
+												"display": "block",
+												"flex": "1 1 auto",
+												"flexGrow": 1,
+												"flexBasis": "auto",
+												"paddingLeft": "0px"
+											},
+											"wrapperBody": false,
+											"isFixedHeight": false,
+											"isFixedWidth": false,
+											"id": "u:63cbd01838cb"
+										},
+										{
+											"type": "container",
+											"body": [
+												{
+													"type": "button",
+													"label": "预览图",
+													"id": "u:421835b9eb42",
+													"actionType": "dialog",
+													"dialog": {
+														"type": "dialog",
+														"title": "",
+														"body": [
+															{
+																"type": "carousel",
+																"auto": false,
+																"thumbMode": "contain",
+																"animation": "fade",
+																"options": [
+																	{
+																		"image": "https://black-pearl.oss-cn-shenzhen.aliyuncs.com/2023/08/14/df767ebd-1a56-40ee-bb47-f7acbda5a85f.png",
+																		"href": "https://black-pearl.oss-cn-shenzhen.aliyuncs.com/2023/08/14/df767ebd-1a56-40ee-bb47-f7acbda5a85f.png"
+																	},
+																	{
+																		"image": "https://black-pearl.oss-cn-shenzhen.aliyuncs.com/2023/08/14/deb8c82a-7b03-415d-bfd0-372f8a5d9e31.png",
+																		"href": "https://black-pearl.oss-cn-shenzhen.aliyuncs.com/2023/08/14/deb8c82a-7b03-415d-bfd0-372f8a5d9e31.png"
+																	}
+																],
+																"height": "300",
+																"id": "u:679ce934b491",
+																"interval": 5000,
+																"duration": 500,
+																"multiple": false,
+																"alwaysShowArrow": false,
+																"controls": "arrows",
+																"controlsTheme": "dark"
+															}
+														],
+														"actions": [],
+														"id": "u:92a20653a80f"
+													},
+													"hiddenOn": "${formItems[index].component==='666'}"
+												}
+											],
+											"size": "xs",
+											"style": {
+												"position": "static",
+												"display": "block",
+												"flex": "0 0 auto"
+											},
+											"wrapperBody": false,
+											"isFixedHeight": false,
+											"isFixedWidth": false,
+											"id": "u:e1a77fc17ac2"
+										}
+									],
+									"style": {
+										"position": "relative",
+										"inset": "auto",
+										"flexWrap": "nowrap",
+										"alignItems": "flex-end",
+										"marginBottom": "1.5rem",
+										"paddingLeft": "0px",
+										"paddingRight": "0px"
+									},
+									"id": "u:e109a539ee8f",
+									"isFixedHeight": false,
+									"isFixedWidth": false
+								},
+								{
+									"type": "input-text",
+									"label": "label",
+									"name": "label",
+									"id": "u:6496cac4f4b8",
+									"placeholder": "",
+									"description": "输入框左侧文本"
+								},
+								{
+									"type": "input-text",
+									"label": "placeholder",
+									"name": "placeholder",
+									"id": "u:d7f1a8a39449",
+									"placeholder": "",
+									"description": "输入框占位提示文字"
+								},
+								{
+									"type": "switch",
+									"label": "required",
+									"option": "",
+									"name": "required",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:032dae2bdd71",
+									"value": false,
+									"description": "是否显示表单必填星号"
+								},
+								{
+									"type": "switch",
+									"label": "Props （更多组件配置）",
+									"option": "",
+									"name": "showMore",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:bb465f530390",
+									"value": false,
+									"description": "以下组件 props 不修改默认值，对应 props 不会显式出现"
+								},
+								{
+									"type": "input-text",
+									"label": "name",
+									"name": "name",
+									"id": "u:8f64b1631d4b",
+									"description": "名称，作为提交表单时的标识符",
+									"hiddenOn": "${!showMore}",
+									"clearValueOnHidden": false,
+									"static": false
+								},
+								{
+									"type": "select",
+									"label": "type",
+									"name": "prop-type",
+									"options": [
+										{
+											"label": "text",
+											"value": "text"
+										}
+									],
+									"id": "u:2c327c726ef1",
+									"multiple": false,
+									"description": "输入框类型, 支持原生 input 标签的所有 type 属性，额外支持了 digit 类型，默认 text",
+									"value": "",
+									"creatable": true,
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "select",
+									"label": "size",
+									"name": "size",
+									"options": [
+										{
+											"label": "large",
+											"value": "large"
+										}
+									],
+									"id": "u:8226dd30543a",
+									"multiple": false,
+									"description": "大小，可选值为 large",
+									"value": "",
+									"creatable": false,
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "input-text",
+									"label": "maxlength",
+									"name": "maxlength",
+									"id": "u:07d46929d8bd",
+									"description": "输入的最大字符数",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "border",
+									"option": "",
+									"name": "border",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:c8ffc4fb3136",
+									"value": true,
+									"description": "是否显示内边框",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "disabled",
+									"option": "",
+									"name": "disabled",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:8e7682ebbdf7",
+									"value": false,
+									"description": "是否禁用输入框",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "readonly",
+									"option": "",
+									"name": "readonly",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:51f1dc68ba31",
+									"value": false,
+									"description": "是否为只读状态，只读状态下无法输入内容",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "colon",
+									"option": "",
+									"name": "colon",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:d9d4478d4916",
+									"value": false,
+									"description": "是否在 label 后面添加冒号",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "center",
+									"option": "",
+									"name": "center",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:15bf10ee0f38",
+									"value": false,
+									"description": "是否使内容垂直居中",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "clearable",
+									"option": "",
+									"name": "clearable",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:6c6cb9913893",
+									"value": false,
+									"description": "是否启用清除图标，点击清除图标后会清空输入框",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "clickable",
+									"option": "",
+									"name": "clickable",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:a477d44b7d8b",
+									"value": false,
+									"description": "是否开启点击反馈",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "is-link",
+									"option": "",
+									"name": "is-link",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:7dec0bd94494",
+									"value": false,
+									"description": "是否展示右侧箭头并开启点击反馈",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "autofocus",
+									"option": "",
+									"name": "autofocus",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:e4ed85c736e6",
+									"value": false,
+									"description": "是否自动聚焦，iOS 系统不支持该属性",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "switch",
+									"label": "show-word-limit",
+									"option": "",
+									"name": "show-word-limit",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:09de98d0b14f",
+									"value": false,
+									"description": "是否显示字数统计，需要设置 maxlength 属性",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "select",
+									"label": "arrow-direction",
+									"name": "arrow-direction",
+									"options": [
+										{
+											"label": "left",
+											"value": "left"
+										},
+										{
+											"label": "right",
+											"value": "right"
+										},
+										{
+											"label": "up",
+											"value": "up"
+										},
+										{
+											"label": "down",
+											"value": "down"
+										}
+									],
+									"id": "u:861c9d5d39f9",
+									"value": "",
+									"creatable": true,
+									"description": "箭头方向，可选值为 left up down，默认 right",
+									"hiddenOn": "${!showMore}"
+								},
+								{
+									"type": "select",
+									"label": "label-align",
+									"name": "label-align",
+									"options": [
+										{
+											"label": "left",
+											"value": "left"
+										},
+										{
+											"label": "center",
+											"value": "center"
+										},
+										{
+											"label": "right",
+											"value": "right"
+										}
+									],
+									"id": "u:29bb77848154",
+									"value": "",
+									"creatable": true,
+									"description": "左侧文本对齐方式，可选值为 center right，默认 left",
+									"hiddenOn": "${!showMore}",
+									"multiple": false
+								},
+								{
+									"type": "select",
+									"label": "input-align",
+									"name": "input-align",
+									"options": [
+										{
+											"label": "left",
+											"value": "left"
+										},
+										{
+											"label": "center",
+											"value": "center"
+										},
+										{
+											"label": "right",
+											"value": "right"
+										}
+									],
+									"id": "u:5a64d2c0eb4d",
+									"value": "",
+									"creatable": true,
+									"description": "输入框对齐方式，可选值为 center right",
+									"hiddenOn": "${!showMore}",
+									"multiple": false
+								},
+								{
+									"type": "switch",
+									"label": "Slots",
+									"option": "",
+									"name": "slots",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:678ac90795de",
+									"value": false,
+									"hidden": false
+								},
+								{
+									"type": "switch",
+									"label": "label slot",
+									"option": "",
+									"name": "label-slot",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:549ef5521c55",
+									"value": false,
+									"description": "自定义输入框左侧文本",
+									"hiddenOn": "${!slots}"
+								},
+								{
+									"type": "switch",
+									"label": "left-icon slot",
+									"option": "",
+									"name": "left-icon",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:02a1b49564b8",
+									"value": false,
+									"description": "自定义输入框头部图标",
+									"hiddenOn": "${!slots}"
+								},
+								{
+									"type": "switch",
+									"label": "right-icon slot",
+									"option": "",
+									"name": "right-icon",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:5ce280c3acfe",
+									"value": false,
+									"description": "自定义输入框尾部图标",
+									"hiddenOn": "${!slots}"
+								},
+								{
+									"type": "switch",
+									"label": "button slot",
+									"option": "",
+									"name": "button",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:90291d1eca81",
+									"value": false,
+									"description": "自定义输入框尾部按钮",
+									"hiddenOn": "${!slots}"
+								},
+								{
+									"type": "switch",
+									"label": "extra slot",
+									"option": "",
+									"name": "extra",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:db41c5de7416",
+									"value": false,
+									"description": "自定义输入框最右侧的额外内容",
+									"hiddenOn": "${!slots}"
+								}
+							],
+							"id": "u:186f183e9320",
+							"strictMode": false,
+							"syncFields": [],
+							"tabsMode": true,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"deleteBtn": {
+								"label": "删除",
+								"level": "default"
+							}
+						}
+					],
+					"id": "u:67967afb0e69",
+					"submitText": ""
+				}
+			],
+			"id": "u:d87dbf6bf8df",
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}

@@ -195,7 +195,7 @@ export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
     visit(ast, {
       visitTSInterfaceDeclaration: (nodePath) => {
         const members = nodePath.node.body.body;
-        if ((nodePath.node.id as IdentifierKind).name === 'IFormData') {
+        if ((nodePath.node.id as IdentifierKind).name === 'IDetailInfo') {
           members.push(
             builders.tsPropertySignature(
               builders.identifier(fieldName),

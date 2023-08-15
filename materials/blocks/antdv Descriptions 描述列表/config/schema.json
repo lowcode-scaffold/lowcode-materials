@@ -1,0 +1,182 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"id": "u:d87dbf6bf8df",
+			"body": [
+				{
+					"type": "form",
+					"title": "",
+					"id": "u:67967afb0e69",
+					"body": [
+						{
+							"type": "switch",
+							"name": "defineProps",
+							"label": "defineProps",
+							"id": "u:9e7d1ee83373",
+							"option": "",
+							"falseValue": false,
+							"trueValue": true,
+							"value": false
+						},
+						{
+							"type": "switch",
+							"label": "defineEmits",
+							"id": "u:4ef4be234efc",
+							"option": "",
+							"name": "defineEmits",
+							"falseValue": false,
+							"trueValue": true,
+							"value": false
+						},
+						{
+							"type": "input-text",
+							"label": "title",
+							"name": "title",
+							"id": "u:11b127c5df46",
+							"description": "标题"
+						},
+						{
+							"type": "switch",
+							"label": "bordered",
+							"option": "",
+							"name": "bordered",
+							"falseValue": false,
+							"trueValue": true,
+							"id": "u:9cc79716dde1",
+							"value": false,
+							"description": "是否展示边框"
+						},
+						{
+							"type": "input-text",
+							"label": "column",
+							"name": "column",
+							"id": "u:43fbc9d670c3",
+							"description": "一行的 DescriptionItems 数量，可以写成像素值或支持响应式的对象写法 { xs: 8, sm: 16, md: 24}，默认3"
+						},
+						{
+							"type": "switch",
+							"label": "extra",
+							"option": "",
+							"name": "extra",
+							"falseValue": false,
+							"trueValue": true,
+							"id": "u:b8b2cb8217d1",
+							"value": false,
+							"description": "描述列表的操作区域，显示在右上方"
+						},
+						{
+							"type": "select",
+							"label": "layout",
+							"name": "layout",
+							"options": [
+								{
+									"label": "horizontal",
+									"value": "horizontal"
+								},
+								{
+									"label": "vertical",
+									"value": "vertical"
+								}
+							],
+							"id": "u:a8859cde1998",
+							"multiple": false,
+							"description": "描述布局",
+							"value": "horizontal"
+						},
+						{
+							"type": "combo",
+							"label": "描述列表",
+							"name": "items",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "icon",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:47ecb9e15ff1"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "key",
+									"placeholder": "字段名",
+									"id": "u:25b0c7b5e5a0",
+									"label": "字段名（key）"
+								},
+								{
+									"type": "input-text",
+									"label": "label",
+									"name": "label",
+									"id": "u:6496cac4f4b8",
+									"description": "内容的描述"
+								},
+								{
+									"type": "input-number",
+									"label": "span",
+									"name": "span",
+									"keyboard": true,
+									"id": "u:9ee4d10df24a",
+									"step": 1,
+									"min": 1,
+									"description": "包含列的数量"
+								}
+							],
+							"id": "u:186f183e9320",
+							"strictMode": false,
+							"syncFields": [],
+							"tabsMode": false,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"tabsLabelTpl": "表单项${index+1}",
+							"multiLine": true,
+							"value": [
+								{}
+							]
+						},
+						{
+							"type": "input-text",
+							"label": "API 请求方法名称",
+							"name": "fetchName",
+							"id": "u:21c0f3e3c864",
+							"value": "fetchDetailInfo"
+						},
+						{
+							"type": "input-text",
+							"label": "service 方法名称",
+							"name": "serviceName",
+							"id": "u:cc45fb3a5d51",
+							"value": "getDetailInfo"
+						}
+					],
+					"submitText": ""
+				}
+			],
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}

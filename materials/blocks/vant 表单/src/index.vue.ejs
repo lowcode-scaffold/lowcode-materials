@@ -1,0 +1,304 @@
+<template>
+  <van-cell-group inset>
+		<% formItems.map(item => { _%>
+			<% if(item.component === "input"){ _%>
+				<van-field
+					v-model="model.formData.<%= item.key %>"
+					<% if(item.label){ _%>
+					label="<%= item.label %>"
+					<% } _%>
+					<% if(item.name){ _%>
+					name="<%= item.name %>"
+					<% } _%>
+					<% if(item["prop-type"]){ _%>
+					type="<%= item["prop-type"] %>"
+					<% } _%>
+					<% if(item.size){ _%>
+					size="<%= item.size %>"
+					<% } _%>
+					<% if(item.maxlength){ _%>
+					maxlength="<%= item.maxlength %>"
+					<% } _%>
+					<% if(item.placeholder){ _%>
+					placeholder="<%= item.placeholder %>"
+					<% } _%>
+					<% if(item.border === false){ _%>
+					:border="false"
+					<% } _%>
+					<% if(item.disabled){ _%>
+					disabled
+					<% } _%>
+					<% if(item.readonly){ _%>
+					readonly
+					<% } _%>
+					<% if(item.colon){ _%>
+					colon
+					<% } _%>
+					<% if(item.required){ _%>
+					required
+					<% } _%>
+					<% if(item.center){ _%>
+					center
+					<% } _%>
+					<% if(item.clearable){ _%>
+					clearable
+					<% } _%>
+					<% if(item.clickable){ _%>
+					clickable
+					<% } _%>
+					<% if(item["is-link"]){ _%>
+					is-link
+					<% } _%>
+					<% if(item.autofocus){ _%>
+					autofocus
+					<% } _%>
+					<% if(item["show-word-limit"]){ _%>
+					show-word-limit
+					<% } _%>
+					<% if(item["arrow-direction"]){ _%>
+					arrow-direction="<%= item["arrow-direction"] %>"
+					<% } _%>
+					<% if(item["label-align"]){ _%>
+					label-align="<%= item["label-align"] %>"
+					<% } _%>
+					<% if(item["input-align"]){ _%>
+					input-align="<%= item["input-align"] %>"
+					<% } _%>
+				>
+					<% if(item["label-slot"]){ _%>
+						<template #label>
+							label-slot
+						</template>
+					<% } _%>
+					<% if(item["left-icon"]){ _%>
+						<template #left-icon>
+							left-icon
+						</template>
+					<% } _%>
+					<% if(item["right-icon"]){ _%>
+						<template #right-icon>
+							right-icon
+						</template>
+					<% } _%>
+					<% if(item["button"]){ _%>
+						<template #button>
+							button
+						</template>
+					<% } _%>
+					<% if(item["extra"]){ _%>
+						<template #extra>
+							extra
+						</template>
+					<% } _%>
+				</van-field>
+			<% } else if(item.component === "van-cell") { _%>
+				<van-cell>
+					<template #title>
+						<label class="van-field__label van-field__label--required"><%= item.label %></label>
+					</template>
+					<template #label>
+						<div>
+							自定义组件
+						</div>
+					</template>
+				</van-cell>
+			<% } else { _%>
+				<van-field
+					<% if(item.component === "van-picker" || item.component === "van-datetime-picker"){ _%>
+					v-model="model.formData.<%= item.key %>"
+					@click="presenter.handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerOpen"
+					is-link
+      		readonly
+					<% } _%>
+					<% if(item.label){ _%>
+					label="<%= item.label %>"
+					<% } _%>
+					<% if(item.name){ _%>
+					name="<%= item.name %>"
+					<% } _%>
+					<% if(item["prop-type"]){ _%>
+					type="<%= item["prop-type"] %>"
+					<% } _%>
+					<% if(item.size){ _%>
+					size="<%= item.size %>"
+					<% } _%>
+					<% if(item.maxlength){ _%>
+					maxlength="<%= item.maxlength %>"
+					<% } _%>
+					<% if(item.placeholder){ _%>
+					placeholder="<%= item.placeholder %>"
+					<% } _%>
+					<% if(item.border === false){ _%>
+					:border="false"
+					<% } _%>
+					<% if(item.disabled){ _%>
+					disabled
+					<% } _%>
+					<% if(item.readonly){ _%>
+					readonly
+					<% } _%>
+					<% if(item.colon){ _%>
+					colon
+					<% } _%>
+					<% if(item.requiredIcon){ _%>
+					required
+					<% } _%>
+					<% if(item.center){ _%>
+					center
+					<% } _%>
+					<% if(item.clearable){ _%>
+					clearable
+					<% } _%>
+					<% if(item.clickable){ _%>
+					clickable
+					<% } _%>
+					<% if(item["is-link"]){ _%>
+					is-link
+					<% } _%>
+					<% if(item.autofocus){ _%>
+					autofocus
+					<% } _%>
+					<% if(item["show-word-limit"]){ _%>
+					show-word-limit
+					<% } _%>
+					<% if(item["arrow-direction"]){ _%>
+					arrow-direction="<%= item["arrow-direction"] %>"
+					<% } _%>
+					<% if(item["label-align"]){ _%>
+					label-align="<%= item["label-align"] %>"
+					<% } _%>
+					<% if(item["input-align"]){ _%>
+					input-align="<%= item["input-align"] %>"
+					<% } _%>
+				>
+				<% if(item.component === "van-switch"){ _%>
+					<template #input>
+						<van-switch
+							v-model="model.formData.<%= item.key %>"
+							loading
+							disabled
+							size="20"
+							active-color="#1989fa"
+							inactive-color="white"
+							active-value="true"
+							inactive-value="false"
+						/>
+					</template>
+				<% } _%>
+				<% if(item.component === "van-checkbox"){ _%>
+					<template #input>
+						<van-checkbox v-model="model.formData.<%= item.key %>" shape="square" />
+					</template>
+				<% } _%>
+				<% if(item.component === "van-checkbox-group"){ _%>
+					<template #input>
+						<van-checkbox-group v-model="model.formData.<%= item.key %>" direction="horizontal">
+							<van-checkbox
+								v-for="item in model.options.<%= item.key %>"
+								:key="item.value"
+								:name="item.value"
+								shape="square"
+							>
+								{{ item.label }}
+							</van-checkbox>
+						</van-checkbox-group>
+					</template>
+				<% } _%>
+				<% if(item.component === "van-radio-group"){ _%>
+					<template #input>
+						<van-radio-group v-model="model.formData.<%= item.key %>" direction="horizontal">
+							<van-radio v-for="item in model.options.<%= item.key %>" :key="item.value" :name="item.value">
+								{{ item.label }}
+							</van-radio>
+						</van-radio-group>
+					</template>
+				<% } _%>
+				<% if(item.component === "van-stepper"){ _%>
+					<template #input>
+						<van-stepper v-model="model.formData.<%= item.key %>" />
+					</template>
+				<% } _%>
+				<% if(item.component === "van-uploader"){ _%>
+					<template #input>
+						<van-uploader />
+					</template>
+				<% } _%>
+				<% if(item.component === "van-picker"){ _%>
+				<% } _%>
+				<% if(item.component === "van-datetime-picker"){ _%>
+				<% } _%>
+				<% if(item["label-slot"]){ _%>
+					<template #label>
+						label-slot
+					</template>
+				<% } _%>
+				<% if(item["left-icon"]){ _%>
+					<template #left-icon>
+						left-icon
+					</template>
+				<% } _%>
+				<% if(item["right-icon"]){ _%>
+					<template #right-icon>
+						right-icon
+					</template>
+				<% } _%>
+				<% if(item["button"]){ _%>
+					<template #button>
+						button
+					</template>
+				<% } _%>
+				<% if(item["extra"]){ _%>
+					<template #extra>
+						extra
+					</template>
+				<% } _%>
+				</van-field>
+			<% } _%>
+		<% }) _%>
+		<% formItems.filter(s => s.component === "van-picker" || s.component === "van-datetime-picker").map(item => { _%>
+			<% if(item.component === "van-picker"){ _%>	
+				<van-popup v-model:show="model.picker.<%= item.key %>.visible" position="bottom">
+					<van-picker
+						:columns="model.picker.<%= item.key %>.columns"
+						@confirm="presenter.handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerConfirm"
+						@cancel="presenter.handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerCancel"
+					/>
+				</van-popup>
+			<% } _%>
+			<% if(item.component === "van-datetime-picker"){ _%>	
+				<van-popup v-model:show="model.picker.<%= item.key %>.visible" position="bottom">
+					<van-datetime-picker
+						type="time"
+						@confirm="presenter.handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerConfirm"
+						@cancel="presenter.handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerCancel"
+					/>
+				</van-popup>
+			<% } _%>
+		<% }) _%>
+  </van-cell-group>
+</template>
+<script lang="ts" setup>
+<% if(defineProps || defineEmits){ _%>
+import {<% if(defineProps){ %>defineProps,<% } %> <% if(defineEmits){ %>defineEmits<% } %> } from 'vue'
+<% } _%>
+import { usePresenter } from './presenter'
+<% if(defineProps){ %>
+interface IProps {
+  visible: boolean
+}
+<% } _%>
+<% if(defineEmits){ %>
+interface IEmit {
+  (event: 'update', id: number): void
+}
+<% } %>
+<% if(defineProps){ %>
+const props = defineProps<IProps>()
+<% } _%>
+<% if(defineEmits){ %>
+const emit = defineEmits<IEmit>()
+<% } _%>
+
+const presenter = usePresenter(<% if(defineProps){ %>props,<% } _%> <% if(defineEmits){ %>emit<% } %>)
+const { model } = presenter
+</script>

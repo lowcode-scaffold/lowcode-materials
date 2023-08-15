@@ -1,0 +1,17 @@
+import { ref } from 'vue'
+
+interface IDetailInfo {
+	<% items.map((item, index) => { _%>
+		<%= item.key || `item${index+1}` %>: string;
+	<% }) _%>
+}
+
+export const useModel = () => {
+  const detailInfo = ref<IDetailInfo | undefined>(undefined)
+
+  return {
+    detailInfo,
+  }
+}
+
+export type Model = ReturnType<typeof useModel>

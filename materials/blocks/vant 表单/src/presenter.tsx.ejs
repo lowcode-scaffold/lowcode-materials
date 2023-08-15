@@ -1,0 +1,47 @@
+import Service from './service'
+import { useModel } from './model'
+<% if(defineProps){ %>
+interface IProps {
+  visible: boolean
+}
+<% } %>
+<% if(defineEmits){ %>
+interface IEmit {
+  (event: 'update', id: number): void
+}
+<% } %>
+export const usePresenter = (<% if(defineProps){ %>props: IProps,<% } %> <% if(defineEmits){ %>emit: IEmit<% } %>) => {
+  const model = useModel()
+  const service = new Service(model)
+
+	<% formItems.filter(s => s.component === "van-picker" || s.component === "van-datetime-picker").map(item => { _%>
+		const handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerOpen = () => {
+			model.picker.<%= item.key %>.visible = true
+		}
+	
+		const handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerCancel = () => {
+			model.picker.<%= item.key %>.visible = false
+		}
+	
+		const handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerConfirm = (value: string) => {
+			model.picker.<%= item.key %>.visible = false
+			model.formData.<%= item.key %> = value
+		}
+	<% }) _%>
+
+  const handleSubmit = () => {}
+
+  const handleCancel = () => {}
+
+  return {
+    model,
+    service,
+    handleSubmit,
+    handleCancel,
+		<% formItems.filter(s => s.component === "van-picker" || s.component === "van-datetime-picker").map(item => { _%>
+			handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerOpen,
+			handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerCancel,
+			handle<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>PickerConfirm,
+		<% }) _%>
+  }
+}

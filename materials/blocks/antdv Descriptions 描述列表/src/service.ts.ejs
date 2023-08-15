@@ -1,0 +1,19 @@
+import { <%= fetchName %> } from "./api";
+import { Model } from './model'
+
+export default class Service {
+  private model: Model
+
+  constructor(model: Model) {
+    this.model = model
+  }
+
+  async <%= serviceName %>(id: number) {
+    const res = await <%= fetchName %>({ id })
+    this.model.detailInfo.value = {
+      <% items.map((item, index) => { _%>
+				<%= item.key || `item${index+1}` %>: res.result.<%= item.key || `item${index+1}` %>,
+			<% }) _%>
+    }
+  }
+}

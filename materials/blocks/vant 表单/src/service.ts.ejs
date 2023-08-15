@@ -1,0 +1,18 @@
+import { Model } from "./model";
+
+export default class Service {
+  private model: Model;
+
+  constructor(model: Model) {
+    this.model = model;
+  }
+
+  async submit() {
+    const data = {
+			<% formItems.map(item => { _%>
+				<%= item.key %>: this.model.formData.<%= item.key %>,
+			<% }) _%>
+    };
+    await Promise.resolve(data);
+  }
+}
