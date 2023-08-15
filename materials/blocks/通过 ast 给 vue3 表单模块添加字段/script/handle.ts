@@ -1,14 +1,17 @@
+import path from 'path';
 import type vscode from 'vscode';
 import * as typescriptParse from 'recast/parsers/typescript';
 import * as recast from 'recast';
+import fs from 'fs-extra';
 import { visit, builders } from 'ast-types';
+import { IdentifierKind } from 'ast-types/gen/kinds';
 
 interface Context {
   /**
    * @description 模版数据
    * @type {object}
    */
-  model: object;
+  model: any;
   /**
    * @description vscode 对象，能调用 vscode 提供的 api
    * @type {typeof vscode}
@@ -179,61 +182,34 @@ export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
     this.context.outputChannel.appendLine(value);
   }
 
-  astTest() {
-    const code = `
-		import { reactive, ref } from 'vue'
-		
-		export interface IFormData {
-			customerPhoneNumber: string
-			contractNumber: string
-			changeName: string
-			changeDuration: number
-			changeCompletionTime?: string
-			changeReason: string
-		}
-		
-		const defaultFormData: IFormData = {
-			customerPhoneNumber: '',
-			contractNumber: '',
-			changeName: '',
-			changeDuration: 1,
-			changeCompletionTime: undefined,
-			changeReason: '',
-		}
-		
-		export const useModel = () => {
-			const formData = reactive<IFormData>({ ...defaultFormData })
-			const loading = ref(false)
-		
-			return {
-				formData,
-				loading,
-			}
-		}
-		
-		export type Model = ReturnType<typeof useModel>
-		`;
+  updateModel() {
+    const code = fs.readFileSync(
+      path.join(this.context.createBlockPath, 'model.ts'),
+      'utf-8',
+    );
 
     const ast = recast.parse(code, { parser: typescriptParse });
     const fieldName = 'name';
     const fieldType = 'string';
 
     visit(ast, {
-      visitTSInterfaceDeclaration(path) {
-        const members = path.node.body.body;
-        members.push(
-          builders.tsPropertySignature(
-            builders.identifier(fieldName),
-            builders.tsTypeAnnotation(builders.tsStringKeyword()),
-          ),
-        );
+      visitTSInterfaceDeclaration: (nodePath) => {
+        const members = nodePath.node.body.body;
+        if ((nodePath.node.id as IdentifierKind).name === 'IFormData') {
+          members.push(
+            builders.tsPropertySignature(
+              builders.identifier(fieldName),
+              builders.tsTypeAnnotation(builders.tsStringKeyword()),
+            ),
+          );
+        }
         return false;
       },
     });
 
     visit(ast, {
-      visitVariableDeclaration(path) {
-        const declaration = path.node.declarations[0];
+      visitVariableDeclaration(nodePath) {
+        const declaration = nodePath.node.declarations[0];
         if (
           // @ts-ignore
           declaration.id.name === 'defaultFormData' &&
@@ -253,7 +229,10 @@ export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
     });
 
     const newCode = recast.print(ast).code;
-    this.log(newCode);
+    fs.writeFileSync(
+      path.join(this.context.createBlockPath, 'model.ts'),
+      newCode,
+    );
   }
 }
 
@@ -268,21 +247,7 @@ export class ViewCallHandlerb9e78736b4ba410186eabffd9a749388 {
     this.context.outputChannel.appendLine(value);
   }
 
-  showInformationMessage(msg: string) {
-    this.context.vscode.window.showInformationMessage(msg);
-  }
-
   intFromOcrText() {
     return Promise.resolve({ ...this.context.model, name: '测试一下' });
-  }
-
-  async askChatGPT() {
-    const res = await this.context.createChatCompletion({
-      messages: [{ role: 'user', content: this.context.params }],
-      handleChunk: (data) => {
-        this.context.outputChannel.append(data.text || '');
-      },
-    });
-    return { ...this.context.model, name: res };
   }
 }

@@ -23,7 +23,7 @@ module.exports = {
   complete: (context) => {
     const compileHandler =
       new Handler.CompileHandlerb9e78736b4ba410186eabffd9a749388(context);
-    compileHandler.astTest();
+    compileHandler.updateModel();
     compileHandler.log('compile complete');
   },
   intFromOcrText: (context) => {
@@ -32,12 +32,6 @@ module.exports = {
     viewCallHandler.log('call method intFromOcrText');
     viewCallHandler.showInformationMessage('lowcode');
     return viewCallHandler.intFromOcrText();
-  },
-  askChatGPT: (context) => {
-    const viewCallHandler =
-      new Handler.ViewCallHandlerb9e78736b4ba410186eabffd9a749388(context);
-    viewCallHandler.log('call method askChatGPT');
-    return viewCallHandler.askChatGPT();
   },
   test: (context) => ({ ...context.model, name: '测试一下' }),
 };
