@@ -5,6 +5,7 @@
 		"module": "commonjs",
 		"moduleResolution": "Node",
 		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"strict": true,
 		"jsx": "preserve",
 		"sourceMap": false,
@@ -23,9 +24,11 @@
 		"skipLibCheck": true,
 		"allowSyntheticDefaultImports": true,
 		"baseUrl": ".",
-		"rootDir": "."
+		"rootDir": ".",
+		"outDir": "./dist",
 	},
 	"exclude": [
 		"node_modules",
+		"dist",
 	]
 }

@@ -27,5 +27,8 @@ module.exports = {
     '@typescript-eslint/no-explicit-any': 'off',
     'class-methods-use-this': 'off',
     '@typescript-eslint/ban-ts-comment': 'off',
+    'import/no-unresolved': 'off',
+    'no-useless-constructor': 'off',
+    'no-empty-function': 'off',
   },
 };
