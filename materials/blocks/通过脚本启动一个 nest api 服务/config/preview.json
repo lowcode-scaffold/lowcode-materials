@@ -8,8 +8,8 @@
   "schema": "amis",
   "scripts": [
     {
-      "method": "test",
-      "remark": "测试一下"
+      "method": "startNestApiServer",
+      "remark": "启动 nest api 服务"
     }
   ]
 }

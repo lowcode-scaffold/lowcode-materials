@@ -8,23 +8,27 @@ const path = require('path');
 // 清除缓存，保证每次修改代码后实时生效
 // delete require.cache[require.resolve(path.join(__dirname, 'main.ts'))];
 const main = require('./src/main.ts');
+const context = require('./src/context.ts');
 
 module.exports = {
-  beforeCompile: (context) => {
-    context.outputChannel.appendLine(
+  beforeCompile: (lowcodeContext) => {
+    lowcodeContext.outputChannel.appendLine(
       'compile 通过脚本启动一个 nest api 服务 start',
     );
   },
-  afterCompile: (context) => {
-    context.outputChannel.appendLine(
+  afterCompile: (lowcodeContext) => {
+    lowcodeContext.outputChannel.appendLine(
       'compile 通过脚本启动一个 nest api 服务 end',
     );
   },
-  test: (context) => {
-    context.outputChannel.appendLine(Object.keys(context));
-    context.outputChannel.appendLine(JSON.stringify(context.model));
-    context.outputChannel.appendLine(context.params);
-    main.bootstrap();
-    return { ...context.model, name: '测试一下' };
+  startNestApiServer: async (lowcodeContext) => {
+    lowcodeContext.outputChannel.appendLine(Object.keys(lowcodeContext));
+    lowcodeContext.outputChannel.appendLine(
+      JSON.stringify(lowcodeContext.model),
+    );
+    lowcodeContext.outputChannel.appendLine(lowcodeContext.params);
+    context.lowcodeContext = lowcodeContext;
+    await main.bootstrap();
+    return { ...lowcodeContext.model };
   },
 };

@@ -30,5 +30,6 @@ module.exports = {
     'import/no-unresolved': 'off',
     'no-useless-constructor': 'off',
     'no-empty-function': 'off',
+    'import/extensions': 'off',
   },
 };
