@@ -184,7 +184,7 @@ export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
 
   updateModel() {
     const code = fs.readFileSync(
-      path.join(this.context.createBlockPath, 'model.ts'),
+      path.join(this.context.createBlockPath!, 'model.ts'),
       'utf-8',
     );
 
@@ -230,7 +230,7 @@ export class CompileHandlerb9e78736b4ba410186eabffd9a749388 {
 
     const newCode = recast.print(ast).code;
     fs.writeFileSync(
-      path.join(this.context.createBlockPath, 'model.ts'),
+      path.join(this.context.createBlockPath!, 'model.ts'),
       newCode,
     );
   }

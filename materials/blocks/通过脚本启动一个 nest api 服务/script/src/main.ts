@@ -10,26 +10,37 @@ export async function bootstrap() {
     );
     context.statusBarItem = statusBarItem;
   }
-  context.statusBarItem.text = '$(loading~spin) Start nest api server...';
-  context.statusBarItem.show();
-  const app = await NestFactory.create(AppModule);
-  await app.listen(3000).catch((ex) => {
-    context.statusBarItem?.hide();
-    context.statusBarItem?.dispose();
-    context.statusBarItem = undefined;
-    throw ex;
-  });
-  context.statusBarItem.text = '$(circle-slash) Port:3000';
-  context.statusBarItem.tooltip = 'Click to close nest api server';
-  lowcodeContext.vscode.commands.registerCommand(
-    'lowcode.StopNestApiServer',
-    () => {
-      context.nestApp?.close();
+  if (!context.nestApp) {
+    context.statusBarItem.text = '$(loading~spin) Start nest api server...';
+    context.statusBarItem.show();
+    const app = await NestFactory.create(AppModule);
+    await app.listen(3000).catch((ex) => {
       context.statusBarItem?.hide();
       context.statusBarItem?.dispose();
       context.statusBarItem = undefined;
-    },
-  );
+      throw ex;
+    });
+    context.nestApp = app;
+  }
+  context.statusBarItem.text = '$(circle-slash) Low Code Server Port : 3000';
+  context.statusBarItem.tooltip = 'Click to close nest api server';
+  try {
+    // 重复注册报错
+    lowcodeContext.vscode.commands.registerCommand(
+      'lowcode.StopNestApiServer',
+      () => {
+        context.statusBarItem!.text = '$(loading~spin) close...';
+        context.statusBarItem!.command = undefined;
+        context.nestApp?.close().then(() => {
+          context.nestApp = undefined;
+          context.statusBarItem?.hide();
+          context.statusBarItem?.dispose();
+          context.statusBarItem = undefined;
+        });
+      },
+    );
+  } catch (ex) {
+    /* empty */
+  }
   context.statusBarItem.command = 'lowcode.StopNestApiServer';
-  context.nestApp = app;
 }
