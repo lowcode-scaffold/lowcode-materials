@@ -31,5 +31,11 @@ module.exports = {
     'no-useless-constructor': 'off',
     'no-empty-function': 'off',
     'import/extensions': 'off',
+    'consistent-return': 'off',
+    'no-use-before-define': 'off',
+    'array-callback-return': 'off',
+    'no-param-reassign': 'off',
+    'no-new-func': 'off',
+    'no-empty': 'off',
   },
 };
