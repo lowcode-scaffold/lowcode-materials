@@ -14,33 +14,42 @@ export async function bootstrap() {
     context.statusBarItem.text = '$(loading~spin) Start nest api server...';
     context.statusBarItem.show();
     const app = await NestFactory.create(AppModule);
-    await app.listen(3000).catch((ex) => {
-      context.statusBarItem?.hide();
-      context.statusBarItem?.dispose();
-      context.statusBarItem = undefined;
-      throw ex;
-    });
-    context.nestApp = app;
+    await app
+      .listen(3000)
+      .then(() => {
+        context.nestApp = app;
+        if (context.statusBarItem) {
+          context.statusBarItem.text =
+            '$(circle-slash) Low Code Server Port : 3000';
+          context.statusBarItem.tooltip = 'Click to close nest api server';
+          // vscode 限制命令唯一，但是唯一的话命令回调里的 context 永远是同一个
+          const command = `lowcode.StopNestApiServer${new Date().getTime()}`;
+          try {
+            const dsisposable = lowcodeContext.vscode.commands.registerCommand(
+              command,
+              () => {
+                context.statusBarItem!.text = '$(loading~spin) close...';
+                context.statusBarItem!.command = undefined;
+                context.nestApp?.close().then(() => {
+                  context.nestApp = undefined;
+                  context.statusBarItem?.hide();
+                  context.statusBarItem?.dispose();
+                  context.statusBarItem = undefined;
+                  dsisposable.dispose();
+                });
+              },
+            );
+          } catch (ex) {
+            /* empty */
+          }
+          context.statusBarItem.command = command;
+        }
+      })
+      .catch((ex) => {
+        context.statusBarItem?.hide();
+        context.statusBarItem?.dispose();
+        context.statusBarItem = undefined;
+        throw ex;
+      });
   }
-  context.statusBarItem.text = '$(circle-slash) Low Code Server Port : 3000';
-  context.statusBarItem.tooltip = 'Click to close nest api server';
-  try {
-    // 重复注册报错
-    lowcodeContext.vscode.commands.registerCommand(
-      'lowcode.StopNestApiServer',
-      () => {
-        context.statusBarItem!.text = '$(loading~spin) close...';
-        context.statusBarItem!.command = undefined;
-        context.nestApp?.close().then(() => {
-          context.nestApp = undefined;
-          context.statusBarItem?.hide();
-          context.statusBarItem?.dispose();
-          context.statusBarItem = undefined;
-        });
-      },
-    );
-  } catch (ex) {
-    /* empty */
-  }
-  context.statusBarItem.command = 'lowcode.StopNestApiServer';
 }

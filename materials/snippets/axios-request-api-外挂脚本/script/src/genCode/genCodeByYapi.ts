@@ -1,15 +1,16 @@
 import { window } from 'vscode';
 import { compile } from 'json-schema-to-typescript';
-import * as strip from 'strip-comments';
-import stripJsonComments from 'strip-json-comments';
-import * as GenerateSchema from 'generate-schema';
-import { compile as compileEjs, Model } from '../utils/ejs';
+// import * as strip from 'strip-comments';
+import jsonminify from 'jsonminify';
+// import * as GenerateSchema from 'generate-schema';
+// import { compile as compileEjs, Model } from '../utils/ejs';
 import { fetchApiDetailInfo } from '../utils/request';
 import { getFuncNameAndTypeName, pasteToEditor } from '../utils/editor';
 import { mockFromSchema } from '../utils/json';
 import { getConfig } from '../utils/config';
 import { getMaterial } from '../utils/material';
 import { context } from '../context';
+import { Model } from '../utils/ejs';
 
 export const genCodeByYapi = async (
   yapiId: string,
@@ -23,7 +24,6 @@ export const genCodeByYapi = async (
   const projectList = getConfig().yapi?.projects || [];
   if (projectList.length === 0) {
     window.showErrorMessage('请配置项目');
-    return;
   }
 
   const selectInfo = getFuncNameAndTypeName();
@@ -32,7 +32,6 @@ export const genCodeByYapi = async (
     { placeHolder: '请选择项目' },
   );
   if (!result) {
-    return;
   }
 
   const project = projectList.find((s) => s.name === result);
@@ -46,11 +45,12 @@ export const genCodeByYapi = async (
       selectInfo.typeName,
       selectInfo.funcName,
     );
-    model.inputValues = selectInfo.inputValues;
-    model.rawSelectedText = selectInfo.rawSelectedText;
-    model.rawClipboardText = rawClipboardText;
-    const code = compileEjs(template!.template, model);
-    pasteToEditor(code);
+    console.log(model);
+    // model.inputValues = selectInfo.inputValues;
+    // model.rawSelectedText = selectInfo.rawSelectedText;
+    // model.rawClipboardText = rawClipboardText;
+    // const code = compileEjs(template!.template, model);
+    // pasteToEditor(code);
   } catch (e: any) {
     window.showErrorMessage(e.toString());
   }
@@ -60,14 +60,14 @@ export const genTemplateModelByYapi = async (
   domain: string,
   yapiId: string,
   token: string,
-  typeName: string = 'IYapiRequestResult',
-  funcName: string = 'fetch',
+  typeName: string,
+  funcName: string,
 ) => {
   const res = await fetchApiDetailInfo(domain, yapiId, token);
   const requestBodyTypeName =
     funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
   if (res.data.data.res_body_type === 'json') {
-    const schema = JSON.parse(stripJsonComments(res.data.data.res_body));
+    const schema = JSON.parse(jsonminify(res.data.data.res_body));
     fixSchema(schema);
     delete schema.title;
     let ts = await compile(schema, typeName, {
@@ -78,7 +78,7 @@ export const genTemplateModelByYapi = async (
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
       const reqBodyScheme = JSON.parse(
-        stripJsonComments(res.data.data.req_body_other),
+        jsonminify(res.data.data.req_body_other),
       );
       delete reqBodyScheme.title;
       requestBodyType = await compile(
@@ -104,42 +104,42 @@ export const genTemplateModelByYapi = async (
     };
     return model;
   }
-  // const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
-  const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
-  const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
-  let ts = await compile(schema, typeName, {
-    bannerComment: '',
-  });
-  ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-  const { mockCode, mockData } = mockFromSchema(schema);
-  let requestBodyType = '';
-  if (res.data.data.req_body_other) {
-    const reqBodyScheme = JSON.parse(
-      stripJsonComments(res.data.data.req_body_other),
-    );
-    delete reqBodyScheme.title;
-    requestBodyType = await compile(
-      reqBodyScheme,
-      `I${requestBodyTypeName}Data`,
-      {
-        bannerComment: '',
-      },
-    );
-  }
-  const model: Model = {
-    type: ts,
-    requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
-    funcName,
-    typeName,
-    api: res.data.data,
-    inputValues: [],
-    mockCode,
-    mockData,
-    jsonData: resBodyJson,
-    rawClipboardText: '',
-    rawSelectedText: '',
-  };
-  return model;
+  // // const ts = await jsonToTs(selectInfo.typeName, res.data.data.res_body);
+  // const resBodyJson = JSON.parse(stripJsonComments(res.data.data.res_body));
+  // const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
+  // let ts = await compile(schema, typeName, {
+  //   bannerComment: '',
+  // });
+  // ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
+  // const { mockCode, mockData } = mockFromSchema(schema);
+  // let requestBodyType = '';
+  // if (res.data.data.req_body_other) {
+  //   const reqBodyScheme = JSON.parse(
+  //     stripJsonComments(res.data.data.req_body_other),
+  //   );
+  //   delete reqBodyScheme.title;
+  //   requestBodyType = await compile(
+  //     reqBodyScheme,
+  //     `I${requestBodyTypeName}Data`,
+  //     {
+  //       bannerComment: '',
+  //     },
+  //   );
+  // }
+  // const model: Model = {
+  //   type: ts,
+  //   requestBodyType: requestBodyType.replace(/\[k: string\]: unknown;/g, ''),
+  //   funcName,
+  //   typeName,
+  //   api: res.data.data,
+  //   inputValues: [],
+  //   mockCode,
+  //   mockData,
+  //   jsonData: resBodyJson,
+  //   rawClipboardText: '',
+  //   rawSelectedText: '',
+  // };
+  // return model;
 };
 
 const fixSchema = (obj: object) => {
