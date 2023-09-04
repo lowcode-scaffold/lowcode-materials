@@ -3,7 +3,6 @@ import fs from 'fs-extra';
 export const clearCache = (path: string) => {
   getAllFiles(path).forEach((file) => {
     if (!file.includes('script/index.js')) {
-      console.log(file);
       delete require.cache[require.resolve(file)];
     }
   });

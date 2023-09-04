@@ -8,7 +8,7 @@ require('ts-node').register({
 // 清除缓存，保证每次修改代码后实时生效，否则要重新打开 vscode
 const { clearCache } = require('../../../../share/clearCache.ts');
 
-clearCache(__dirname);
+// clearCache(__dirname); // 调试的时候才打开，不然会很慢
 const main = require('./src/main.ts');
 const { context } = require('./src/context.ts');
 

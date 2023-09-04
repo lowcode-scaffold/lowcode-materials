@@ -34,15 +34,6 @@ export type Config = {
   commonlyUsedBlock?: string[];
 };
 
-type ChatGPTConfig = {
-  hostname: string;
-  apiPath: string;
-  apiKey: string;
-  model: string;
-  maxTokens: number;
-  temperature: number;
-};
-
 export const getConfig: () => Config = () => {
   let config: Config = {};
   if (fs.existsSync(path.join(workspace.rootPath || '', '.lowcoderc'))) {
@@ -51,8 +42,5 @@ export const getConfig: () => Config = () => {
       s.domain = s.domain || config.yapi?.domain || '';
     });
   }
-  return { ...defaultConfig, ...config, syncFolder: getSyncFolder() };
+  return { ...defaultConfig, ...config };
 };
-
-export const getSyncFolder = () =>
-  workspace.getConfiguration('lowcode').get<string>('syncFolder', '');

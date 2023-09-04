@@ -26,6 +26,7 @@ interface IApiDetailInfo {
     req_body_other: string;
     username: string;
   };
+  errmsg?: string;
 }
 
 export const fetchApiDetailInfo = (

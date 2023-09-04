@@ -1,46 +1,4 @@
-import * as os from 'os';
-import * as path from 'path';
-import * as fs from 'fs-extra';
-import * as TJS from 'typescript-json-schema';
-import { compile } from 'json-schema-to-typescript';
-import * as GenerateSchema from 'generate-schema';
-import * as strip from 'strip-comments';
 import { getConfig } from './config';
-
-export const jsonIsValid = (jsonString: string) => {
-  if (typeof jsonString !== 'string') {
-    return false;
-  }
-  try {
-    const result = JSON.parse(jsonString);
-    const type = Object.prototype.toString.call(result);
-    return type === '[object Object]' || type === '[object Array]';
-  } catch (err) {
-    return false;
-  }
-};
-
-export const jsonParse = (clipboardText: string) => {
-  if (typeof clipboardText !== 'string') {
-    return '';
-  }
-  let func: any = function () {
-    return '';
-  };
-  if (
-    clipboardText.startsWith('var') ||
-    clipboardText.startsWith('let') ||
-    clipboardText.startsWith('const')
-  ) {
-    clipboardText = clipboardText.replace(/(var|let|const).*=/, '');
-  }
-  try {
-    func = new Function(`return ${clipboardText.trim()}`);
-    return func();
-  } catch (ex) {
-    return '';
-  }
-};
 
 export const mockFromSchema = (schema: any) => {
   let listIndex = 1;
@@ -169,42 +127,3 @@ export const mockFromSchema = (schema: any) => {
     mockData: `{${jsonStr}}`,
   };
 };
-
-export const typescriptToJson = (oriType: string) => {
-  let type = oriType;
-  const tempDir = path.join(os.homedir(), '.lowcode/temp');
-  const filePath = path.join(tempDir, 'ts.ts');
-  if (!fs.existsSync(filePath)) {
-    fs.createFileSync(filePath);
-  }
-
-  // 处理最外层是数组类型的场景
-  if (!type.trim().endsWith('}')) {
-    type = `{ result: ${type} }`;
-  }
-  fs.writeFileSync(filePath, `export interface TempType ${type}`, {
-    encoding: 'utf-8',
-  });
-
-  const program = TJS.getProgramFromFiles([filePath]);
-  const schema = TJS.generateSchema(program, 'TempType') as any;
-  if (schema === null) {
-    throw new Error('根据TS类型生成JSON Schema失败');
-  }
-  const { mockCode, mockData } = mockFromSchema(schema);
-  return {
-    mockCode,
-    mockData: !oriType.trim().endsWith('}') ? 'list1' : mockData,
-  };
-};
-
-export const json2Ts = async (json: object, typeName: string) => {
-  const schema = GenerateSchema.json(typeName || 'DefaultType', json);
-  let ts = await compile(schema, typeName, {
-    bannerComment: '',
-  });
-  ts = strip(ts.replace(/(\[k: string\]: unknown;)|\?/g, ''));
-  return ts;
-};
-
-export const isYapiId = (value: string) => /^[0-9]{1,}$/g.test(value);
