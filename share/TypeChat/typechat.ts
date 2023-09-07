@@ -1,3 +1,4 @@
+import { Result } from './result';
 import { TypeChatJsonValidator } from './validate';
 
 export interface TypeChatJsonTranslator<T extends object> {
@@ -6,7 +7,5 @@ export interface TypeChatJsonTranslator<T extends object> {
   stripNulls: boolean;
   createRequestPrompt(request: string): string;
   createRepairPrompt(validationError: string): string;
-  translate(
-    request: string,
-  ): Promise<{ success: true; data: T } | { success: false; message: string }>;
+  translate(request: string): Promise<Result<T>>;
 }
