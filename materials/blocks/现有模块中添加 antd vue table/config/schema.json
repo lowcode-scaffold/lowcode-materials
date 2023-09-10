@@ -194,7 +194,15 @@
 											"label": "插入当前文件中",
 											"onEvent": {
 												"click": {
-													"actions": []
+													"actions": [
+														{
+															"actionType": "runScript",
+															"args": {
+																"method": "fdfdf",
+																"params": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
 												}
 											},
 											"id": "u:598cfb2239c9",
@@ -255,7 +263,15 @@
 											"label": "插入当前文件中",
 											"onEvent": {
 												"click": {
-													"actions": []
+													"actions": [
+														{
+															"actionType": "runScript",
+															"args": {
+																"method": "fdfdf",
+																"params": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
 												}
 											},
 											"id": "u:d9338c3cc1b6",
@@ -316,7 +332,15 @@
 											"label": "插入当前文件中",
 											"onEvent": {
 												"click": {
-													"actions": []
+													"actions": [
+														{
+															"actionType": "runScript",
+															"args": {
+																"method": "fdfdf",
+																"params": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
 												}
 											},
 											"id": "u:ded57376bd92",
