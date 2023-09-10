@@ -1,0 +1,35 @@
+// lowcode-model-import-api
+import { IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result } from "./api";
+// lowcode-model-type
+interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Item {
+	<% columns.map((item, index) => { _%>
+			/**
+		* <%= item.title %>
+		*/
+		<%= item.key || `column${index+1}` %>: string;
+	<% }) _%>
+	/**
+   * 接口返回的数据，新增字段不需要改 ITableListItem 直接从这里取
+   */
+	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result<%- result %>[0]
+}
+// lowcode-model-variable
+const <%= variableName %> = ref<(I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Item & { _?: unknown })[]>(
+			[],
+		);
+<% if(pagination.show) { %>
+	const <%= variableName %>Pagination = reactive<{
+		page: number;
+		pageSize: number;
+		total: number;
+	}>({
+		page: 1,
+		pageSize: 10,
+		total: 0,
+	});
+<% } %>
+// lowcode-model-return-variable
+<%= variableName %>,
+<% if(pagination.show) { _%>
+	<%= variableName %>Pagination,
+<% } _%>

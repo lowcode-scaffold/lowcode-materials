@@ -1,0 +1,17 @@
+  // lowcode-presenter-handlePageChange
+	<% if(pagination.show) { _%>
+  const handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>PageChange = (page: number, pageSize: number) => {
+    if (pageSize !== model.<%= variableName %>Pagination.pageSize) {
+      model.<%= variableName %>Pagination.pageSize = pageSize;
+      model.<%= variableName %>Pagination.page = 1;
+    } else {
+      model.<%= variableName %>Pagination.page = page;
+    }
+    service.get<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>();
+  };
+  <% } _%>
+	// lowcode-presenter-return-handlePageChange
+	<% if(pagination.show) { _%>
+	handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>PageChange,
+  <% } _%>
+	

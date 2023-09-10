@@ -1,0 +1,52 @@
+<!-- lowcode-vue-template -->
+<a-table
+	:columns="<%= variableName %>TableColumns"
+	:data-source="model.<%= variableName %>.value"
+	:pagination="false"
+>
+<% columns.filter(item => item.slot).map((item, index) => { _%>
+	<template #<%= item.key %>="{ record }">
+		{{ record.<%= item.key %> }}
+	</template>
+	<% }) _%>
+	<template #operation="{ record }">
+		<a-space :size="0">
+			<a-button
+				type="link"
+				size="small"
+			>
+				编辑
+			</a-button>
+		</a-space>
+	</template>
+</a-table>
+<% if(pagination.show) { _%>
+<a-pagination
+	style="margin-top: 10px"
+	@change="presenter.handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>PageChange"
+	@showSizeChange="presenter.handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>PageChange"
+	v-model:current="model.<%= variableName %>Pagination.page"
+	:total="model.<%= variableName %>Pagination.total"
+	show-size-changer
+	show-quick-jumper
+></a-pagination>
+<% } _%> 
+// lowcode-vue-columns
+
+const <%= variableName %>TableColumns = [
+	<% columns.map((item, index) => { _%>
+		{
+			title: "<%= item.title || `column${index+1}` %>",
+			dataIndex: "<%= item.dataIndex || `column${index+1}` %>",
+			key: "<%= item.key || `column${index+1}` %>",
+			<% if(item.width) {%>width: "<%= item.width %>",<% } _%>
+			<% if(item.slot) {%>slots: { customRender: "<%= item.key %>"},<% } _%>
+		},
+	<% }) _%>
+	{
+		title: "操作",
+		key: "operation",
+		width: 100,
+		slots:{customRender: "operation"}
+	}
+];

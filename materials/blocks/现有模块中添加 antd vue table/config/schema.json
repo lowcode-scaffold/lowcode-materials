@@ -1,0 +1,369 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"body": [
+				{
+					"type": "form",
+					"title": "",
+					"body": [
+						{
+							"type": "input-text",
+							"label": "变量名",
+							"name": "variableName",
+							"id": "u:2b8da51d12fc"
+						},
+						{
+							"type": "combo",
+							"id": "u:9b9fb0cf38f9",
+							"label": "表格",
+							"name": "columns",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "button",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:1e8070edc3d3"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "title",
+									"id": "u:152dd82b82f9",
+									"label": "title"
+								},
+								{
+									"type": "input-text",
+									"label": "dataIndex",
+									"name": "dataIndex",
+									"id": "u:ecc7298e0550",
+									"description": ""
+								},
+								{
+									"type": "input-text",
+									"label": "key",
+									"name": "key",
+									"id": "u:fbaa95c3f15d",
+									"description": ""
+								},
+								{
+									"type": "input-text",
+									"label": "width",
+									"name": "width",
+									"id": "u:b143127e097b",
+									"description": ""
+								},
+								{
+									"type": "switch",
+									"label": "自定义插槽",
+									"option": "",
+									"name": "slot",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:ee1ce1faee0b",
+									"value": false
+								}
+							],
+							"strictMode": true,
+							"syncFields": [],
+							"tabsMode": true,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"deleteBtn": {
+								"label": "删除",
+								"level": "default",
+								"id": "u:99b03ead4f4a"
+							},
+							"tabsLabelTpl": "列${index+1}"
+						},
+						{
+							"type": "fieldset",
+							"title": "分页参数",
+							"collapsable": true,
+							"body": [
+								{
+									"type": "switch",
+									"label": "是否分页",
+									"name": "pagination.show",
+									"id": "u:6c70041d5143",
+									"value": true,
+									"option": "",
+									"falseValue": false,
+									"trueValue": true,
+									"className": ""
+								},
+								{
+									"type": "input-text",
+									"label": "查询接口页数参数字段名",
+									"name": "pagination.page",
+									"id": "u:cbbf6853cf64",
+									"value": "page"
+								},
+								{
+									"type": "input-text",
+									"label": "查询接口每页数据行数参数字段名",
+									"name": "pagination.size",
+									"id": "u:a8fae66fa927",
+									"value": "size"
+								},
+								{
+									"type": "input-text",
+									"label": "接口返回总数据量字段 PATH",
+									"name": "pagination.total",
+									"id": "u:e1cd979c7ee8",
+									"value": "result.total",
+									"themeCss": {
+										"inputControlClassName": {
+											"padding-and-margin:default": {
+												"marginBottom": "",
+												"marginTop": "",
+												"marginRight": "",
+												"marginLeft": ""
+											}
+										}
+									}
+								}
+							],
+							"id": "u:0f1bd8fc2f2b",
+							"collapsed": false,
+							"headingClassName": "",
+							"bodyClassName": "p"
+						},
+						{
+							"type": "fieldset",
+							"id": "u:382f8cdf59a6",
+							"title": "请求方法",
+							"collapsable": true,
+							"body": [
+								{
+									"type": "input-text",
+									"label": "接口数据字段 PATH",
+									"name": "result",
+									"id": "u:8c082acf7db2",
+									"value": "[\"result\"][\"records\"]",
+									"description": ""
+								}
+							],
+							"collapsed": false,
+							"className": "",
+							"headingClassName": "",
+							"bodyClassName": "p-r p-l p-b"
+						},
+						{
+							"type": "grid",
+							"columns": [
+								{
+									"body": [
+										{
+											"type": "input-text",
+											"label": "model 占位符",
+											"name": "text1",
+											"id": "u:966acfd696a1",
+											"mode": "inline",
+											"clearable": false,
+											"readOnly": true,
+											"static": false,
+											"disabled": true,
+											"value": "---lowcode-columns-placeholder---"
+										},
+										{
+											"type": "button",
+											"label": "复制",
+											"onEvent": {
+												"click": {
+													"actions": [
+														{
+															"actionType": "copy",
+															"args": {
+																"copyFormat": "text/plain",
+																"content": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
+												}
+											},
+											"id": "u:12a58b1e717e"
+										},
+										{
+											"type": "button",
+											"label": "插入当前文件中",
+											"onEvent": {
+												"click": {
+													"actions": []
+												}
+											},
+											"id": "u:598cfb2239c9",
+											"themeCss": {
+												"className": {
+													"padding-and-margin:default": {
+														"marginLeft": "10px"
+													}
+												}
+											},
+											"className": "className-598cfb2239c9",
+											"level": "primary"
+										}
+									],
+									"id": "u:ddea0d7e9308",
+									"md": 12
+								}
+							],
+							"id": "u:a45dc0ccdd6a"
+						},
+						{
+							"type": "grid",
+							"columns": [
+								{
+									"body": [
+										{
+											"type": "input-text",
+											"label": "model 占位符",
+											"name": "text2",
+											"id": "u:eb975bd48df9",
+											"mode": "inline",
+											"clearable": false,
+											"readOnly": true,
+											"static": false,
+											"disabled": true,
+											"value": "---lowcode-columns-placeholder---"
+										},
+										{
+											"type": "button",
+											"label": "复制",
+											"onEvent": {
+												"click": {
+													"actions": [
+														{
+															"actionType": "copy",
+															"args": {
+																"copyFormat": "text/plain",
+																"content": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
+												}
+											},
+											"id": "u:28d704334575"
+										},
+										{
+											"type": "button",
+											"label": "插入当前文件中",
+											"onEvent": {
+												"click": {
+													"actions": []
+												}
+											},
+											"id": "u:d9338c3cc1b6",
+											"themeCss": {
+												"className": {
+													"padding-and-margin:default": {
+														"marginLeft": "10px"
+													}
+												}
+											},
+											"className": "className-598cfb2239c9",
+											"level": "primary"
+										}
+									],
+									"id": "u:eb008385075d",
+									"md": 12
+								}
+							],
+							"id": "u:60e07b2ce7c5"
+						},
+						{
+							"type": "grid",
+							"columns": [
+								{
+									"body": [
+										{
+											"type": "input-text",
+											"label": "model 占位符",
+											"name": "text3",
+											"id": "u:2392c968f763",
+											"mode": "inline",
+											"clearable": false,
+											"readOnly": true,
+											"static": false,
+											"disabled": true,
+											"value": "---lowcode-columns-placeholder---"
+										},
+										{
+											"type": "button",
+											"label": "复制",
+											"onEvent": {
+												"click": {
+													"actions": [
+														{
+															"actionType": "copy",
+															"args": {
+																"copyFormat": "text/plain",
+																"content": "---lowcode-columns-placeholder---"
+															}
+														}
+													]
+												}
+											},
+											"id": "u:379c3826a83e"
+										},
+										{
+											"type": "button",
+											"label": "插入当前文件中",
+											"onEvent": {
+												"click": {
+													"actions": []
+												}
+											},
+											"id": "u:ded57376bd92",
+											"themeCss": {
+												"className": {
+													"padding-and-margin:default": {
+														"marginLeft": "10px"
+													}
+												}
+											},
+											"className": "className-598cfb2239c9",
+											"level": "primary"
+										}
+									],
+									"id": "u:ce02af08e00a",
+									"md": 12
+								}
+							],
+							"id": "u:8abf7b366c89"
+						}
+					],
+					"submitText": "",
+					"id": "u:b3438715e11f"
+				}
+			],
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false,
+			"id": "u:87ed78162ffc"
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}

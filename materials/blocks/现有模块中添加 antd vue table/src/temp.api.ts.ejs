@@ -1,0 +1,39 @@
+// #region
+export interface IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result {
+  code: number;
+	msg: string;
+	<% if (!pagination.show) { _%>
+	result: {
+		<% columns.map((item, index) => { _%>
+			<%= item.key || `column${index+1}` %>: string;
+		<% }) _%>
+	}[];
+	<% } else { _%>
+		result: {
+			records: {
+				<% columns.map((item, index) => { _%>
+					<%= item.key || `column${index+1}` %>: string;
+				<% }) _%>
+			}[];
+			total: number;
+		}
+	<% } _%>
+}
+
+export interface IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Params {
+	<% if (pagination.show) { _%>
+		<%= pagination.page %>: number;
+		<%= pagination.size %>: number;
+	<% } _%>
+}
+
+export function fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>(
+	params: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Params
+) {
+	return request<IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result["result"]>({
+		url: `http://127.0.0.1:3001<%= createBlockPath %>/fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>`, 
+		method: 'GET',
+		params,
+	});
+}
+// #endregion

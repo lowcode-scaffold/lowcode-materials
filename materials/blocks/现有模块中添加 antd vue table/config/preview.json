@@ -1,0 +1,19 @@
+{
+	"title": "现有模块中添加 antd vue table",
+	"description": "现有模块中添加 antd vue table",
+	"img": [
+		"https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
+	],
+	"category": [
+		"antd",
+		"vue",
+		"table"
+	],
+	"schema": "amis",
+	"scripts": [
+		{
+			"method": "test",
+			"remark": "测试一下"
+		}
+	]
+}
