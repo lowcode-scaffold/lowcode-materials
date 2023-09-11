@@ -1,0 +1,15 @@
+{
+  "title": "现有模块中添加 antdv Descriptions 描述列表",
+  "description": "现有模块中添加 antdv Descriptions 描述列表",
+  "img": [
+    "https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
+  ],
+  "category": [],
+  "schema": "amis",
+  "scripts": [
+    {
+      "method": "test",
+      "remark": "测试一下"
+    }
+  ]
+}

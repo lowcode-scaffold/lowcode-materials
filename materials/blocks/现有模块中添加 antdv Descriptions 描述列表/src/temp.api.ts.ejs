@@ -1,0 +1,25 @@
+// #region
+export interface IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result {
+  code: number;
+	msg: string;
+	result: {
+		<% items.map((item, index) => { _%>
+			<%= item.key || `item${index+1}` %>: string;
+		<% }) _%>
+	};
+}
+
+export interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Params {
+	id: number;
+}
+
+export function fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>(
+	params: I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Params
+) {
+	return request<IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result["result"]>({
+		url: `http://127.0.0.1:3001<%= createBlockPath %>/fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>`, 
+		method: 'GET',
+		params,
+	});
+}
+// #endregion

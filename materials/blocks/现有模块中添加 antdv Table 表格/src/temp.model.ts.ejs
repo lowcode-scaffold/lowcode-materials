@@ -9,7 +9,7 @@ interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>
 		<%= item.key || `column${index+1}` %>: string;
 	<% }) _%>
 	/**
-   * 接口返回的数据，新增字段不需要改 ITableListItem 直接从这里取
+   * 接口返回的数据，新增字段不需要改 I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Item 直接从这里取
    */
 	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result<%- result %>[0]
 }

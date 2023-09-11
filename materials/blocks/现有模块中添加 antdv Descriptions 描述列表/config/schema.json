@@ -1,0 +1,155 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"body": [
+				{
+					"type": "form",
+					"title": "",
+					"body": [
+						{
+							"type": "input-text",
+							"id": "u:11b127c5df46",
+							"label": "变量名",
+							"name": "variableName",
+							"description": ""
+						},
+						{
+							"type": "input-text",
+							"id": "u:1fdc2ed6321c",
+							"label": "title",
+							"name": "title",
+							"description": "标题"
+						},
+						{
+							"type": "switch",
+							"id": "u:9cc79716dde1",
+							"label": "bordered",
+							"option": "",
+							"name": "bordered",
+							"falseValue": false,
+							"trueValue": true,
+							"value": false,
+							"description": "是否展示边框"
+						},
+						{
+							"type": "input-text",
+							"id": "u:43fbc9d670c3",
+							"label": "column",
+							"name": "column",
+							"description": "一行的 DescriptionItems 数量，可以写成像素值或支持响应式的对象写法 { xs: 8, sm: 16, md: 24}，默认3"
+						},
+						{
+							"type": "switch",
+							"id": "u:b8b2cb8217d1",
+							"label": "extra",
+							"option": "",
+							"name": "extra",
+							"falseValue": false,
+							"trueValue": true,
+							"value": false,
+							"description": "描述列表的操作区域，显示在右上方"
+						},
+						{
+							"type": "select",
+							"id": "u:a8859cde1998",
+							"label": "layout",
+							"name": "layout",
+							"options": [
+								{
+									"label": "horizontal",
+									"value": "horizontal"
+								},
+								{
+									"label": "vertical",
+									"value": "vertical"
+								}
+							],
+							"multiple": false,
+							"description": "描述布局",
+							"value": "horizontal"
+						},
+						{
+							"type": "combo",
+							"label": "描述列表",
+							"name": "items",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "icon",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:47ecb9e15ff1"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "key",
+									"placeholder": "字段名",
+									"id": "u:25b0c7b5e5a0",
+									"label": "字段名（key）"
+								},
+								{
+									"type": "input-text",
+									"label": "label",
+									"name": "label",
+									"id": "u:6496cac4f4b8",
+									"description": "内容的描述"
+								},
+								{
+									"type": "input-number",
+									"label": "span",
+									"name": "span",
+									"keyboard": true,
+									"id": "u:9ee4d10df24a",
+									"step": 1,
+									"min": 1,
+									"description": "包含列的数量"
+								}
+							],
+							"id": "u:186f183e9320",
+							"strictMode": false,
+							"syncFields": [],
+							"tabsMode": false,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"tabsLabelTpl": "表单项${index+1}",
+							"multiLine": true,
+							"value": [
+								{}
+							]
+						}
+					],
+					"submitText": "",
+					"id": "u:67967afb0e69"
+				}
+			],
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false,
+			"id": "u:d87dbf6bf8df"
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}
