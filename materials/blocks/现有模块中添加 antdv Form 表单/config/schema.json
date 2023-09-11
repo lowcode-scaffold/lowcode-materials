@@ -1,0 +1,312 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "object",
+			"column": 1,
+			"labelWidth": 120,
+			"displayType": "column",
+			"properties": {
+				"variableName": {
+					"title": "变量名",
+					"type": "string",
+					"hidden": false,
+					"props": {}
+				},
+				"formItems": {
+					"title": "表单项",
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"key": {
+								"title": "字段名",
+								"type": "string",
+								"props": {}
+							},
+							"type": {
+								"title": "字段类型",
+								"type": "string",
+								"enum": [
+									"string",
+									"number",
+									"boolean",
+									"Dayjs",
+									"string[]",
+									"number[]",
+									"boolean[]",
+									"[Dayjs,Dayjs]",
+									"{name?:string;url:string}[]"
+								],
+								"enumNames": [
+									"string",
+									"number",
+									"boolean",
+									"Dayjs",
+									"string[]",
+									"number[]",
+									"boolean[]",
+									"[Dayjs,Dayjs]",
+									"图片、视频、文件，默认值选空数组"
+								],
+								"widget": "select",
+								"default": "string"
+							},
+							"optional": {
+								"title": "字段可选",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "字段名字后加?"
+							},
+							"defaultValue": {
+								"title": "默认值",
+								"type": "string",
+								"enum": [
+									"\"\"",
+									"false",
+									"boolean",
+									"true",
+									"0",
+									"undefined",
+									"[]"
+								],
+								"enumNames": [
+									"\"\"",
+									"false",
+									"boolean",
+									"true",
+									"0",
+									"undefined",
+									"[]"
+								],
+								"widget": "select",
+								"default": "\"\""
+							},
+							"component": {
+								"title": "组件",
+								"type": "string",
+								"enum": [
+									"input",
+									"input-password",
+									"input-number",
+									"textarea",
+									"select",
+									"radio-group",
+									"checkbox-group",
+									"switch",
+									"date-picker",
+									"time-picker",
+									"range-picker",
+									"transfer",
+									"UploadImages",
+									"UploadVideo"
+								],
+								"enumNames": [
+									"input",
+									"input-password",
+									"input-number",
+									"textarea",
+									"select",
+									"radio-group",
+									"checkbox-group",
+									"switch",
+									"date-picker",
+									"time-picker",
+									"range-picker",
+									"transfer",
+									"UploadImages(图片上传)",
+									"UploadVideo(视频上传)"
+								],
+								"widget": "select"
+							},
+							"label": {
+								"title": "label",
+								"type": "string",
+								"props": {}
+							},
+							"placeholder": {
+								"title": "placeholder",
+								"type": "string",
+								"props": {}
+							},
+							"required": {
+								"title": "是否必填",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "验证规则加required",
+								"required": false
+							},
+							"message": {
+								"title": "校验失败 message",
+								"type": "string",
+								"default": "不能为空",
+								"props": {}
+							},
+							"showMore": {
+								"title": "更多组件配置",
+								"type": "boolean",
+								"widget": "switch"
+							},
+							"labelInValue": {
+								"title": "labelInValue",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "是否把每个选项的 label 包装到 value 中",
+								"index": 0,
+								"hidden": "{{rootValue.showMore !== true || rootValue.component !== 'select'}}"
+							},
+							"mode": {
+								"title": "mode",
+								"type": "string",
+								"enum": [
+									"multiple",
+									"tags"
+								],
+								"enumNames": [
+									"multiple",
+									"tags"
+								],
+								"widget": "select",
+								"description": "设置 Select 的模式为多选或标签",
+								"index": 1,
+								"hidden": "{{rootValue.showMore !== true || rootValue.component !== 'select'}}"
+							},
+							"optionFilterProp": {
+								"title": "optionFilterProp",
+								"type": "string",
+								"description": "搜索时过滤对应的 option 属性",
+								"default": "label",
+								"props": {},
+								"hidden": "{{rootValue.showMore !== true || rootValue.component !== 'select'}}"
+							},
+							"showSearch": {
+								"title": "showSearch",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "使单选模式可搜索",
+								"hidden": "{{rootValue.showMore !== true || rootValue.component !== 'select'}}"
+							},
+							"hideArrow": {
+								"title": "hideArrow",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "是否隐藏下拉小箭头",
+								"hidden": "{{rootValue.showMore !== true || rootValue.component !== 'select'}}"
+							},
+							"maxlength": {
+								"title": "maxlength",
+								"type": "string",
+								"description": "最大长度",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'input' && rootValue.component !== 'input-password' && rootValue.component !== 'textarea')}}"
+							},
+							"showCount": {
+								"title": "showCount",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "是否展示字数",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'input' && rootValue.component !== 'input-password' && rootValue.component !== 'textarea')}}"
+							},
+							"max": {
+								"title": "max",
+								"type": "string",
+								"description": "最大值",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'input-number')}}"
+							},
+							"min": {
+								"title": "min",
+								"type": "string",
+								"description": "最小值",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'input-number')}}"
+							},
+							"step": {
+								"title": "step",
+								"type": "string",
+								"description": "每次改变步数，可以为小数",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'input-number')}}"
+							},
+							"checkedChildren": {
+								"title": "checkedChildren",
+								"type": "string",
+								"description": "选中时的内容",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'switch')}}"
+							},
+							"unCheckedChildren": {
+								"title": "unCheckedChildren",
+								"type": "string",
+								"description": "非选中时的内容",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'switch')}}"
+							},
+							"checkedValue": {
+								"title": "checkedValue",
+								"type": "string",
+								"description": "选中时的值",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'switch')}}"
+							},
+							"unCheckedValue": {
+								"title": "unCheckedValue",
+								"type": "string",
+								"description": "非选中时的值",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'switch')}}"
+							},
+							"picker": {
+								"title": "picker",
+								"type": "string",
+								"enum": [
+									"date",
+									"week",
+									"month",
+									"quarter",
+									"year"
+								],
+								"enumNames": [
+									"date",
+									"week",
+									"month",
+									"quarter",
+									"year"
+								],
+								"widget": "select",
+								"description": "设置选择器类型",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'date-picker' && rootValue.component !== 'range-picker')}}"
+							},
+							"showTime": {
+								"title": "showTime",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "增加时间选择功能",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'date-picker' && rootValue.component !== 'range-picker' || rootValue.picker !== 'date')}}"
+							},
+							"showNow": {
+								"title": "showNow",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "当设定了 showTime 的时候，面板是否显示“此刻”按钮",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'date-picker' && rootValue.component !== 'range-picker' || rootValue.picker !== 'date')}}"
+							},
+							"showToday": {
+								"title": "showToday",
+								"type": "boolean",
+								"widget": "switch",
+								"description": "是否展示“今天”按钮",
+								"hidden": "{{rootValue.showMore !== true || (rootValue.component !== 'date-picker' && rootValue.component !== 'range-picker' || rootValue.picker !== 'date')}}"
+							}
+						}
+					},
+					"props": {},
+					"index": 0,
+					"hidden": false
+				}
+			}
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}

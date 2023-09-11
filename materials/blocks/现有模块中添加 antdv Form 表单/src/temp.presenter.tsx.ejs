@@ -1,0 +1,14 @@
+// lowcode-presenter-variable
+const <%= variableName %>Rules: Record<string, Rule[]> = reactive({
+	<% formItems.map(item => { _%>
+		<%= item.key %>: [{ required: <%= item.required || false %>, message: "<%= item.message %>" }],
+	<% }) _%>
+});
+
+const { resetFields: reset<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Fields, validate: validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>, validateInfos: validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos } = useForm(
+	model.<%= variableName %>FormData,
+	<%= variableName %>Rules,
+);
+
+// lowcode-presenter-return
+validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos,

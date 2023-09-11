@@ -5,25 +5,6 @@ import { context } from './context';
 export async function handleComplete() {
   const createBlockPath = context.lowcodeContext?.createBlockPath;
   if (createBlockPath) {
-    // #region 更新 api.ts 文件
-    const apiFileContent = fs
-      .readFileSync(path.join(createBlockPath, 'temp.api.ts'))
-      .toString();
-
-    let apiFileContentOld = '';
-    try {
-      apiFileContentOld = fs
-        .readFileSync(path.join(createBlockPath, 'api.ts').toString())
-        .toString();
-    } catch {}
-
-    fs.writeFileSync(
-      path.join(createBlockPath, 'api.ts'),
-      apiFileContentOld + apiFileContent,
-    );
-    fs.removeSync(path.join(createBlockPath, 'temp.api.ts'));
-    // #endregion
-
     // #region 更新 model.ts 文件
     const modelFileContent = fs
       .readFileSync(path.join(createBlockPath, 'temp.model.ts'))
@@ -33,26 +14,18 @@ export async function handleComplete() {
       .toString();
 
     const keywords = [
-      '// lowcode-model-import-api',
       '// lowcode-model-type',
+      '// lowcode-model-defalut-data',
       '// lowcode-model-variable',
       '// lowcode-model-return-variable',
     ];
     const modelSplitArr = modelFileContent.split(
       new RegExp(keywords.join('|'), 'ig'),
     );
-    const modelImportApi = modelSplitArr[1].replace(/\n/g, '');
-    const modelType = modelSplitArr[2];
+    const modelType = modelSplitArr[1];
+    const modelDefaultData = modelSplitArr[2];
     const modelVariable = modelSplitArr[3];
     const modelReturnVariable = modelSplitArr[4].replace(/\n/g, '');
-
-    if (!modelFileContentOld.includes('// lowcode-model-import-api')) {
-      modelFileContentOld = `// lowcode-model-import-api\n${modelFileContentOld}`;
-    }
-    modelFileContentOld = modelFileContentOld.replace(
-      '// lowcode-model-import-api',
-      modelImportApi,
-    );
 
     if (!modelFileContentOld.includes('// lowcode-model-type')) {
       modelFileContentOld = modelFileContentOld.replace(
@@ -63,6 +36,17 @@ export async function handleComplete() {
     modelFileContentOld = modelFileContentOld.replace(
       '// lowcode-model-type',
       modelType,
+    );
+
+    if (!modelFileContentOld.includes('// lowcode-model-defalut-data')) {
+      modelFileContentOld = modelFileContentOld.replace(
+        'export const useModel',
+        '// lowcode-model-defalut-data\nexport const useModel',
+      );
+    }
+    modelFileContentOld = modelFileContentOld.replace(
+      '// lowcode-model-defalut-data',
+      modelDefaultData,
     );
 
     if (!modelFileContentOld.includes('// lowcode-model-variable')) {
@@ -104,23 +88,9 @@ export async function handleComplete() {
       .trim();
 
     const serviceSplitArr = serviceFileContent.split(
-      new RegExp(
-        ['// lowcode-service-import-api', '// lowcode-service-method'].join(
-          '|',
-        ),
-        'ig',
-      ),
+      new RegExp(['// lowcode-service-method'].join('|'), 'ig'),
     );
-    const serviceImportApi = serviceSplitArr[1].replace(/\n/g, '');
-    const serviceMethod = serviceSplitArr[2];
-    if (!serviceFileContentOld.includes('// lowcode-service-import-api')) {
-      serviceFileContentOld = `// lowcode-service-import-api\n${serviceFileContentOld}`;
-    }
-    serviceFileContentOld = serviceFileContentOld.replace(
-      '// lowcode-service-import-api',
-      serviceImportApi,
-    );
-
+    const serviceMethod = serviceSplitArr[1];
     if (!serviceFileContentOld.includes('// lowcode-service-method')) {
       serviceFileContentOld = `${serviceFileContentOld.slice(
         0,
@@ -139,6 +109,53 @@ export async function handleComplete() {
 
     // #endregion
 
+    // #region 更新 presenter.tsx 文件
+    const presenterFileContent = fs
+      .readFileSync(path.join(createBlockPath, 'temp.presenter.tsx').toString())
+      .toString();
+    let presenterFileContentOld = fs
+      .readFileSync(path.join(createBlockPath, 'presenter.tsx').toString())
+      .toString();
+
+    const presenterSplitArr = presenterFileContent.split(
+      new RegExp(
+        ['// lowcode-presenter-variable', '// lowcode-presenter-return'].join(
+          '|',
+        ),
+        'ig',
+      ),
+    );
+    const presenterVariable = presenterSplitArr[1];
+    const presenterReturn = presenterSplitArr[2];
+
+    if (!presenterFileContentOld.includes('// lowcode-presenter-variable')) {
+      presenterFileContentOld = presenterFileContentOld.replace(
+        'return {',
+        `// lowcode-presenter-variable\nreturn {`,
+      );
+    }
+    presenterFileContentOld = presenterFileContentOld.replace(
+      '// lowcode-presenter-variable',
+      presenterVariable,
+    );
+
+    if (!presenterFileContentOld.includes('// lowcode-presenter-return')) {
+      presenterFileContentOld = presenterFileContentOld.replace(
+        'return {',
+        'return {\n// lowcode-presenter-return',
+      );
+    }
+    presenterFileContentOld = presenterFileContentOld.replace(
+      '// lowcode-presenter-return',
+      presenterReturn,
+    );
+    fs.writeFileSync(
+      path.join(createBlockPath, 'presenter.tsx'),
+      presenterFileContentOld,
+    );
+    fs.removeSync(path.join(createBlockPath, 'temp.presenter.tsx'));
+    // #endregion
+
     // #region 更新 index.vue 文件
     const vueFileContent = fs
       .readFileSync(path.join(createBlockPath, 'temp.index.vue').toString())
@@ -149,9 +166,13 @@ export async function handleComplete() {
       .toString();
 
     const vueSplitArr = vueFileContent.split(
-      new RegExp(['<!-- lowcode-vue-template -->'].join('|'), 'ig'),
+      new RegExp(
+        ['<!-- lowcode-vue-template -->', 'lowcode-vue-import'].join('|'),
+        'ig',
+      ),
     );
     const vueTemplate = vueSplitArr[1];
+    const vueImport = vueSplitArr[2];
 
     if (!vueFileContentOld.includes('<!-- lowcode-vue-template -->')) {
       const index = vueFileContentOld.lastIndexOf('</template>');
@@ -163,6 +184,17 @@ export async function handleComplete() {
     vueFileContentOld = vueFileContentOld.replace(
       '<!-- lowcode-vue-template -->',
       vueTemplate,
+    );
+
+    if (!vueFileContentOld.includes('lowcode-vue-import')) {
+      vueFileContentOld = vueFileContentOld.replace(
+        '<script lang="ts" setup>',
+        `<script lang="ts" setup>\n// lowcode-vue-columns`,
+      );
+    }
+    vueFileContentOld = vueFileContentOld.replace(
+      'lowcode-vue-import',
+      vueImport,
     );
 
     fs.writeFileSync(

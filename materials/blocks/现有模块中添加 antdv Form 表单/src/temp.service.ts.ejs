@@ -1,0 +1,9 @@
+// lowcode-service-method
+async submit<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>() {
+	const data = {
+		<% formItems.map(item => { _%>
+			<%= item.key %>: this.model.<%= variableName %>FormData.<%= item.key %>,
+		<% }) _%>
+	};
+	await Promise.resolve(data);
+}

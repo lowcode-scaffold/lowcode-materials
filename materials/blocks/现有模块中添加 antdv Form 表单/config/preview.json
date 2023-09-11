@@ -1,0 +1,15 @@
+{
+	"title": "现有模块中添加 antdv Form 表单",
+	"description": "现有模块中添加 antdv Form 表单",
+	"img": [
+		"https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
+	],
+	"category": [],
+	"schema": "form-render",
+	"scripts": [
+		{
+			"method": "test",
+			"remark": "测试一下"
+		}
+	]
+}

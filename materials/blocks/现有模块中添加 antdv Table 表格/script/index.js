@@ -13,14 +13,8 @@ const main = require('./src/main.ts');
 const { context } = require('./src/context.ts');
 
 module.exports = {
-  beforeCompile: (lowcodeContext) => {
-    lowcodeContext.outputChannel.appendLine(
-      'compile start nest api srver start',
-    );
-  },
-  afterCompile: (lowcodeContext) => {
-    lowcodeContext.outputChannel.appendLine('compile start nest api srver end');
-  },
+  beforeCompile: (lowcodeContext) => {},
+  afterCompile: (lowcodeContext) => {},
   complete: (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
     main.handleComplete();

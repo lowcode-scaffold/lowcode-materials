@@ -125,10 +125,10 @@ export async function handleComplete() {
       serviceFileContentOld = `${serviceFileContentOld.slice(
         0,
         serviceFileContentOld.length - 1,
-      )}// lowcode-service-import-api\n}`;
+      )}// lowcode-service-method\n}`;
     }
     serviceFileContentOld = serviceFileContentOld.replace(
-      '// lowcode-service-import-api',
+      '// lowcode-service-method',
       serviceMethod,
     );
     fs.writeFileSync(

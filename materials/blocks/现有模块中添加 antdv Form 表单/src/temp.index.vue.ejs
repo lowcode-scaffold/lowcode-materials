@@ -1,0 +1,286 @@
+<!-- lowcode-vue-template -->
+<a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 12 }">
+	<% formItems.map(item => { _%>
+		<% if(item.component === "input") { _%>
+			<a-form-item
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-input 
+					v-model:value="model.formData.<%= item.key %>" 
+					placeholder="<%= item.placeholder %>"
+					allow-clear
+					<% if(item.maxlength) { _%>
+					:maxlength="<%= item.maxlength %>"
+					<% } _%>
+					<% if(item.showCount) { _%>
+					showCount
+					<% } _%>
+				>
+				</a-input>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "input-password") { _%>
+			<a-form-item
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-input-password
+					v-model:value="model.formData.<%= item.key %>" 
+					placeholder="<%= item.placeholder %>"
+					allowClear
+					<% if(item.maxlength) { _%>
+					:maxlength="<%= item.maxlength %>"
+					<% } _%>
+					<% if(item.showCount) { _%>
+					showCount
+					<% } _%>
+				></a-input-password>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "input-number") { _%>
+			<a-form-item
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-input-number
+					v-model:value="model.formData.<%= item.key %>"
+					placeholder="<%= item.placeholder %>"
+					allowClear
+					<% if(item.max) { _%>
+					:max="<%= item.max %>"
+					<% } _%>
+					<% if(item.min) { _%>
+					:min="<%= item.min %>"
+					<% } _%>
+					<% if(item.step) { _%>
+					:step="<%= item.step %>"
+					<% } _%>
+				></a-input-number>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "textarea") { _%>
+			<a-form-item
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-textarea
+					v-model:value="model.formData.<%= item.key %>" 
+					placeholder="<%= item.placeholder %>"
+					allow-clear
+					<% if(item.maxlength) { _%>
+					:maxlength="<%= item.maxlength %>"
+					<% } _%>
+					<% if(item.showCount) { _%>
+					showCount
+					<% } _%>
+				>
+				</a-textarea>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "select") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-select
+					placeholder="<%= item.placeholder %>"
+					allow-clear
+					:options="model.options.<%= item.key %>"
+					v-model:value="model.formData.<%= item.key %>"
+					<% if(item.labelInValue) { _%>
+					labelInValue
+					<% } _%>
+					<% if(item.mode) { _%>
+					mode="<%= item.mode %>"
+					<% } _%>
+					optionFilterProp="<%= item.optionFilterProp || 'label' %>"
+					<% if(item.showSearch) { _%>
+					showSearch
+					<% } _%>
+					<% if(item.hideArrow) { _%>
+					:showArrow="false"
+					<% } _%>
+				></a-select>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "radio-group") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-radio-group v-model:value="model.formData.<%= item.key %>">
+					<a-radio
+						v-for="item in model.options.<%= item.key %>"
+						:value="item.value"
+						:key="item.value"
+						>{{ item.label }}
+					</a-radio>
+				</a-radio-group>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "checkbox-group") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%>
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-checkbox-group
+					v-model:value="model.formData.<%= item.key %>"
+					style="width: 100%; margin-top: 6px"
+				>
+					<a-row>
+					<a-col
+						:span="8"
+						v-for="item in model.options.<%= item.key %>"
+						:key="item.value"
+					>
+						<a-checkbox :value="item.value">{{ item.label }} </a-checkbox>
+					</a-col>
+					</a-row>
+				</a-checkbox-group>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "switch") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-switch
+					v-model:checked="model.formData.<%= item.key %>"
+					<% if(item.checkedChildren) { _%>
+					checkedChildren="<%= item.checkedChildren %>"
+					<% } _%>
+					<% if(item.unCheckedChildren) { _%>
+					unCheckedChildren="<%= item.unCheckedChildren %>"
+					<% } _%>
+					<% if(item.checkedValue) { _%>
+						checkedValue="<%= item.checkedValue || 'true' %>"
+					<% } _%>
+					<% if(item.unCheckedValue) { _%>
+						unCheckedValue="<%= item.unCheckedValue || 'false' %>"
+					<% } _%>
+				></a-switch>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "date-picker") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-date-picker
+					v-model:value="model.formData.<%= item.key %>"
+					placeholder="<%= item.placeholder %>"
+					allow-clear
+					picker="<%= item.picker || 'date' %>"
+					:showTime="<%= item.showTime || false %>"
+					:showNow="<%= item.showNow || false %>"
+					:showToday="<%= item.showToday || false %>"
+				/>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "range-picker") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-range-picker
+					v-model:value="model.formData.<%= item.key %>"
+					:placeholder="[<%- item.placeholder || '\'\'' %>,<%- item.placeholder || '\'\'' %>]"
+					allow-clear
+					picker="<%= item.picker || 'date' %>"
+					:showTime="<%= item.showTime || false %>"
+					:showNow="<%= item.showNow || false %>"
+					:showToday="<%= item.showToday || false %>"
+				/>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "time-picker") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<a-time-picker
+					v-model:value="model.formData.<%= item.key %>"
+					placeholder="<%= item.placeholder %>"
+					allow-clear
+				/>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "UploadImages") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<upload-images
+					:cropperData="{
+						autoCrop: true, // 是否默认生成截图框
+						autoCropWidth: 375, // 默认生成截图框宽度，不可超过外框750
+						autoCropHeight: 375, // 默认生成截图框高度，不可超过外框550
+						enlarge: 2, // 截图比例
+						fixedBox: true, // 是否开启截图框宽高固定比例
+						infoTrue: true,
+						high: false, //是否按照设备的dpr 输出等比例图片，必须为false，否则会根据设备变化
+					}"
+					isNeedCut
+					:checkWidth="(width: number, height: number) => {
+						if (width !== height) return '请上传正方形图片'
+						if (width < 750 || height < 750) return '请上传长宽≥750*750图片'
+					}"
+					v-model:value="model.formData.<%= item.key %>"
+					:limit="1"
+				></upload-images>
+			</a-form-item>
+		<% } _%>
+		<% if(item.component === "UploadVideo") { _%>
+			<a-form-item 
+				<% if(item.label) { _%>
+				label="<%= item.label %>"
+				<% } _%> 
+				v-bind="presenter.validateInfos.<%= item.key %>"
+			>
+				<upload-video
+					v-model:value="model.formData.<%= item.key %>"
+					:limit="1"
+					:size="20"
+					:duration="2"
+					:maxDefinition="1080"
+					:minDefinition="360"
+					:maxRatio="'16:9'"
+					:types="'mp4, 3gp'"
+			/>
+			</a-form-item>
+		<% } _%>
+	<% }) _%>
+</a-form>
+<!-- lowcode-vue-import -->
+<% if(formItems.some(s => s.component === "UploadImages")){ _%>
+import UploadImages from '@/components/UploadImages.vue'
+<% } _%>
+<% if(formItems.some(s => s.component === "UploadVideo")){ _%>
+import UploadVideo from '@/components/UploadVideo.vue'
+<% } _%>
+

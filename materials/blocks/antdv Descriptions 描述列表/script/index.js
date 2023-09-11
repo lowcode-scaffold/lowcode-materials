@@ -1,12 +1,8 @@
 const path = require('path');
 
 module.exports = {
-  beforeCompile: (context) => {
-    context.outputChannel.appendLine('compile 详情展示 start');
-  },
-  afterCompile: (context) => {
-    context.outputChannel.appendLine('compile 详情展示 end');
-  },
+  beforeCompile: (context) => {},
+  afterCompile: (context) => {},
   initFromOcrText: (context) => {
     let items = context.params.split('\n');
     items = items.map((s) => ({

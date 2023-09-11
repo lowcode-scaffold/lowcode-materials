@@ -1,0 +1,48 @@
+// lowcode-model-type
+export interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData {
+	<% formItems.map(item => { _%>
+		/**
+		* <%= item.label %>
+		*/
+		<%= item.key %><% if(item.optional){ _%>?<% } _%>: <%= item.type %>;
+	<% }) _%>
+}
+
+<% if(formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group')){ %>
+	interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptionItem {
+		label: string;
+		value: string;
+	}
+	
+interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptions {
+	<% formItems.filter(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group').map(item => { _%>
+		<%= item.key %>: I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptionItem[];
+	<% }) _%>
+}
+<% } %>
+
+// lowcode-model-defalut-data
+const default<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData: I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData = {
+	<% formItems.map(item => { _%>
+		<%= item.key %>: <%- item.defaultValue || '\"\"' %>,
+	<% }) _%>
+};
+<% if(formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group')){ %>
+const default<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptions: I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptions = {
+  <% formItems.filter(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group').map(item => { _%>
+		<%= item.key %>: [],
+	<% }) _%>
+};
+<% } %>
+
+// lowcode-model-variable
+const <%= variableName %>FormData = reactive<I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData>({ ...default<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData });
+<% if(formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group')){ _%>
+const <%= variableName %>FormOptions = reactive<I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptions>({ ...default<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormOptions });
+<% } _%>
+
+// lowcode-model-return-variable
+<%= variableName %>FormData, 
+<% if(formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === 'checkbox-group')){ _%>
+<%= variableName %>FormOptions,
+<% } _%>
