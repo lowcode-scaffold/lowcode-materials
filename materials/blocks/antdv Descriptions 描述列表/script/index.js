@@ -27,7 +27,7 @@ module.exports = {
           role: 'user',
           content: `${JSON.stringify(
             context.model,
-          )} 将这段 JSON 中 items 字段里的 key 翻译成英文，驼峰格式，返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
+          )} 将这段 JSON 中 items 字段里的 key 字段的值翻译成英文，驼峰格式，返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
         },
       ],
       handleChunk: (data) => {

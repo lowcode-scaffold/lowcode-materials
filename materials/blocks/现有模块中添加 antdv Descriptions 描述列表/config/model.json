@@ -1,52 +1,9 @@
 {
-  "items": [
-    {
-      "key": "customerName",
-      "label": "客户名称"
-    },
-    {
-      "key": "contractNumber",
-      "label": "合同编号"
-    },
-    {
-      "key": "designer",
-      "label": "设计师"
-    },
-    {
-      "key": "projectManager",
-      "label": "工程主管"
-    },
-    {
-      "key": "decorationSupervisor",
-      "label": "装修管家"
-    },
-    {
-      "key": "productType",
-      "label": "产品类型"
-    },
-    {
-      "key": "projectName",
-      "label": "项目名称",
-      "span": 2
-    },
-    {
-      "key": "constructionContractAmount",
-      "label": "施工合同金额"
-    },
-    {
-      "key": "changeAmount",
-      "label": "变更金额"
-    },
-    {
-      "key": "completionAmount",
-      "label": "竣工全额",
-      "span": 2
-    }
-  ],
-  "bordered": false,
-  "extra": false,
-  "layout": "horizontal",
-  "variableName": "contractInfo",
-  "title": "合同信息",
-  "column": "2"
+	"items": [],
+	"bordered": false,
+	"extra": false,
+	"layout": "horizontal",
+	"variableName": "",
+	"title": "",
+	"column": ""
 }

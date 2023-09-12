@@ -11,7 +11,7 @@ interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>
 	/**
    * 接口返回的数据，新增字段不需要改 I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %> 直接从这里取
    */
-	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result
+	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result['result']
 }
 // lowcode-model-variable
 const <%= variableName %> = ref<I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %> | undefined>(
