@@ -3,7 +3,7 @@ import {fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) 
 // lowcode-service-method
 async get<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>() {
 	const res = await fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>()
-	this.model.detailInfo.value = {
+	this.model.<%= variableName %>.value = {
 		<% items.map((item, index) => { _%>
 			<%= item.key || `item${index+1}` %>: res.result.<%= item.key || `item${index+1}` %>,
 		<% }) _%>

@@ -2,6 +2,9 @@ import { ref } from 'vue'
 
 interface IDetailInfo {
 	<% items.map((item, index) => { _%>
+		/**
+   * <%= item.label %>
+   */
 		<%= item.key || `item${index+1}` %>: string;
 	<% }) _%>
 }

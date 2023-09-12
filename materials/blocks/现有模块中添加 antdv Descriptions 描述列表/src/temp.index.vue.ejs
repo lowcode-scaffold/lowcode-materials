@@ -6,7 +6,7 @@
 	:column="<%= column %>"
 	<% } _%>
 	<% if(layout){ _%>
-	:column="<%= layout %>"
+	layout="<%= layout %>"
 	<% } _%>
 >
 	<% if(extra){ _%>
@@ -21,7 +21,7 @@
 				:span="<%= item.span %>"
 			<% } _%>
 		>
-			{{ model.detailInfo.value?.<%= item.key || `item${index+1}` %> }}
+			{{ model.<%= variableName %>.value?.<%= item.key || `item${index+1}` %> }}
 		</a-descriptions-item>
 	<% }) _%>
 </a-descriptions>

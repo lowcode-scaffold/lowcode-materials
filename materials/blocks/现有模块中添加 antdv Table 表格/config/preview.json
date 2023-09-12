@@ -12,8 +12,12 @@
 	"schema": "amis",
 	"scripts": [
 		{
-			"method": "test",
-			"remark": "测试一下"
+			"method": "intColumnsFromOcrText",
+			"remark": "使用 ocr 结果初始化表格"
+		},
+		{
+			"method": "askChatGPT",
+			"remark": "使用 ChatGPT 翻译模版数据里的指定中文字段"
 		}
 	]
 }

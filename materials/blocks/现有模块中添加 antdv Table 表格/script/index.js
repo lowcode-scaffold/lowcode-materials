@@ -19,4 +19,44 @@ module.exports = {
     context.lowcodeContext = lowcodeContext;
     main.handleComplete();
   },
+  intColumnsFromOcrText: (lowcodeContext) => {
+    let columns = lowcodeContext.params.split('\n');
+    columns = columns.map((s) => ({
+      slot: false,
+      title: s,
+      dataIndex: s,
+      key: s,
+    }));
+    lowcodeContext.outputChannel.appendLine(JSON.stringify(columns));
+    return { ...lowcodeContext.model, columns };
+  },
+  askChatGPT: async (lowcodeContext) => {
+    const statusBarItem = lowcodeContext.vscode.window.createStatusBarItem(
+      lowcodeContext.vscode.StatusBarAlignment.Left,
+    );
+    statusBarItem.text = '$(sync~spin) Ask ChatGPT...';
+    statusBarItem.show();
+    const res = await lowcodeContext.createChatCompletion({
+      messages: [
+        {
+          role: 'system',
+          content: `你是一个严谨的代码机器人，严格按照输入的要求处理问题`,
+        },
+        {
+          role: 'user',
+          content: `${JSON.stringify(
+            lowcodeContext.model,
+          )} 将这段 json 中，columns 字段中的 key、dataIndex 字段的值翻译为英文，使用驼峰语法，title 字段保留中文。
+					返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
+        },
+      ],
+      handleChunk: (data) => {
+        // lowcodeContext.outputChannel.append(data.text || '')
+      },
+    });
+    statusBarItem.hide();
+    statusBarItem.dispose();
+    lowcodeContext.outputChannel.appendLine(res);
+    return { ...lowcodeContext.model, ...JSON.parse(res) };
+  },
 };

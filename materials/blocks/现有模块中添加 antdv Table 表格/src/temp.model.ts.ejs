@@ -14,7 +14,7 @@ interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>
 	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result<%- result %>[0]
 }
 // lowcode-model-variable
-const <%= variableName %> = ref<(I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Item & { _?: unknown })[]>(
+const <%= variableName %> = ref<I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Item[]>(
 			[],
 		);
 <% if(pagination.show) { %>

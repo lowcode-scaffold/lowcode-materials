@@ -1,5 +1,4 @@
 {
-	"name": "lowcode",
 	"pagination": {
 		"show": true,
 		"page": "page",
@@ -10,19 +9,6 @@
 	"text1": "---lowcode-columns-placeholder---",
 	"text2": "---lowcode-columns-placeholder---",
 	"text3": "---lowcode-columns-placeholder---",
-	"variableName": "userList",
-	"columns": [
-		{
-			"slot": false,
-			"title": "名称",
-			"dataIndex": "name",
-			"key": "name"
-		},
-		{
-			"slot": false,
-			"title": "电话",
-			"dataIndex": "mobile",
-			"key": "mobile"
-		}
-	]
+	"variableName": "",
+	"columns": []
 }

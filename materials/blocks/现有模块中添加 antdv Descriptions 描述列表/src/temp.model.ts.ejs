@@ -3,12 +3,15 @@ import { IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1
 // lowcode-model-type
 interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %> {
 	<% items.map((item, index) => { _%>
+		/**
+   * <%= item.label %>
+   */
 		<%= item.key || `item${index+1}` %>: string;
 	<% }) _%>
 	/**
    * 接口返回的数据，新增字段不需要改 I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %> 直接从这里取
    */
-	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result<%- result %>
+	apiResult: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result
 }
 // lowcode-model-variable
 const <%= variableName %> = ref<I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %> | undefined>(
