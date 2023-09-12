@@ -8,8 +8,12 @@
 	"schema": "form-render",
 	"scripts": [
 		{
-			"method": "test",
-			"remark": "测试一下"
+			"method": "initFromOcrText",
+			"remark": "初始化列表，参数中粘贴 ocr 识别出的结果，每一行表示一项，也可以手动输入"
+		},
+		{
+			"method": "askChatGPT",
+			"remark": "使用 ChatGPT 翻译模版数据里的 formItems.key 字段"
 		}
 	]
 }
