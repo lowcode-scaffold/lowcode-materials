@@ -58,7 +58,6 @@ export const getFuncNameAndTypeName = () => {
   return {
     funcName,
     typeName,
-    inputValues: selectedText.split(' '),
     rawSelectedText: selectedText,
   };
 };

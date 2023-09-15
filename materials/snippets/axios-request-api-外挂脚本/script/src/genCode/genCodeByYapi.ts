@@ -48,7 +48,6 @@ export const genCodeByYapi = async () => {
       selectInfo.funcName,
     );
     if (model) {
-      model.inputValues = selectInfo.inputValues;
       model.rawSelectedText = selectInfo.rawSelectedText;
       model.rawClipboardText = rawClipboardText;
       const code = compileEjs(template!.template, model);
@@ -63,13 +62,28 @@ const genTemplateModelByYapi = async (
   domain: string,
   yapiId: string,
   token: string,
-  typeName: string,
-  funcName: string,
+  typeNameOriginal: string,
+  funcNameOriginal: string,
 ) => {
+  let funcName = funcNameOriginal;
+  let typeName = typeNameOriginal;
   const res = await fetchApiDetailInfo(domain, yapiId, token);
   if (!res.data.data) {
     throw res.data.errmsg;
   }
+  funcName = await context.lowcodeContext!.createChatCompletion({
+    messages: [
+      {
+        role: 'system',
+        content: `你是一个严谨的代码机器人，严格按照用户的要求处理问题`,
+      },
+      {
+        role: 'user',
+        content: `${res.data.data.query_path}，这是一个 ${res.data.data.method} 方法的 api 地址，作用是${res.data.data.title}，请生成一个方法名称，驼峰格式，返回方法名即可，不要带多余的信息`,
+      },
+    ],
+  });
+  typeName = `I${funcName.charAt(0).toUpperCase() + funcName.slice(1)}Result`;
   const requestBodyTypeName =
     funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
   if (res.data.data.res_body_type === 'json') {
