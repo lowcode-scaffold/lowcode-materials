@@ -1,0 +1,90 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"body": [
+				{
+					"type": "form",
+					"id": "u:67967afb0e69",
+					"title": "",
+					"body": [
+						{
+							"type": "input-text",
+							"id": "u:11b127c5df46",
+							"label": "变量名",
+							"name": "variableName",
+							"description": ""
+						},
+						{
+							"type": "combo",
+							"label": "描述列表",
+							"name": "items",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "icon",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:47ecb9e15ff1"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "key",
+									"placeholder": "字段名",
+									"id": "u:25b0c7b5e5a0",
+									"label": "字段名（key）"
+								},
+								{
+									"type": "input-text",
+									"label": "label",
+									"name": "label",
+									"id": "u:6496cac4f4b8",
+									"description": "内容的描述"
+								}
+							],
+							"id": "u:186f183e9320",
+							"strictMode": false,
+							"syncFields": [],
+							"tabsMode": false,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"tabsLabelTpl": "表单项${index+1}",
+							"multiLine": true,
+							"value": [
+								{}
+							]
+						}
+					],
+					"submitText": ""
+				}
+			],
+			"id": "u:d87dbf6bf8df",
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false
+		},
+		"conditionFiles": {
+			"name": {
+				"value": "123",
+				"exclude": [
+					"当表单name的值为123,删除这个数组里的文件.ejs"
+				]
+			}
+		},
+		"excludeCompile": [
+			"不需要编译的文件,不会被删除.ejs"
+		]
+	}
+}

@@ -1,0 +1,11 @@
+<!-- lowcode-vue-template -->
+<a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 12 }">
+	<% items.map((item, index) => { _%>
+		<a-form-item
+			label="<%= item.label %>"
+		>
+			{{ model.<%= variableName %>.value?.<%= item.key || `item${index+1}` %> }}
+		</a-form-item>
+	<% }) _%>
+</a-form>
+
