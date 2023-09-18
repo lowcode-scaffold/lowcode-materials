@@ -23,6 +23,7 @@ export type Model = {
   typeName: string;
   inputValues: string[];
   api?: YapiInfo;
+  yapiDomain?: string;
   mockCode: string;
   mockData: string;
   jsonData: any;
