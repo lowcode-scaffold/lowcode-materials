@@ -35,6 +35,11 @@ export async function translate(option: {
     messages: [{ role: 'user', content: requestPrompt }],
     handleChunk: undefined,
   });
+  const validation = validate(jsonText, option.typeName);
+  if (validation.success) {
+    return validation;
+  }
+  return error(`JSON validation failed: ${validation.message}\n${jsonText}`);
 }
 
 function validate<T extends object>(jsonText: string, typeName: string) {
