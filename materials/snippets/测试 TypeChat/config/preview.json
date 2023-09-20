@@ -6,13 +6,8 @@
   ],
   "category": [],
   "notShowInCommand": false,
-  "notShowInSnippetsList": false,
-  "notShowInintellisense": false,
+  "notShowInSnippetsList": true,
+  "notShowInintellisense": true,
   "schema": "amis",
-  "scripts": [
-    {
-      "method": "test",
-      "remark": "测试一下"
-    }
-  ]
+  "scripts": []
 }

@@ -1,11 +1,18 @@
 import fs from 'fs-extra';
 
-export const clearCache = (path: string) => {
+export const clearCache = (path: string, clearShare = true) => {
   getAllFiles(path).forEach((file) => {
     if (!file.includes('script/index.js')) {
       delete require.cache[require.resolve(file)];
     }
   });
+  if (clearShare) {
+    getAllFiles(__dirname).forEach((file) => {
+      if (!file.includes('clearCache')) {
+        delete require.cache[require.resolve(file)];
+      }
+    });
+  }
 };
 
 // 递归获取文件夹下的所有文件
