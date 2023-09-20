@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { env, window, Range } from 'vscode';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { context } from './context';
 
@@ -9,11 +10,34 @@ export async function bootstrap() {
     path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
     'utf8',
   );
+  const clipboardText = await env.clipboard.readText();
+  const { selection, document } = window.activeTextEditor!;
+  const selectText = document.getText(selection).trim();
   const res = await translate({
     schema,
     typeName: 'IOption',
-    request: `审核状态：0待审批，2未通过，1已完成，3已撤销`,
+    request: selectText || clipboardText,
     createChatCompletion: lowcodeContext!.createChatCompletion,
   });
-  console.log(JSON.stringify(res, null, 2));
+  if (res.success) {
+    window.activeTextEditor?.edit((editBuilder) => {
+      // editBuilder.replace(activeTextEditor.selection, content);
+      if (window.activeTextEditor?.selection.isEmpty) {
+        editBuilder.insert(
+          window.activeTextEditor.selection.start,
+          JSON.stringify(res.data),
+        );
+      } else {
+        editBuilder.replace(
+          new Range(
+            window.activeTextEditor!.selection.start,
+            window.activeTextEditor!.selection.end,
+          ),
+          JSON.stringify(res.data),
+        );
+      }
+    });
+  } else {
+    window.showErrorMessage(res.message);
+  }
 }
