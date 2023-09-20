@@ -48,11 +48,14 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
-    console.log(responseText);
-    const startIndex = responseText.indexOf('{');
-    const endIndex = responseText.lastIndexOf('}');
+    let startIndex = responseText.indexOf('{');
+    let endIndex = responseText.lastIndexOf('}');
     if (!(startIndex >= 0 && endIndex > startIndex)) {
-      return error(`Response is not JSON:\n${responseText}`);
+      startIndex = responseText.indexOf('[');
+      endIndex = responseText.lastIndexOf(']');
+      if (!(startIndex >= 0 && endIndex > startIndex)) {
+        return error(`Response is not JSON:\n${responseText}`);
+      }
     }
     const jsonText = responseText.slice(startIndex, endIndex + 1);
     const validation = validate<T>(jsonText, option.schema, option.typeName);
