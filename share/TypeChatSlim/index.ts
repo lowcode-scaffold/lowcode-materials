@@ -33,6 +33,7 @@ export async function translate<T extends object>(option: {
     `"""\n${option.request}\n"""\n` +
     `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`;
 
+  let tryCount = 0;
   // eslint-disable-next-line no-unreachable-loop, no-constant-condition
   while (true) {
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -48,24 +49,31 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
-    let startIndex = responseText.indexOf('{');
-    let endIndex = responseText.lastIndexOf('}');
-    if (!(startIndex >= 0 && endIndex > startIndex)) {
-      startIndex = responseText.indexOf('[');
-      endIndex = responseText.lastIndexOf(']');
-      if (!(startIndex >= 0 && endIndex > startIndex)) {
-        return error(`Response is not JSON:\n${responseText}`);
-      }
-    }
-    const jsonText = responseText.slice(startIndex, endIndex + 1);
-    const validation = validate<T>(jsonText, option.schema, option.typeName);
+    // let startIndex = responseText.indexOf('{');
+    // let endIndex = responseText.lastIndexOf('}');
+    // if (!(startIndex >= 0 && endIndex > startIndex)) {
+    //   startIndex = responseText.indexOf('[');
+    //   endIndex = responseText.lastIndexOf(']');
+    //   if (!(startIndex >= 0 && endIndex > startIndex)) {
+    //     return error(`Response is not JSON:\n${responseText}`);
+    //   }
+    // }
+    // const jsonText = responseText.slice(startIndex, endIndex + 1);
+    const validation = validate<T>(
+      responseText,
+      option.schema,
+      option.typeName,
+    );
     if (validation.success) {
       return validation;
     }
-    console.log(validation);
+    if (tryCount > 5) {
+      return validation;
+    }
     requestPrompt += `${responseText}\n${createRepairPrompt(
       validation.message,
     )}`;
+    tryCount++;
   }
 }
 
