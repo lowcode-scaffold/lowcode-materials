@@ -1,6 +1,6 @@
 export type IColumns = {
   /**
-   * @description 保持原始内容，不需要处理
+   * @description 保持原始内容，不需要处理，不要翻译
    * @type {string}
    */
   title: string;

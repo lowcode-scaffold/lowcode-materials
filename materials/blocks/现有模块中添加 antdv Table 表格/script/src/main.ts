@@ -25,17 +25,26 @@ export async function handleAskChatGPT() {
   //     // lowcodeContext.outputChannel.append(data.text || '')
   //   },
   // });
+  console.log(lowcodeContext?.materialPath, 123);
   const schema = fs.readFileSync(
     path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
     'utf8',
   );
+  const typeName = 'IColumns';
   const res = await translate<IColumns>({
     schema,
-    typeName: 'IColumns',
+    typeName,
     request: JSON.stringify(
       (lowcodeContext!.model as { columns: IColumns }).columns,
     ),
-    completePrompt: '',
+    completePrompt:
+      `你是一个根据以下 TypeScript 类型定义将用户请求转换为 "${typeName}" 类型的 JSON 对象的服务，并且按照字段的注释进行处理:\n` +
+      `\`\`\`\n${schema}\`\`\`\n` +
+      `以下是用户请求:\n` +
+      `"""\n${JSON.stringify(
+        (lowcodeContext!.model as { columns: IColumns }).columns,
+      )}\n"""\n` +
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
   });
