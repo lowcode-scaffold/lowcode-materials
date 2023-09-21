@@ -1,6 +1,50 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import { env, window } from 'vscode';
+import { translate } from '../../../../../share/TypeChatSlim/index';
 import { context } from './context';
+import { IColumns } from '../../config/schema';
+
+export async function handleAskChatGPT() {
+  const { lowcodeContext } = context;
+  // const res = await lowcodeContext!.createChatCompletion({
+  //   messages: [
+  //     {
+  //       role: 'system',
+  //       content: `你是一个严谨的代码机器人，严格按照输入的要求处理问题`,
+  //     },
+  //     {
+  //       role: 'user',
+  //       content: `${JSON.stringify(
+  //         lowcodeContext!.model,
+  //       )} 将这段 json 中，columns 字段中的 key、dataIndex 字段的值翻译为英文，使用驼峰语法。
+  // 			返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
+  //     },
+  //   ],
+  //   handleChunk: (data) => {
+  //     // lowcodeContext.outputChannel.append(data.text || '')
+  //   },
+  // });
+  const schema = fs.readFileSync(
+    path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
+    'utf8',
+  );
+  const res = await translate<IColumns>({
+    schema,
+    typeName: 'IColumns',
+    request: JSON.stringify(
+      (lowcodeContext!.model as { columns: IColumns }).columns,
+    ),
+    completePrompt: '',
+    createChatCompletion: lowcodeContext!.createChatCompletion,
+    extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
+  });
+  lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
+  if (res.success) {
+    return { ...lowcodeContext!.model, columns: res.data };
+  }
+  return lowcodeContext!.model;
+}
 
 export async function handleComplete() {
   const createBlockPath = context.lowcodeContext?.createBlockPath;

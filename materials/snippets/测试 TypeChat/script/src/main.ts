@@ -15,7 +15,7 @@ export async function bootstrap() {
   const selectText = document.getText(selection).trim();
   const res = await translate({
     schema,
-    typeName: 'IOption',
+    typeName: 'IColumns',
     request: selectText || clipboardText,
     createChatCompletion: lowcodeContext!.createChatCompletion,
   });

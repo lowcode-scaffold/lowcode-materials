@@ -1,6 +1,6 @@
 import * as ts from 'typescript';
 import { StatusBarAlignment, window } from 'vscode';
-import { error, success } from './result';
+import { Success, Error, error, success } from './result';
 
 const libText = `interface Array<T> { length: number, [n: number]: T }
 interface Object { toString(): string }
@@ -25,14 +25,20 @@ export async function translate<T extends object>(option: {
       | ((data: { text?: string; hasMore: boolean }) => void)
       | undefined;
   }) => Promise<string>;
+  /**
+   * @description 完整的 prompt，若提供则内部不再组合 prompt
+   * @type {string}
+   */
+  completePrompt?: string;
+  extendValidate?: (jsonObject: T) => Error | Success<T>;
 }) {
   let requestPrompt =
+    option.completePrompt ||
     `You are a service that translates user requests into JSON objects of type "${option.typeName}" according to the following TypeScript definitions:\n` +
-    `\`\`\`\n${option.schema}\`\`\`\n` +
-    `The following is a user request:\n` +
-    `"""\n${option.request}\n"""\n` +
-    `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`;
-
+      `\`\`\`\n${option.schema}\`\`\`\n` +
+      `The following is a user request:\n` +
+      `"""\n${option.request}\n"""\n` +
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`;
   let tryCount = 0;
   // eslint-disable-next-line no-unreachable-loop, no-constant-condition
   while (true) {
@@ -49,25 +55,19 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
-    // let startIndex = responseText.indexOf('{');
-    // let endIndex = responseText.lastIndexOf('}');
-    // if (!(startIndex >= 0 && endIndex > startIndex)) {
-    //   startIndex = responseText.indexOf('[');
-    //   endIndex = responseText.lastIndexOf(']');
-    //   if (!(startIndex >= 0 && endIndex > startIndex)) {
-    //     return error(`Response is not JSON:\n${responseText}`);
-    //   }
-    // }
-    // const jsonText = responseText.slice(startIndex, endIndex + 1);
-    const validation = validate<T>(
-      responseText,
-      option.schema,
-      option.typeName,
-    );
+    let validation = validate<T>(responseText, option.schema, option.typeName);
     if (validation.success) {
-      return validation;
+      // 走额外的校验
+      if (option.extendValidate) {
+        validation = option.extendValidate(validation.data);
+        if (validation.success) {
+          return validation;
+        }
+      } else {
+        return validation;
+      }
     }
-    if (tryCount > 5) {
+    if (tryCount > 3) {
       return validation;
     }
     requestPrompt += `${responseText}\n${createRepairPrompt(
