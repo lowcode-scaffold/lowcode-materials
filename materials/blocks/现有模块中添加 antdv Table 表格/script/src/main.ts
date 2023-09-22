@@ -7,25 +7,6 @@ import { IColumns } from '../../config/schema';
 
 export async function handleAskChatGPT() {
   const { lowcodeContext } = context;
-  // const res = await lowcodeContext!.createChatCompletion({
-  //   messages: [
-  //     {
-  //       role: 'system',
-  //       content: `你是一个严谨的代码机器人，严格按照输入的要求处理问题`,
-  //     },
-  //     {
-  //       role: 'user',
-  //       content: `${JSON.stringify(
-  //         lowcodeContext!.model,
-  //       )} 将这段 json 中，columns 字段中的 key、dataIndex 字段的值翻译为英文，使用驼峰语法。
-  // 			返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
-  //     },
-  //   ],
-  //   handleChunk: (data) => {
-  //     // lowcodeContext.outputChannel.append(data.text || '')
-  //   },
-  // });
-  console.log(lowcodeContext?.materialPath, 123);
   const schema = fs.readFileSync(
     path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
     'utf8',
