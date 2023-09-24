@@ -1,31 +1,16 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
-import { env, window } from 'vscode';
+import * as ejs from 'ejs';
+import { window, workspace } from 'vscode';
+import axios from 'axios';
+import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { context } from './context';
 import { IColumns } from '../../config/schema';
+import { typescriptToMock } from '../../../../../share/utils/json';
 
 export async function handleAskChatGPT() {
   const { lowcodeContext } = context;
-  // const res = await lowcodeContext!.createChatCompletion({
-  //   messages: [
-  //     {
-  //       role: 'system',
-  //       content: `你是一个严谨的代码机器人，严格按照输入的要求处理问题`,
-  //     },
-  //     {
-  //       role: 'user',
-  //       content: `${JSON.stringify(
-  //         lowcodeContext!.model,
-  //       )} 将这段 json 中，columns 字段中的 key、dataIndex 字段的值翻译为英文，使用驼峰语法。
-  // 			返回翻译后的JSON，不要带其他无关的内容，并且返回的结果使用 JSON.parse 不会报错`,
-  //     },
-  //   ],
-  //   handleChunk: (data) => {
-  //     // lowcodeContext.outputChannel.append(data.text || '')
-  //   },
-  // });
-  console.log(lowcodeContext?.materialPath, 123);
   const schema = fs.readFileSync(
     path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
     'utf8',
@@ -46,6 +31,7 @@ export async function handleAskChatGPT() {
       )}\n"""\n` +
       `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
+    showWebview: true,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
   });
   lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
@@ -55,7 +41,47 @@ export async function handleAskChatGPT() {
   return lowcodeContext!.model;
 }
 
+export async function handleIntColumnsFromClipboardImage() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里获取不到图片');
+    return lowcodeContext?.model;
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  const columns = ocrRes.words_result.map((s) => ({
+    slot: false,
+    title: s.words,
+    dataIndex: s.words,
+    key: s.words,
+  }));
+  const schema = fs.readFileSync(
+    path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
+    'utf8',
+  );
+  const typeName = 'IColumns';
+  const res = await translate<IColumns>({
+    schema,
+    typeName,
+    request: JSON.stringify(columns),
+    completePrompt:
+      `你是一个根据以下 TypeScript 类型定义将用户请求转换为 "${typeName}" 类型的 JSON 对象的服务，并且按照字段的注释进行处理:\n` +
+      `\`\`\`\n${schema}\`\`\`\n` +
+      `以下是用户请求:\n` +
+      `"""\n${JSON.stringify(columns)}\n"""\n` +
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
+    createChatCompletion: lowcodeContext!.createChatCompletion,
+    showWebview: true,
+    extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
+  });
+  lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
+  if (res.success) {
+    return { ...lowcodeContext!.model, columns: res.data };
+  }
+  return lowcodeContext?.model;
+}
+
 export async function handleComplete() {
+  const { lowcodeContext } = context;
   const createBlockPath = context.lowcodeContext?.createBlockPath;
   if (createBlockPath) {
     // #region 更新 api.ts 文件
@@ -293,5 +319,62 @@ export async function handleComplete() {
     );
     fs.removeSync(path.join(createBlockPath, 'temp.index.vue'));
     // #endregion
+
+    const mockType = fs
+      .readFileSync(path.join(createBlockPath, 'temp.mock.type').toString())
+      .toString();
+    fs.removeSync(path.join(createBlockPath, 'temp.mock.type'));
+    const { mockCode, mockData } = typescriptToMock(mockType);
+    const mockTemplate = fs
+      .readFileSync(
+        path.join(createBlockPath, 'temp.mock.script.ejs').toString(),
+      )
+      .toString();
+    fs.removeSync(path.join(createBlockPath, 'temp.mock.script.ejs'));
+    const mockScript = ejs.render(mockTemplate, {
+      ...lowcodeContext!.model,
+      mockCode,
+      mockData,
+      createBlockPath: createBlockPath.replace(':', ''),
+    });
+    const mockProjectPathRes = await axios
+      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .catch(() => {
+        window.showErrorMessage('获取 mock 项目路径失败');
+      });
+    if (mockProjectPathRes?.data.result) {
+      const projectName = workspace.rootPath
+        ?.replace(/\\/g, '/')
+        .split('/')
+        .pop();
+      const mockRouteFile = path.join(
+        mockProjectPathRes.data.result,
+        `${projectName}.js`,
+      );
+      let mockFileContent = `
+			import KoaRouter from 'koa-router';
+			import proxy from '../middleware/Proxy';
+			import { delay } from '../lib/util';
+
+			const Mock = require('mockjs');
+
+			const { Random } = Mock;
+
+			const router = new KoaRouter();
+			router{{mockScript}}
+			module.exports = router;
+			`;
+
+      if (fs.existsSync(mockRouteFile)) {
+        mockFileContent = fs.readFileSync(mockRouteFile).toString().toString();
+        const index = mockFileContent.lastIndexOf(')') + 1;
+        mockFileContent = `${mockFileContent.substring(
+          0,
+          index,
+        )}{{mockScript}}\n${mockFileContent.substring(index)}`;
+      }
+      mockFileContent = mockFileContent.replace(/{{mockScript}}/g, mockScript);
+      fs.writeFileSync(mockRouteFile, mockFileContent);
+    }
   }
 }

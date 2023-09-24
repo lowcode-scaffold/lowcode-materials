@@ -34,4 +34,9 @@ module.exports = {
     const res = await main.handleAskChatGPT();
     return res;
   },
+  intColumnsFromClipboardImage: async (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    const res = await main.handleIntColumnsFromClipboardImage();
+    return res;
+  },
 };

@@ -42,6 +42,7 @@ interface Context {
     handleChunk?:
       | ((data: { text?: string; hasMore: boolean }) => void)
       | undefined;
+    showWebview?: boolean;
   }) => Promise<string>;
   /**
    * @description 当前选择的物料路径(加上物料名称)
@@ -153,6 +154,15 @@ interface Context {
      */
     tar: any;
   };
+
+  /**
+   * 剪贴板的图片，执行脚本弹框里点击确定按钮的时候获取的，不通过 webview 获取不到
+   */
+  clipboardImage?: string;
+  /**
+   * 打开 webview 获取剪贴板里的图片，base64 格式
+   */
+  getClipboardImage: () => Promise<string | undefined>;
 }
 export interface CompileContext extends Context {
   /**

@@ -15,9 +15,10 @@ export async function bootstrap() {
   const selectText = document.getText(selection).trim();
   const res = await translate({
     schema,
-    typeName: 'IColumns',
+    typeName: 'IOption',
     request: selectText || clipboardText,
     createChatCompletion: lowcodeContext!.createChatCompletion,
+    showWebview: true,
   });
   if (res.success) {
     window.activeTextEditor?.edit((editBuilder) => {

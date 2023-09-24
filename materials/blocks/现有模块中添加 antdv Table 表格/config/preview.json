@@ -18,6 +18,10 @@
 		{
 			"method": "askChatGPT",
 			"remark": "使用 ChatGPT 翻译模版数据里的指定中文字段"
+		},
+		{
+			"method": "intColumnsFromClipboardImage",
+			"remark": "使用剪贴板里的截图初始化表格，然后使用 ChatGPT 翻译指定中文字段"
 		}
 	]
 }

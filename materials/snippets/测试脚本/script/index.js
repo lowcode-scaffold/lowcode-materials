@@ -7,4 +7,8 @@ module.exports = {
   afterCompile: (context) => {
     context.outputChannel.appendLine(Object.keys(context));
   },
+  onSelect: async (lowcodeContext) => {
+    const res = await lowcodeContext.getClipboardImage();
+    console.log(res.length, 6767);
+  },
 };

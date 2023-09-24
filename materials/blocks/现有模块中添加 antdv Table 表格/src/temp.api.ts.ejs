@@ -31,7 +31,7 @@ export function fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.s
 	params: IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Params
 ) {
 	return request<IFetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Result["result"]>({
-		url: `http://127.0.0.1:3001<%= createBlockPath %>/fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>`, 
+		url: `http://127.0.0.1:3001<%= createBlockPath.replace(':', '') %>/fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>`, 
 		method: 'GET',
 		params,
 	});

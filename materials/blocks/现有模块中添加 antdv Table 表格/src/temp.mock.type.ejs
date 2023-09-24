@@ -1,0 +1,20 @@
+{
+  code: number;
+	msg: string;
+	<% if (!pagination.show) { _%>
+	result: {
+		<% columns.map((item, index) => { _%>
+			<%= item.key || `column${index+1}` %>: string;
+		<% }) _%>
+	}[];
+	<% } else { _%>
+		result: {
+			records: {
+				<% columns.map((item, index) => { _%>
+					<%= item.key || `column${index+1}` %>: string;
+				<% }) _%>
+			}[];
+			total: number;
+		}
+	<% } _%>
+}

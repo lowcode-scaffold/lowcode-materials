@@ -24,7 +24,9 @@ export async function translate<T extends object>(option: {
     handleChunk?:
       | ((data: { text?: string; hasMore: boolean }) => void)
       | undefined;
+    showWebview?: boolean;
   }) => Promise<string>;
+  showWebview?: boolean;
   /**
    * @description 完整的 prompt，若提供则内部不再组合 prompt
    * @type {string}
@@ -50,6 +52,7 @@ export async function translate<T extends object>(option: {
       .createChatCompletion({
         messages: [{ role: 'user', content: requestPrompt }],
         handleChunk: undefined,
+        showWebview: option.showWebview,
       })
       .finally(() => {
         statusBarItem.hide();
