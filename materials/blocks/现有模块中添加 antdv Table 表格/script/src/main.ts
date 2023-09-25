@@ -1,5 +1,6 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import * as execa from 'execa';
 import * as ejs from 'ejs';
 import { window, workspace } from 'vscode';
 import axios from 'axios';
@@ -28,8 +29,7 @@ export async function handleAskChatGPT() {
       `以下是用户请求:\n` +
       `"""\n${JSON.stringify(
         (lowcodeContext!.model as { columns: IColumns }).columns,
-      )}\n"""\n` +
-      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
+      )}\n"""\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
     showWebview: true,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
@@ -68,7 +68,7 @@ export async function handleIntColumnsFromClipboardImage() {
       `\`\`\`\n${schema}\`\`\`\n` +
       `以下是用户请求:\n` +
       `"""\n${JSON.stringify(columns)}\n"""\n` +
-      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
+      `以下是把用户请求转换成的JSON对象，其中包含2个缩进空间，并且没有值为undefined的属性，不要使用 markdown 格式:\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
     showWebview: true,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
@@ -101,6 +101,17 @@ export async function handleComplete() {
       apiFileContentOld + apiFileContent,
     );
     fs.removeSync(path.join(createBlockPath, 'temp.api.ts'));
+    try {
+      execa.sync('node', [
+        path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
+        path.join(createBlockPath, 'api.ts'),
+        '--resolve-plugins-relative-to',
+        workspace.rootPath!,
+        '--fix',
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
     // #endregion
 
     // #region 更新 model.ts 文件
@@ -171,6 +182,17 @@ export async function handleComplete() {
       modelFileContentOld,
     );
     fs.removeSync(path.join(createBlockPath, 'temp.model.ts'));
+    try {
+      execa.sync('node', [
+        path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
+        path.join(createBlockPath, 'model.ts'),
+        '--resolve-plugins-relative-to',
+        workspace.rootPath!,
+        '--fix',
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
     // #endregion
 
     // #region 更新 service.ts 文件
@@ -215,7 +237,17 @@ export async function handleComplete() {
       serviceFileContentOld,
     );
     fs.removeSync(path.join(createBlockPath, 'temp.service.ts'));
-
+    try {
+      execa.sync('node', [
+        path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
+        path.join(createBlockPath, 'service.ts'),
+        '--resolve-plugins-relative-to',
+        workspace.rootPath!,
+        '--fix',
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
     // #endregion
 
     // #region 更新 presenter.tsx 文件
@@ -270,6 +302,17 @@ export async function handleComplete() {
       presenterFileContentOld,
     );
     fs.removeSync(path.join(createBlockPath, 'temp.presenter.tsx'));
+    try {
+      execa.sync('node', [
+        path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
+        path.join(createBlockPath, 'presenter.tsx'),
+        '--resolve-plugins-relative-to',
+        workspace.rootPath!,
+        '--fix',
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
     // #endregion
 
     // #region 更新 index.vue 文件
@@ -318,8 +361,20 @@ export async function handleComplete() {
       vueFileContentOld,
     );
     fs.removeSync(path.join(createBlockPath, 'temp.index.vue'));
+    try {
+      execa.sync('node', [
+        path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
+        path.join(createBlockPath, 'index.vue'),
+        '--resolve-plugins-relative-to',
+        workspace.rootPath!,
+        '--fix',
+      ]);
+    } catch (err) {
+      console.log(err);
+    }
     // #endregion
 
+    // #region 更新 mock 服务
     const mockType = fs
       .readFileSync(path.join(createBlockPath, 'temp.mock.type').toString())
       .toString();
@@ -375,6 +430,25 @@ export async function handleComplete() {
       }
       mockFileContent = mockFileContent.replace(/{{mockScript}}/g, mockScript);
       fs.writeFileSync(mockRouteFile, mockFileContent);
+      try {
+        execa.sync('node', [
+          path.join(
+            mockProjectPathRes.data.result
+              .replace(/\\/g, '/')
+              .replace('/src/routes', ''),
+            '/node_modules/eslint/bin/eslint.js',
+          ),
+          mockRouteFile,
+          '--resolve-plugins-relative-to',
+          mockProjectPathRes.data.result
+            .replace(/\\/g, '/')
+            .replace('/src/routes', ''),
+          '--fix',
+        ]);
+      } catch (err) {
+        console.log(err);
+      }
+      // #endregion
     }
   }
 }
