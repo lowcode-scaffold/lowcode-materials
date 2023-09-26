@@ -14,6 +14,10 @@
 		{
 			"method": "askChatGPT",
 			"remark": "使用 ChatGPT 翻译模版数据里的 items.key 字段"
+		},
+		{
+			"method": "intFromClipboardImage",
+			"remark": "读取剪贴板截图并翻译，初始化列表"
 		}
   ]
 }

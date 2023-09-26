@@ -58,7 +58,11 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
-    let validation = validate<T>(responseText, option.schema, option.typeName);
+    let validation = validate<T>(
+      responseText.replace(/```/g, ''),
+      option.schema,
+      option.typeName,
+    );
     if (validation.success) {
       // 走额外的校验
       if (option.extendValidate) {

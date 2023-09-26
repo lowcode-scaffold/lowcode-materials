@@ -29,7 +29,8 @@ export async function handleAskChatGPT() {
       `以下是用户请求:\n` +
       `"""\n${JSON.stringify(
         (lowcodeContext!.model as { columns: IColumns }).columns,
-      )}\n"""\n`,
+      )}\n"""\n` +
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
     showWebview: true,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
@@ -68,7 +69,7 @@ export async function handleIntColumnsFromClipboardImage() {
       `\`\`\`\n${schema}\`\`\`\n` +
       `以下是用户请求:\n` +
       `"""\n${JSON.stringify(columns)}\n"""\n` +
-      `以下是把用户请求转换成的JSON对象，其中包含2个缩进空间，并且没有值为undefined的属性，不要使用 markdown 格式:\n`,
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
     createChatCompletion: lowcodeContext!.createChatCompletion,
     showWebview: true,
     extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
