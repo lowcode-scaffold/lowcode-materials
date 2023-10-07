@@ -5,6 +5,7 @@ import * as ejs from 'ejs';
 import axios from 'axios';
 import { workspace, window } from 'vscode';
 import { translate } from '../../../../../share/TypeChatSlim/index';
+import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { context } from './context';
 import { IItems } from '../../config/schema';
 import { typescriptToMock } from '../../../../../share/utils/json';
@@ -37,6 +38,46 @@ export async function handleAskChatGPT() {
     return { ...lowcodeContext!.model, items: res.data };
   }
   return lowcodeContext!.model;
+}
+
+export async function handleIntFromClipboardImage() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里获取不到图片');
+    return lowcodeContext?.model;
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  const items = ocrRes.words_result.map((s) => {
+    const work = s.words.split(/:|：/g)[0];
+    return {
+      key: work,
+      label: work,
+    };
+  });
+  const schema = fs.readFileSync(
+    path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
+    'utf8',
+  );
+  const typeName = 'IItems';
+  const res = await translate<IItems>({
+    schema,
+    typeName,
+    request: JSON.stringify(items),
+    completePrompt:
+      `你是一个根据以下 TypeScript 类型定义将用户请求转换为 "${typeName}" 类型的 JSON 对象的服务，并且按照字段的注释进行处理:\n` +
+      `\`\`\`\n${schema}\`\`\`\n` +
+      `以下是用户请求:\n` +
+      `"""\n${JSON.stringify(items)}\n"""\n` +
+      `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
+    createChatCompletion: lowcodeContext!.createChatCompletion,
+    showWebview: true,
+    extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
+  });
+  lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
+  if (res.success) {
+    return { ...lowcodeContext!.model, items: res.data };
+  }
+  return { ...lowcodeContext.model };
 }
 
 export async function handleComplete() {

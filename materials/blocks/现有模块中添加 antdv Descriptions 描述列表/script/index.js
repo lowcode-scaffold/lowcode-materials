@@ -34,7 +34,7 @@ module.exports = {
   },
   intFromClipboardImage: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
-    const res = await main.handleIntColumnsFromClipboardImage();
+    const res = await main.handleIntFromClipboardImage();
     return res;
   },
 };
