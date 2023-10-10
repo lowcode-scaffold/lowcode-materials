@@ -8,6 +8,7 @@
   "notShowInCommand": false,
   "notShowInSnippetsList": true,
   "notShowInintellisense": true,
+	"showInRunSnippetScript": true,
   "schema": "amis",
   "scripts": [
     {

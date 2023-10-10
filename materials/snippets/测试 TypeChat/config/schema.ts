@@ -1,1 +1,1 @@
-export type IOption = { value: number; name: string }[];
+export type IOption = { id: number; name: string }[];

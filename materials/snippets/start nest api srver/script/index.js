@@ -7,7 +7,7 @@ require('ts-node').register({
 });
 const path = require('path');
 // 清除缓存，保证每次修改代码后实时生效
-// delete require.cache[require.resolve(path.join(__dirname, 'main.ts'))];
+delete require.cache[require.resolve(path.join(__dirname, './src/main.ts'))];
 const main = require('./src/main.ts');
 const { context } = require('./src/context.ts');
 
