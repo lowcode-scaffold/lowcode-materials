@@ -167,7 +167,7 @@ export async function handleComplete() {
 
     const vueSplitArr = vueFileContent.split(
       new RegExp(
-        ['<!-- lowcode-vue-template -->', 'lowcode-vue-import'].join('|'),
+        ['<!-- lowcode-vue-template -->', '// lowcode-vue-import'].join('|'),
         'ig',
       ),
     );
@@ -189,11 +189,11 @@ export async function handleComplete() {
     if (!vueFileContentOld.includes('lowcode-vue-import')) {
       vueFileContentOld = vueFileContentOld.replace(
         '<script lang="ts" setup>',
-        `<script lang="ts" setup>\n// lowcode-vue-columns`,
+        `<script lang="ts" setup>\n// lowcode-vue-import`,
       );
     }
     vueFileContentOld = vueFileContentOld.replace(
-      'lowcode-vue-import',
+      '// lowcode-vue-import',
       vueImport,
     );
 

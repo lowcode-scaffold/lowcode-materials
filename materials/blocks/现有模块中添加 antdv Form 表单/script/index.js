@@ -24,6 +24,7 @@ module.exports = {
     formItems = formItems.map((s) => ({
       key: s.split(/:|：/g)[0],
       label: s.split(/:|：/g)[0],
+      placeholder: s.split(/:|：/g)[1],
     }));
     return { ...lowcodeContext.model, formItems };
   },

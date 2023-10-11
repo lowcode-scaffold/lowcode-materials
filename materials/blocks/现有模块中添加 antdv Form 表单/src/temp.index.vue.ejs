@@ -6,10 +6,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-input 
-					v-model:value="model.formData.<%= item.key %>" 
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>" 
 					placeholder="<%= item.placeholder %>"
 					allow-clear
 					<% if(item.maxlength) { _%>
@@ -27,10 +27,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-input-password
-					v-model:value="model.formData.<%= item.key %>" 
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>" 
 					placeholder="<%= item.placeholder %>"
 					allowClear
 					<% if(item.maxlength) { _%>
@@ -47,10 +47,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-input-number
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					placeholder="<%= item.placeholder %>"
 					allowClear
 					<% if(item.max) { _%>
@@ -70,10 +70,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-textarea
-					v-model:value="model.formData.<%= item.key %>" 
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>" 
 					placeholder="<%= item.placeholder %>"
 					allow-clear
 					<% if(item.maxlength) { _%>
@@ -91,13 +91,13 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-select
 					placeholder="<%= item.placeholder %>"
 					allow-clear
 					:options="model.options.<%= item.key %>"
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					<% if(item.labelInValue) { _%>
 					labelInValue
 					<% } _%>
@@ -119,9 +119,9 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
-				<a-radio-group v-model:value="model.formData.<%= item.key %>">
+				<a-radio-group v-model:value="model.<%= variableName %>FormData.<%= item.key %>">
 					<a-radio
 						v-for="item in model.options.<%= item.key %>"
 						:value="item.value"
@@ -136,10 +136,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%>
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-checkbox-group
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					style="width: 100%; margin-top: 6px"
 				>
 					<a-row>
@@ -159,10 +159,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-switch
-					v-model:checked="model.formData.<%= item.key %>"
+					v-model:checked="model.<%= variableName %>FormData.<%= item.key %>"
 					<% if(item.checkedChildren) { _%>
 					checkedChildren="<%= item.checkedChildren %>"
 					<% } _%>
@@ -183,10 +183,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-date-picker
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					placeholder="<%= item.placeholder %>"
 					allow-clear
 					picker="<%= item.picker || 'date' %>"
@@ -201,10 +201,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-range-picker
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					:placeholder="[<%- item.placeholder || '\'\'' %>,<%- item.placeholder || '\'\'' %>]"
 					allow-clear
 					picker="<%= item.picker || 'date' %>"
@@ -219,10 +219,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<a-time-picker
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					placeholder="<%= item.placeholder %>"
 					allow-clear
 				/>
@@ -233,7 +233,7 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<upload-images
 					:cropperData="{
@@ -250,7 +250,7 @@
 						if (width !== height) return '请上传正方形图片'
 						if (width < 750 || height < 750) return '请上传长宽≥750*750图片'
 					}"
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					:limit="1"
 				></upload-images>
 			</a-form-item>
@@ -260,10 +260,10 @@
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
-				v-bind="presenter.validateInfos.<%= item.key %>"
+				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
 				<upload-video
-					v-model:value="model.formData.<%= item.key %>"
+					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
 					:limit="1"
 					:size="20"
 					:duration="2"
@@ -276,7 +276,7 @@
 		<% } _%>
 	<% }) _%>
 </a-form>
-<!-- lowcode-vue-import -->
+// lowcode-vue-import
 <% if(formItems.some(s => s.component === "UploadImages")){ _%>
 import UploadImages from '@/components/UploadImages.vue'
 <% } _%>
