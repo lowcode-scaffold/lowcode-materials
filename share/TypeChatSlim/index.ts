@@ -58,8 +58,9 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
+    console.log(responseText, 123);
     let validation = validate<T>(
-      responseText.replace(/```/g, ''),
+      responseText.replace(/```json/g, '').replace(/```/g, ''),
       option.schema,
       option.typeName,
     );
