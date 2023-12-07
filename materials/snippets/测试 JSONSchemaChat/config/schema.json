@@ -2,23 +2,7 @@
   "formSchema": {
     "schema": {
       "type": "page",
-      "body": [
-        {
-          "type": "form",
-          "title": "",
-          "body": [
-            {
-              "type": "input-text",
-              "name": "name",
-              "label": "测试表单",
-              "id": "u:4886baa626cf",
-              "value": ""
-            }
-          ],
-          "id": "u:67967afb0e69",
-          "submitText": ""
-        }
-      ],
+      "body": [],
       "id": "u:d87dbf6bf8df",
       "asideResizor": false,
       "style": {

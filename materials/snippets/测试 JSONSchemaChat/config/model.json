@@ -1,3 +1,76 @@
 {
-  "name": "lowcode"
+	"filters": [
+		{
+			"component": "select",
+			"key": "店铺名称",
+			"label": "店铺名称",
+			"placeholder": "请输入"
+		},
+		{
+			"component": "select",
+			"key": "店铺编码",
+			"label": "店铺编码",
+			"placeholder": "请输入"
+		},
+		{
+			"component": "select",
+			"key": "店铺门头编码",
+			"label": "店铺门头编码",
+			"placeholder": "请输入"
+		},
+		{
+			"component": "select",
+			"key": "所在区域",
+			"label": "所在区域",
+			"placeholder": "全部"
+		}
+	],
+	"columns": [
+		{
+			"slot": false,
+			"title": "店铺编码",
+			"dataIndex": "店铺编码",
+			"key": "店铺编码"
+		},
+		{
+			"slot": false,
+			"title": "店铺名称",
+			"dataIndex": "店铺名称",
+			"key": "店铺名称"
+		},
+		{
+			"slot": false,
+			"title": "店铺业务范围",
+			"dataIndex": "店铺业务范围",
+			"key": "店铺业务范围"
+		},
+		{
+			"slot": false,
+			"title": "店铺类型",
+			"dataIndex": "店铺类型",
+			"key": "店铺类型"
+		},
+		{
+			"slot": false,
+			"title": "所在区域",
+			"dataIndex": "所在区域",
+			"key": "所在区域"
+		},
+		{
+			"slot": false,
+			"title": "详细地址",
+			"dataIndex": "详细地址",
+			"key": "详细地址"
+		}
+	],
+	"pagination": {
+		"show": true,
+		"page": "page",
+		"size": "size",
+		"total": "result.total"
+	},
+	"includeModifyModal": false,
+	"fetchName": "fetchTableList",
+	"result": "[\"result\"][\"records\"]",
+	"serviceName": "getTableList"
 }

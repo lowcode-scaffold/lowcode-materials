@@ -1,0 +1,21 @@
+{
+	"title": "antdv2 增删改查列表页",
+	"description": "antdv2 增删改查列表页",
+	"img": "https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg",
+	"category": [],
+	"schema": "amis",
+	"scripts": [
+		{
+			"method": "intFiltersFromOcrText",
+			"remark": "使用 ocr 结果初始化查询条件"
+		},
+		{
+			"method": "intColumnsFromOcrText",
+			"remark": "使用 ocr 结果初始化表格"
+		},
+		{
+			"method": "askChatGPT",
+			"remark": "使用 ChatGPT 翻译模版数据里的指定中文字段"
+		}
+	]
+}

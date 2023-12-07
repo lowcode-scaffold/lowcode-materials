@@ -1,0 +1,699 @@
+{
+	"formSchema": {
+		"schema": {
+			"type": "page",
+			"body": [
+				{
+					"type": "form",
+					"title": "",
+					"body": [
+						{
+							"type": "combo",
+							"label": "查询条件",
+							"name": "filters",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "icon",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:47ecb9e15ff1"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "key",
+									"placeholder": "字段名",
+									"id": "u:25b0c7b5e5a0",
+									"label": "字段名（key）"
+								},
+								{
+									"type": "input-text",
+									"label": "label",
+									"name": "label",
+									"id": "u:6496cac4f4b8",
+									"description": ""
+								},
+								{
+									"type": "select",
+									"name": "component",
+									"placeholder": "选项",
+									"options": [
+										{
+											"label": "input",
+											"value": "input"
+										},
+										{
+											"label": "select",
+											"value": "select"
+										}
+									],
+									"id": "u:995915eabcca",
+									"multiple": false,
+									"label": "组件",
+									"value": ""
+								},
+								{
+									"type": "input-text",
+									"label": "placeholder",
+									"name": "placeholder",
+									"id": "u:d7f1a8a39449",
+									"description": ""
+								}
+							],
+							"id": "u:186f183e9320",
+							"strictMode": false,
+							"syncFields": [],
+							"tabsMode": true,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"tabsLabelTpl": "表单项${index+1}",
+							"multiLine": true,
+							"noBorder": false
+						},
+						{
+							"type": "combo",
+							"label": "表格",
+							"name": "columns",
+							"multiple": true,
+							"addable": true,
+							"removable": true,
+							"removableMode": "button",
+							"addBtn": {
+								"label": "新增",
+								"icon": "fa fa-plus",
+								"level": "primary",
+								"size": "sm",
+								"id": "u:1e8070edc3d3"
+							},
+							"items": [
+								{
+									"type": "input-text",
+									"name": "title",
+									"id": "u:152dd82b82f9",
+									"label": "title"
+								},
+								{
+									"type": "input-text",
+									"label": "dataIndex",
+									"name": "dataIndex",
+									"id": "u:ecc7298e0550",
+									"description": ""
+								},
+								{
+									"type": "input-text",
+									"label": "key",
+									"name": "key",
+									"id": "u:fbaa95c3f15d",
+									"description": ""
+								},
+								{
+									"type": "input-text",
+									"label": "width",
+									"name": "width",
+									"id": "u:b143127e097b",
+									"description": ""
+								},
+								{
+									"type": "switch",
+									"label": "自定义插槽",
+									"option": "",
+									"name": "slot",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:ee1ce1faee0b",
+									"value": false
+								}
+							],
+							"id": "u:9b9fb0cf38f9",
+							"strictMode": true,
+							"syncFields": [],
+							"tabsMode": true,
+							"draggable": true,
+							"draggableTip": "可拖动排序",
+							"tabsStyle": "line",
+							"deleteBtn": {
+								"label": "删除",
+								"level": "default"
+							},
+							"tabsLabelTpl": "列${index+1}"
+						},
+						{
+							"type": "fieldset",
+							"title": "分页参数",
+							"collapsable": true,
+							"body": [
+								{
+									"type": "switch",
+									"label": "是否分页",
+									"option": "",
+									"name": "pagination.show",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:6c70041d5143",
+									"value": true,
+									"className": ""
+								},
+								{
+									"type": "input-text",
+									"label": "查询接口页数参数字段名",
+									"name": "pagination.page",
+									"id": "u:cbbf6853cf64",
+									"value": "page"
+								},
+								{
+									"type": "input-text",
+									"label": "查询接口每页数据行数参数字段名",
+									"name": "pagination.size",
+									"id": "u:a8fae66fa927",
+									"value": "size"
+								},
+								{
+									"type": "input-text",
+									"label": "接口返回总数据量字段 PATH",
+									"name": "pagination.total",
+									"id": "u:e1cd979c7ee8",
+									"value": "result.total",
+									"themeCss": {
+										"inputControlClassName": {
+											"padding-and-margin:default": {
+												"marginBottom": "",
+												"marginTop": "",
+												"marginRight": "",
+												"marginLeft": ""
+											}
+										}
+									}
+								}
+							],
+							"id": "u:0f1bd8fc2f2b",
+							"collapsed": true,
+							"headingClassName": "",
+							"bodyClassName": "p"
+						},
+						{
+							"type": "fieldset",
+							"title": "请求方法",
+							"collapsable": true,
+							"body": [
+								{
+									"type": "input-text",
+									"label": "请求名称",
+									"name": "fetchName",
+									"id": "u:a3e712484fae",
+									"value": "fetchTableList",
+									"description": "追加了YAPI数据则不使用此参数",
+									"themeCss": {
+										"labelClassName": {
+											"padding-and-margin:default": {
+												"marginTop": "",
+												"marginRight": "",
+												"marginBottom": "",
+												"marginLeft": ""
+											}
+										}
+									},
+									"labelClassName": "labelClassName-a3e712484fae"
+								},
+								{
+									"type": "input-text",
+									"label": "接口数据字段 PATH",
+									"name": "result",
+									"id": "u:8c082acf7db2",
+									"value": "[\"result\"][\"records\"]",
+									"description": ""
+								},
+								{
+									"type": "input-text",
+									"label": "service方法名",
+									"name": "serviceName",
+									"id": "u:cfbbdd07366b",
+									"value": "getTableList",
+									"description": ""
+								}
+							],
+							"id": "u:382f8cdf59a6",
+							"collapsed": true,
+							"className": "",
+							"headingClassName": "",
+							"bodyClassName": "p-r p-l p-b"
+						},
+						{
+							"type": "fieldset",
+							"title": "新增/编辑弹框",
+							"collapsable": true,
+							"body": [
+								{
+									"type": "switch",
+									"label": "是否包含弹框",
+									"option": "",
+									"name": "includeModifyModal",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:03957070af9e",
+									"value": false
+								},
+								{
+									"type": "combo",
+									"label": "表单项",
+									"name": "modifyModal.formItems",
+									"multiple": true,
+									"addable": true,
+									"removable": true,
+									"removableMode": "icon",
+									"strictMode": false,
+									"addBtn": {
+										"label": "新增",
+										"icon": "fa fa-plus",
+										"level": "primary",
+										"size": "sm",
+										"id": "u:86cc27b6a663"
+									},
+									"items": [
+										{
+											"type": "input-text",
+											"name": "key",
+											"id": "u:62cc1cf36c73",
+											"label": "字段名（key）"
+										},
+										{
+											"type": "select",
+											"name": "type",
+											"options": [
+												{
+													"label": "string",
+													"value": "string"
+												},
+												{
+													"label": "number",
+													"value": "number"
+												},
+												{
+													"label": "boolean",
+													"value": "boolean"
+												},
+												{
+													"label": "Dayjs",
+													"value": "Dayjs"
+												},
+												{
+													"label": "string[]",
+													"value": "string[]"
+												},
+												{
+													"label": "number[]",
+													"value": "number[]"
+												},
+												{
+													"label": "boolean[]",
+													"value": "boolean[]"
+												},
+												{
+													"label": "[Dayjs,Dayjs]",
+													"value": "[Dayjs,Dayjs]"
+												}
+											],
+											"id": "u:b165c75e5e1a",
+											"multiple": false,
+											"label": "字段类型",
+											"value": ""
+										},
+										{
+											"type": "switch",
+											"label": "字段可选",
+											"option": "",
+											"name": "optional",
+											"falseValue": false,
+											"trueValue": true,
+											"id": "u:68fc4c85fb03",
+											"value": false,
+											"description": "字段名字后加?"
+										},
+										{
+											"type": "select",
+											"name": "defaultValue",
+											"options": [
+												{
+													"label": "\"\"",
+													"value": "\"\""
+												},
+												{
+													"label": "false",
+													"value": "false"
+												},
+												{
+													"label": "true",
+													"value": "true"
+												},
+												{
+													"label": "0",
+													"value": "0"
+												},
+												{
+													"label": "undefined",
+													"value": "undefined"
+												},
+												{
+													"label": "[]",
+													"value": "[]"
+												}
+											],
+											"id": "u:379ea92fb3c6",
+											"multiple": false,
+											"label": "默认值",
+											"value": ""
+										},
+										{
+											"type": "select",
+											"name": "component",
+											"options": [
+												{
+													"label": "input",
+													"value": "input"
+												},
+												{
+													"label": "input-password",
+													"value": "input-password"
+												},
+												{
+													"label": "input-number",
+													"value": "input-number"
+												},
+												{
+													"label": "textarea",
+													"value": "textarea"
+												},
+												{
+													"label": "select",
+													"value": "select"
+												},
+												{
+													"label": "radio-group",
+													"value": "radio-group"
+												},
+												{
+													"label": "checkbox-group",
+													"value": "checkbox-group"
+												},
+												{
+													"label": "switch",
+													"value": "switch"
+												},
+												{
+													"label": "date-picker",
+													"value": "date-picker"
+												},
+												{
+													"label": "time-ticker",
+													"value": "time-picker"
+												},
+												{
+													"label": "range-picker",
+													"value": "range-picker"
+												},
+												{
+													"label": "transfer",
+													"value": "transfer"
+												}
+											],
+											"id": "u:7932ea3b05da",
+											"multiple": false,
+											"label": "组件",
+											"value": ""
+										},
+										{
+											"type": "input-text",
+											"name": "label",
+											"id": "u:5bb237f20098",
+											"label": "label"
+										},
+										{
+											"type": "input-text",
+											"name": "placeholder",
+											"id": "u:580898257491",
+											"label": "placeholder"
+										},
+										{
+											"type": "switch",
+											"label": "required",
+											"option": "",
+											"name": "required",
+											"falseValue": false,
+											"trueValue": true,
+											"id": "u:559dbdbb01da",
+											"value": false,
+											"description": "验证规则加required"
+										},
+										{
+											"type": "input-text",
+											"name": "message",
+											"id": "u:55013279d659",
+											"label": "校验失败 message",
+											"value": "不能为空"
+										},
+										{
+											"type": "switch",
+											"label": "更多组件配置",
+											"option": "",
+											"name": "showMore",
+											"falseValue": false,
+											"trueValue": true,
+											"id": "u:67e0cb5b7496",
+											"value": false,
+											"description": ""
+										},
+										{
+											"type": "switch",
+											"label": "labelInValue",
+											"option": "",
+											"name": "labelInValue",
+											"falseValue": false,
+											"trueValue": true,
+											"id": "u:7fd6f1b233d9",
+											"value": false,
+											"description": "是否把每个选项的 label 包装到 value 中",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'select'}"
+										},
+										{
+											"type": "select",
+											"name": "mode",
+											"options": [
+												{
+													"label": "multiple",
+													"value": "multiple"
+												},
+												{
+													"label": "tags",
+													"value": "tags"
+												}
+											],
+											"multiple": false,
+											"label": "mode",
+											"value": "",
+											"description": "设置 Select 的模式为多选或标签",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'select'}"
+										},
+										{
+											"type": "input-text",
+											"name": "optionFilterProp",
+											"label": "optionFilterProp",
+											"description": "搜索时过滤对应的 option 属性",
+											"value": "label",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'select'}"
+										},
+										{
+											"type": "switch",
+											"label": "showSearch",
+											"option": "",
+											"name": "showSearch",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "使单选模式可搜索",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'select'}"
+										},
+										{
+											"type": "switch",
+											"label": "hideArrow",
+											"option": "",
+											"name": "hideArrow",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "是否隐藏下拉小箭头",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'select'}"
+										},
+										{
+											"type": "input-text",
+											"name": "maxlength",
+											"label": "maxlength",
+											"description": "最大长度",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'input' && modifyModal.formItems[index].component !== 'input-password' && modifyModal.formItems[index].component !== 'textarea')}"
+										},
+										{
+											"type": "switch",
+											"label": "showCount",
+											"option": "",
+											"name": "showCount",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "是否展示字数",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'input' && modifyModal.formItems[index].component !== 'input-password' && modifyModal.formItems[index].component !== 'textarea')}"
+										},
+										{
+											"type": "input-text",
+											"name": "max",
+											"label": "max",
+											"description": "最大值",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'input-number'}"
+										},
+										{
+											"type": "input-text",
+											"name": "min",
+											"label": "min",
+											"description": "最小值",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'input-number'}"
+										},
+										{
+											"type": "input-text",
+											"name": "step",
+											"label": "step",
+											"description": "每次改变步数，可以为小数",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'input-number'}"
+										},
+										{
+											"type": "input-text",
+											"name": "checkedChildren",
+											"label": "checkedChildren",
+											"description": "选中时的内容",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'switch'}"
+										},
+										{
+											"type": "input-text",
+											"name": "unCheckedChildren",
+											"label": "unCheckedChildren",
+											"description": "非选中时的内容",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'switch'}"
+										},
+										{
+											"type": "input-text",
+											"name": "checkedValue",
+											"label": "checkedValue",
+											"description": "选中时的值",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'switch'}"
+										},
+										{
+											"type": "input-text",
+											"name": "unCheckedValue",
+											"label": "unCheckedValue",
+											"description": "非选中时的值",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || modifyModal.formItems[index].component !== 'switch'}"
+										},
+										{
+											"type": "select",
+											"name": "picker",
+											"options": [
+												{
+													"label": "date",
+													"value": "date"
+												},
+												{
+													"label": "week",
+													"value": "week"
+												},
+												{
+													"label": "month",
+													"value": "month"
+												},
+												{
+													"label": "quarter",
+													"value": "quarter"
+												},
+												{
+													"label": "year",
+													"value": "year"
+												}
+											],
+											"multiple": false,
+											"label": "picker",
+											"description": "设置选择器类型",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'date-picker' && modifyModal.formItems[index].component !== 'range-picker')}"
+										},
+										{
+											"type": "switch",
+											"label": "showTime",
+											"name": "showTime",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "增加时间选择功能",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'date-picker' && modifyModal.formItems[index].component !== 'range-picker' || modifyModal.formItems[index].picker !== 'date')}"
+										},
+										{
+											"type": "switch",
+											"label": "showNow",
+											"name": "showNow",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "当设定了 showTime 的时候，面板是否显示“此刻”按钮",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'date-picker' && modifyModal.formItems[index].component !== 'range-picker' || modifyModal.formItems[index].picker !== 'date')}"
+										},
+										{
+											"type": "switch",
+											"label": "showToday",
+											"name": "showToday",
+											"falseValue": false,
+											"trueValue": true,
+											"value": false,
+											"description": "是否展示“今天”按钮",
+											"hiddenOn": "${!modifyModal.formItems[index].showMore || (modifyModal.formItems[index].component !== 'date-picker' && modifyModal.formItems[index].component !== 'range-picker' || modifyModal.formItems[index].picker !== 'date')}"
+										}
+									],
+									"syncFields": [],
+									"tabsMode": true,
+									"draggable": true,
+									"draggableTip": "可拖动排序",
+									"tabsStyle": "line",
+									"tabsLabelTpl": "表单项${index+1}",
+									"multiLine": true,
+									"noBorder": false,
+									"hiddenOn": "${!includeModifyModal}"
+								}
+							],
+							"bodyClassName": "p",
+							"collapsed": true
+						}
+					],
+					"submitText": ""
+				}
+			],
+			"pullRefresh": {
+				"disabled": true
+			},
+			"regions": [
+				"body"
+			],
+			"style": {
+				"boxShadow": " 0px 0px 0px 0px transparent"
+			},
+			"asideResizor": false
+		}
+	},
+	"conditionFiles": {
+		"includeModifyModal": {
+			"value": false,
+			"exclude": [
+				"/ModifyModal/index.vue.ejs",
+				"/ModifyModal/model.ts.ejs",
+				"/ModifyModal/presenter.tsx.ejs",
+				"/ModifyModal/service.ts.ejs"
+			]
+		}
+	}
+}

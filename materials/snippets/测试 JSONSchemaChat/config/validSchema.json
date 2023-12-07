@@ -1,20 +1,109 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "",
-  "type": "array",
-  "items": {
-    "type": "object",
-    "properties": {
-      "id": {
-        "type": "number"
-      },
-      "name": {
-        "type": "string"
+  "type": "object",
+  "properties": {
+    "filters": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "component": {
+            "type": "string"
+          },
+          "key": {
+            "type": "string",
+            "description": "翻译成英文，驼峰格式"
+          },
+          "label": {
+            "type": "string",
+            "description": "保持原始内容，不要翻译"
+          },
+          "placeholder": {
+            "type": "string",
+            "description": "保持原始内容，不要翻译"
+          }
+        },
+        "required": [
+          "component",
+          "key",
+          "label",
+          "placeholder"
+        ]
       }
     },
-    "required": [
-      "id",
-      "name"
-    ]
-  }
+    "columns": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "slot": {
+            "type": "boolean"
+          },
+          "title": {
+            "type": "string",
+            "description": "保持原始内容，不要翻译"
+          },
+          "dataIndex": {
+            "type": "string",
+            "description": "翻译成英文，驼峰格式"
+          },
+          "key": {
+            "type": "string",
+            "description": "翻译成英文，驼峰格式"
+          }
+        },
+        "required": [
+          "slot",
+          "title",
+          "dataIndex",
+          "key"
+        ]
+      }
+    },
+    "pagination": {
+      "type": "object",
+      "properties": {
+        "show": {
+          "type": "boolean"
+        },
+        "page": {
+          "type": "string"
+        },
+        "size": {
+          "type": "string"
+        },
+        "total": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "show",
+        "page",
+        "size",
+        "total"
+      ]
+    },
+    "includeModifyModal": {
+      "type": "boolean"
+    },
+    "fetchName": {
+      "type": "string"
+    },
+    "result": {
+      "type": "string"
+    },
+    "serviceName": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "filters",
+    "columns",
+    "pagination",
+    "includeModifyModal",
+    "fetchName",
+    "result",
+    "serviceName"
+  ]
 }

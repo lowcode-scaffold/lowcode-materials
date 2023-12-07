@@ -25,7 +25,7 @@ export async function translate<T extends object>(option: {
 }) {
   let requestPrompt =
     option.completePrompt ||
-    `You are a service that translates user requests into JSON data with the following JSON Schema definitions:\n` +
+    `你是一个根据以下 JSON Schema 定义将用户请求转换为相应 JSON 数据的服务，并且按照 JSON Schema 中 description 的描述对字段进行处理:\n` +
       `\`\`\`\n${option.schema}\`\`\`\n` +
       `The following is a user request:\n` +
       `"""\n${option.request}\n"""\n` +

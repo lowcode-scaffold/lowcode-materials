@@ -1,0 +1,75 @@
+import Service from "./service";
+import { useModel } from "./model";
+import { Form, message } from "ant-design-vue";
+import { watch, reactive } from "vue";
+import { Rule } from 'ant-design-vue/es/form/interface'
+
+interface IProps {
+  title: string
+  visible: boolean
+  action: 'add' | 'edit' | 'view'
+  id?: number
+}
+
+interface IEmit {
+  (event: 'cancel'): void
+  (event: 'ok'): void
+}
+
+const { useForm } = Form;
+
+export const usePresenter = (props: IProps, emit: IEmit) => {
+  const model = useModel();
+  const service = new Service(model);
+
+  const rules: Record<string, Rule[]> = reactive({
+		<% modifyModal.formItems.map(item => { _%>
+			<%= item.key %>: [{ required: <%= item.required || false %>, message: "<%= item.message %>" }],
+		<% }) _%>
+  });
+
+  const { resetFields, validate, validateInfos } = useForm(
+    model.formData,
+    rules,
+  );
+
+  watch(
+    () => props.visible,
+    () => {
+      if (props.visible && props.id) {
+        service.getDetail(props.id as number);
+      }
+    },
+  );
+
+  const handleSubmit = () => {
+    validate().then(() => {
+      if (props.action === "add") {
+        service.create().then(() => {
+          message.success("新建成功");
+          resetFields();
+          emit("ok");
+        });
+      } else {
+        service.edit().then(() => {
+          message.success("提交成功");
+          resetFields();
+          emit("ok");
+        });
+      }
+    });
+  };
+
+  const handleCancel = () => {
+    resetFields();
+    emit("cancel");
+  };
+
+  return {
+    model,
+    service,
+    handleSubmit,
+    handleCancel,
+    validateInfos,
+  };
+};
