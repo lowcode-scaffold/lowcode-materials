@@ -88,7 +88,7 @@ const genTemplateModelByYapi = async (
     funcName.slice(0, 1).toUpperCase() + funcName.slice(1);
   if (res.data.data.res_body_type === 'json') {
     const schema = JSON.parse(jsonminify(res.data.data.res_body));
-    fixSchema(schema);
+    fixSchema(schema, ['$ref', '$$ref']);
     delete schema.title;
     let ts = await compile(schema, typeName, {
       bannerComment: '',
@@ -100,6 +100,7 @@ const genTemplateModelByYapi = async (
       const reqBodyScheme = JSON.parse(
         jsonminify(res.data.data.req_body_other),
       );
+      fixSchema(reqBodyScheme, ['$ref', '$$ref']);
       delete reqBodyScheme.title;
       requestBodyType = await compile(
         reqBodyScheme,
@@ -128,6 +129,7 @@ const genTemplateModelByYapi = async (
   // yapi 返回数据直接贴的 json
   const resBodyJson = JSON.parse(jsonminify(res.data.data.res_body));
   const schema = GenerateSchema.json(typeName || 'Schema', resBodyJson);
+  fixSchema(schema, ['$ref', '$$ref']);
   let ts = await compile(schema, typeName, {
     bannerComment: '',
   });
@@ -136,6 +138,7 @@ const genTemplateModelByYapi = async (
   let requestBodyType = '';
   if (res.data.data.req_body_other) {
     const reqBodyScheme = JSON.parse(jsonminify(res.data.data.req_body_other));
+    fixSchema(reqBodyScheme, ['$ref', '$$ref']);
     delete reqBodyScheme.title;
     requestBodyType = await compile(
       reqBodyScheme,
@@ -162,19 +165,34 @@ const genTemplateModelByYapi = async (
   return model;
 };
 
-const fixSchema = (obj: object) => {
+function fixSchema(obj: object, fieldNames: string[]) {
   // eslint-disable-next-line no-restricted-syntax
   for (const key in obj) {
-    // @ts-ignore
-    if (typeof obj[key] === 'object' && obj[key] !== null) {
-      // @ts-ignore
+    if (Array.isArray(obj[key])) {
+      obj[key].forEach((item: object) => {
+        if (typeof item === 'object' && item !== null) {
+          fixSchema(item, fieldNames);
+        } else {
+          // eslint-disable-next-line no-restricted-syntax
+          for (const fieldName of fieldNames) {
+            if (item && item[fieldName]) {
+              delete item[fieldName];
+            }
+          }
+        }
+      });
+    } else if (typeof obj[key] === 'object' && obj[key] !== null) {
       if (obj[key].type === 'object' && !obj[key].properties) {
-        // @ts-ignore
-        // eslint-disable-next-line no-param-reassign
         delete obj[key];
       }
-      // @ts-ignore
-      fixSchema(obj[key]); // 递归处理
+      fixSchema(obj[key], fieldNames);
+    } else {
+      // eslint-disable-next-line no-restricted-syntax
+      for (const fieldName of fieldNames) {
+        if (key === fieldName) {
+          delete obj[key];
+        }
+      }
     }
   }
-};
+}

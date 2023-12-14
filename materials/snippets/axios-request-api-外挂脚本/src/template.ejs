@@ -1,5 +1,5 @@
 // #region <%= api.title %> 
-<%= type %>  
+<%- type %>  
 <% if (api.req_query.length > 0 || api.req_params.length > 0 || api.query_path.params.length > 0) { %>
 export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params {
 <% api.req_query.map(query => { %><%= query.name %>: string;<% }) %>
@@ -8,7 +8,7 @@ export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>P
 }
 <% } %> 
 <% if (requestBodyType && api.req_body_other.indexOf('{}')<0) { %>
-<%= requestBodyType %> 
+<%- requestBodyType %> 
 <% } %> 
 
 /**
