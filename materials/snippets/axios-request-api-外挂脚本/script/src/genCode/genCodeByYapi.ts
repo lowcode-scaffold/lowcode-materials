@@ -75,11 +75,11 @@ const genTemplateModelByYapi = async (
     messages: [
       {
         role: 'system',
-        content: `你是一个严谨的代码机器人，严格按照用户的要求处理问题`,
+        content: `你是一个代码专家，按照用户传给你的 api 接口地址，和接口请求方法，根据接口地址里的信息推测出一个生动形象的方法名称，驼峰格式，返回方法名称`,
       },
       {
         role: 'user',
-        content: `${res.data.data.query_path}，这是一个 ${res.data.data.method} 方法的 api 地址，作用是${res.data.data.title}，请生成一个方法名称，驼峰格式，返回方法名即可，不要带多余的信息`,
+        content: `api 地址：${res.data.data.query_path}，${res.data.data.method} 方法，作用是${res.data.data.title}`,
       },
     ],
   });
@@ -97,9 +97,7 @@ const genTemplateModelByYapi = async (
     const { mockCode, mockData } = mockFromSchema(schema);
     let requestBodyType = '';
     if (res.data.data.req_body_other) {
-      const reqBodyScheme = JSON.parse(
-        jsonminify(res.data.data.req_body_other),
-      );
+      const reqBodyScheme = JSON.parse(res.data.data.req_body_other);
       fixSchema(reqBodyScheme, ['$ref', '$$ref']);
       delete reqBodyScheme.title;
       requestBodyType = await compile(
