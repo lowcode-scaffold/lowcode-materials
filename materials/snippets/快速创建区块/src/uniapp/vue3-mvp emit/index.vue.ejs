@@ -1,0 +1,18 @@
+<template>
+  <view class="<%= createBlockPath.split('/').pop().replace(/^\S/, s => s.toLowerCase()) %>" @click="presenter.handleChange('emit')">emit</view>
+</template>
+
+<script setup lang="ts">
+import { usePresenter } from "./presenter";
+
+const emit = defineEmits<{
+  (e: "change", data?: { value: string }): void;
+}>();
+
+const presenter = usePresenter(emit);
+// const { model } = presenter;
+</script>
+
+<style scoped lang="scss">
+@import "./index.scss";
+</style>

@@ -1,0 +1,16 @@
+<template>
+  <view class="<%= createBlockPath.split('/').pop().replace(/^\S/, s => s.toLowerCase()) %>">{{ props.name }}</view>
+</template>
+
+<script setup lang="ts">
+import { usePresenter } from "./presenter";
+
+const props = defineProps<{ name: string }>();
+
+const presenter = usePresenter(props);
+// const { model } = presenter;
+</script>
+
+<style scoped lang="scss">
+@import "./index.scss";
+</style>
