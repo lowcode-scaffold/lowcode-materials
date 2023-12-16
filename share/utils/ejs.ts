@@ -1,4 +1,7 @@
+import * as path from 'path';
 import * as ejs from 'ejs';
+import glob from 'glob';
+import * as fse from 'fs-extra';
 
 export type YapiInfo = {
   query_path: { path: string };
@@ -36,3 +39,52 @@ export type Model = {
 
 export const compile = (templateString: string, model: Model) =>
   ejs.render(templateString, model);
+
+export async function renderEjsTemplates(
+  templateData: object,
+  templateDir: string,
+) {
+  return new Promise<void>((resolve, reject) => {
+    glob(
+      '**',
+      {
+        cwd: templateDir,
+        ignore: ['node_modules/**'],
+        nodir: true,
+        dot: true,
+      },
+      (err, files) => {
+        if (err) {
+          return reject(err);
+        }
+        const templateFiles = files.filter((s) => {
+          let valid = true;
+          if (s.indexOf('.ejs') < 0) {
+            valid = false;
+          }
+          return valid;
+        });
+        Promise.all(
+          templateFiles.map((file) => {
+            const filepath = path.join(templateDir, file);
+            return renderFile(filepath, templateData);
+          }),
+        )
+          .then(() => resolve())
+          .catch(reject);
+      },
+    );
+  });
+}
+
+async function renderFile(templateFilepath: string, data: ejs.Data) {
+  const content = await ejs.renderFile(templateFilepath, data);
+  const targetFilePath = templateFilepath
+    .replace(/\.ejs$/, '')
+    .replace(
+      /\$\{.+?\}/gi,
+      (match) => data[match.replace(/\$|\{|\}/g, '')] || '',
+    );
+  await fse.rename(templateFilepath, targetFilePath);
+  await fse.writeFile(targetFilePath, content);
+}

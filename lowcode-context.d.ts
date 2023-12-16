@@ -170,6 +170,11 @@ export interface CompileContext extends Context {
    * @type {string}
    */
   code: string;
+  /**
+   * @description 执行右键菜单时选中的文件夹
+   * @type {string}
+   */
+  explorerSelectedPath: string;
 }
 
 export interface ViewCallContext extends Context {
