@@ -6,6 +6,14 @@
 	"schema": "amis",
 	"scripts": [
 		{
+			"method": "readFiltersImageText",
+			"remark": "使用 ocr 识别剪贴板查询条件截图"
+		},
+		{
+			"method": "readColumnsImageText",
+			"remark": "使用 ocr 识别剪贴板表格截图"
+		},
+		{
 			"method": "intFiltersFromOcrText",
 			"remark": "使用 ocr 结果初始化查询条件"
 		},

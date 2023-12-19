@@ -1,8 +1,31 @@
 import * as path from 'path';
+import { window, env } from 'vscode';
 import * as fs from 'fs-extra';
 import { translate } from '../../../../../share/TypeChatSlim/index';
+import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { context } from './context';
 import { PageConfig } from '../../config/schema';
+
+export async function handleReadFiltersImageText() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
+  window.showInformationMessage('内容已经复制到剪贴板');
+}
+
+export async function handleReadColumnsImageText() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+    return;
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
+  window.showInformationMessage('内容已经复制到剪贴板');
+}
 
 export async function handleAskChatGPT() {
   const { lowcodeContext } = context;

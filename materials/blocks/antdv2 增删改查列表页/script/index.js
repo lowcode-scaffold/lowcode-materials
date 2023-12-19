@@ -30,6 +30,11 @@ module.exports = {
       );
     }
   },
+  readFiltersImageText: async (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    await main.handleReadFiltersImageText();
+    return lowcodeContext.model;
+  },
   intFiltersFromOcrText: (lowcodeContext) => {
     // 处理如下 ocr 结果
     // 客户姓名：
@@ -56,6 +61,11 @@ module.exports = {
     }));
     lowcodeContext.outputChannel.appendLine(JSON.stringify(filters));
     return { ...lowcodeContext.model, filters };
+  },
+  readColumnsImageText: async (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    await main.handleReadFiltersImageText();
+    return lowcodeContext.model;
   },
   intColumnsFromOcrText: (lowcodeContext) => {
     let columns = lowcodeContext.params.split('\n');
