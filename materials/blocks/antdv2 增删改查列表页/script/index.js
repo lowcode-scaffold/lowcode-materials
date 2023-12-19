@@ -30,6 +30,10 @@ module.exports = {
       );
     }
   },
+  complete: (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    main.handleComplete();
+  },
   readFiltersImageText: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
     await main.handleReadFiltersImageText();

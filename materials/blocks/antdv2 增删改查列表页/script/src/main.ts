@@ -1,10 +1,14 @@
 import * as path from 'path';
-import { window, env } from 'vscode';
+import { window, env, workspace } from 'vscode';
 import * as fs from 'fs-extra';
+import * as execa from 'execa';
+import * as ejs from 'ejs';
+import axios from 'axios';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { context } from './context';
 import { PageConfig } from '../../config/schema';
+import { typescriptToMock } from '../../../../../share/utils/json';
 
 export async function handleReadFiltersImageText() {
   const { lowcodeContext } = context;
@@ -53,4 +57,89 @@ export async function handleAskChatGPT() {
     return { ...res.data };
   }
   return lowcodeContext!.model;
+}
+
+export async function handleComplete() {
+  const { lowcodeContext } = context;
+  const createBlockPath = context.lowcodeContext?.createBlockPath;
+  if (createBlockPath) {
+    // #region 更新 mock 服务
+    const mockType = fs
+      .readFileSync(path.join(createBlockPath, 'temp.mock.type').toString())
+      .toString();
+    fs.removeSync(path.join(createBlockPath, 'temp.mock.type'));
+    const { mockCode, mockData } = typescriptToMock(mockType);
+    const mockTemplate = fs
+      .readFileSync(
+        path.join(createBlockPath, 'temp.mock.script.ejs').toString(),
+      )
+      .toString();
+    fs.removeSync(path.join(createBlockPath, 'temp.mock.script.ejs'));
+    const mockScript = ejs.render(mockTemplate, {
+      ...lowcodeContext!.model,
+      mockCode,
+      mockData,
+      createBlockPath: createBlockPath.replace(':', ''),
+    });
+    const mockProjectPathRes = await axios
+      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .catch(() => {
+        window.showInformationMessage(
+          '获取 mock 项目路径失败，跳过更新 mock 服务',
+        );
+      });
+    if (mockProjectPathRes?.data.result) {
+      const projectName = workspace.rootPath
+        ?.replace(/\\/g, '/')
+        .split('/')
+        .pop();
+      const mockRouteFile = path.join(
+        mockProjectPathRes.data.result,
+        `${projectName}.js`,
+      );
+      let mockFileContent = `
+			import KoaRouter from 'koa-router';
+			import proxy from '../middleware/Proxy';
+			import { delay } from '../lib/util';
+
+			const Mock = require('mockjs');
+
+			const { Random } = Mock;
+
+			const router = new KoaRouter();
+			router{{mockScript}}
+			module.exports = router;
+			`;
+
+      if (fs.existsSync(mockRouteFile)) {
+        mockFileContent = fs.readFileSync(mockRouteFile).toString().toString();
+        const index = mockFileContent.lastIndexOf(')') + 1;
+        mockFileContent = `${mockFileContent.substring(
+          0,
+          index,
+        )}{{mockScript}}\n${mockFileContent.substring(index)}`;
+      }
+      mockFileContent = mockFileContent.replace(/{{mockScript}}/g, mockScript);
+      fs.writeFileSync(mockRouteFile, mockFileContent);
+      try {
+        execa.sync('node', [
+          path.join(
+            mockProjectPathRes.data.result
+              .replace(/\\/g, '/')
+              .replace('/src/routes', ''),
+            '/node_modules/eslint/bin/eslint.js',
+          ),
+          mockRouteFile,
+          '--resolve-plugins-relative-to',
+          mockProjectPathRes.data.result
+            .replace(/\\/g, '/')
+            .replace('/src/routes', ''),
+          '--fix',
+        ]);
+      } catch (err) {
+        console.log(err);
+      }
+      // #endregion
+    }
+  }
 }
