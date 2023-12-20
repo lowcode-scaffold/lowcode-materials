@@ -10,25 +10,28 @@ import { context } from './context';
 import { PageConfig } from '../../config/schema';
 import { typescriptToMock } from '../../../../../share/utils/json';
 
-export async function handleReadFiltersImageText() {
+export async function handleInitFiltersFromImage() {
   const { lowcodeContext } = context;
   if (!lowcodeContext?.clipboardImage) {
     window.showInformationMessage('剪贴板里没有截图');
+    return lowcodeContext?.model;
   }
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
   env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
   window.showInformationMessage('内容已经复制到剪贴板');
+  return lowcodeContext?.model;
 }
 
-export async function handleReadColumnsImageText() {
+export async function handleInitColumnsFromImage() {
   const { lowcodeContext } = context;
   if (!lowcodeContext?.clipboardImage) {
     window.showInformationMessage('剪贴板里没有截图');
-    return;
+    return lowcodeContext?.model;
   }
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
   env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
   window.showInformationMessage('内容已经复制到剪贴板');
+  return lowcodeContext?.model;
 }
 
 export async function handleAskChatGPT() {

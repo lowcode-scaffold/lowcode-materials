@@ -36,12 +36,12 @@ module.exports = {
       main.handleComplete();
     } catch (ex) {}
   },
-  readFiltersImageText: async (lowcodeContext) => {
+  initFiltersFromImage: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
-    await main.handleReadFiltersImageText();
-    return lowcodeContext.model;
+    const res = await main.handleInitFiltersFromImage();
+    return res;
   },
-  intFiltersFromOcrText: (lowcodeContext) => {
+  initFiltersFromText: (lowcodeContext) => {
     // 处理如下 ocr 结果
     // 客户姓名：
     // 请输入
@@ -68,12 +68,12 @@ module.exports = {
     lowcodeContext.outputChannel.appendLine(JSON.stringify(filters));
     return { ...lowcodeContext.model, filters };
   },
-  readColumnsImageText: async (lowcodeContext) => {
+  initColumnsFromImage: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
-    await main.handleReadFiltersImageText();
-    return lowcodeContext.model;
+    const res = await main.handleInitColumnsFromImage();
+    return res;
   },
-  intColumnsFromOcrText: (lowcodeContext) => {
+  initColumnsFromText: (lowcodeContext) => {
     let columns = lowcodeContext.params.split('\n');
     columns = columns.map((s) => ({
       slot: false,
