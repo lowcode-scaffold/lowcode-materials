@@ -32,7 +32,9 @@ module.exports = {
   },
   complete: (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
-    main.handleComplete();
+    try {
+      main.handleComplete();
+    } catch (ex) {}
   },
   readFiltersImageText: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;

@@ -75,6 +75,10 @@ export async function handleComplete() {
       )
       .toString();
     fs.removeSync(path.join(createBlockPath, 'temp.mock.script.ejs'));
+    // @ts-ignore
+    if (!lowcodeContext?.model.includeModifyModal) {
+      fs.removeSync(path.join(path.join(createBlockPath, 'ModifyModal')));
+    }
     const mockScript = ejs.render(mockTemplate, {
       ...lowcodeContext!.model,
       mockCode,
