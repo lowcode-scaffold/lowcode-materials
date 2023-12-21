@@ -1,14 +1,76 @@
 {
-	"filters": [],
-	"columns": [],
-	"pagination": {
-		"show": true,
-		"page": "page",
-		"size": "size",
-		"total": "result.total"
-	},
-	"includeModifyModal": false,
-	"fetchName": "fetchTableList",
-	"result": "[\"result\"][\"records\"]",
-	"serviceName": "getTableList"
+  "filters": [
+    {
+      "component": "select",
+      "key": "settlementStatus",
+      "label": "决算单状态",
+      "placeholder": "请选择"
+    },
+    {
+      "component": "select",
+      "key": "mainContractCode",
+      "label": "主合同编号",
+      "placeholder": "请输入"
+    },
+    {
+      "component": "select",
+      "key": "customerName",
+      "label": "客户名称",
+      "placeholder": "请输入"
+    },
+    {
+      "component": "select",
+      "key": "customerPhone",
+      "label": "客户手机号",
+      "placeholder": "请输入"
+    }
+  ],
+  "columns": [
+    {
+      "slot": false,
+      "title": "决算单状态",
+      "dataIndex": "settlementStatus",
+      "key": "settlementStatus"
+    },
+    {
+      "slot": false,
+      "title": "主合同编号",
+      "dataIndex": "mainContractCode",
+      "key": "mainContractCode"
+    },
+    {
+      "slot": false,
+      "title": "客户名称",
+      "dataIndex": "customerName",
+      "key": "customerName"
+    },
+    {
+      "slot": false,
+      "title": "客户手机号",
+      "dataIndex": "customerPhone",
+      "key": "customerPhone"
+    },
+    {
+      "slot": false,
+      "title": "房屋地址",
+      "dataIndex": "houseAddress",
+      "key": "houseAddress"
+    },
+    {
+      "slot": false,
+      "title": "工程管理",
+      "dataIndex": "projectManagement",
+      "key": "projectManagement"
+    }
+  ],
+  "pagination": {
+    "show": true,
+    "page": "page",
+    "size": "size",
+    "total": "result.total"
+  },
+  "includeModifyModal": false,
+  "fetchName": "fetchTableList",
+  "result": "[\"result\"][\"records\"]",
+  "serviceName": "getTableList"
 }

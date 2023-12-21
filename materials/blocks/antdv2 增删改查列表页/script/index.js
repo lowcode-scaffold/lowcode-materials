@@ -60,7 +60,7 @@ module.exports = {
         return result;
       }, []);
     filters = filters.map((s) => ({
-      component: s[1].indexOf('选择') ? 'select' : 'input',
+      component: s[1].indexOf('选择') > -1 ? 'select' : 'input',
       key: s[0].replace(/:|：/g, '').trim(),
       label: s[0].replace(/:|：/g, '').trim(),
       placeholder: s[1],

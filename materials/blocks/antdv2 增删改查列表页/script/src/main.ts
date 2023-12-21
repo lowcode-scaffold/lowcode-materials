@@ -19,7 +19,21 @@ export async function handleInitFiltersFromImage() {
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
   env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
   window.showInformationMessage('内容已经复制到剪贴板');
-  return lowcodeContext?.model;
+  const filters = ocrRes.words_result
+    .map((s) => s.words)
+    .reduce((result, value, index, array) => {
+      if (index % 2 === 0) {
+        result.push(array.slice(index, index + 2));
+      }
+      return result;
+    }, [] as string[][]);
+  const formatedFilters = filters.map((s) => ({
+    component: s[1].indexOf('选择') > -1 ? 'select' : 'input',
+    key: s[0].replace(/:|：/g, '').trim(),
+    label: s[0].replace(/:|：/g, '').trim(),
+    placeholder: s[1],
+  }));
+  return { ...lowcodeContext.model, filters: formatedFilters };
 }
 
 export async function handleInitColumnsFromImage() {
@@ -31,6 +45,14 @@ export async function handleInitColumnsFromImage() {
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
   env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
   window.showInformationMessage('内容已经复制到剪贴板');
+  const columns = ocrRes.words_result.map((s) => ({
+    slot: false,
+    title: s.words,
+    dataIndex: s.words,
+    key: s.words,
+  }));
+  lowcodeContext.outputChannel.appendLine(JSON.stringify(columns));
+  return { ...lowcodeContext.model, columns };
   return lowcodeContext?.model;
 }
 
