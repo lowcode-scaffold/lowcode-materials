@@ -86,7 +86,7 @@ export function <%= fetchName %>(
 params: I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Params
 ) {
 return request<I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Result["result"]>({
-	url: `http://127.0.0.1:3001<%= createBlockPath %>/<%= fetchName %>`, 
+	url: `http://127.0.0.1:3001/<%= createBlockPath %>/<%= fetchName %>`, 
 	method: 'GET',
 	params,
 });
