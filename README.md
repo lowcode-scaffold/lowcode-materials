@@ -16,3 +16,8 @@ vscode 执行如下命令
 
 ![](https://i.imgur.com/UU0wzyy.png)
 
+快速创建区块
+
+![](https://i.imgur.com/eeSp4Et.gif)
+
+以同步目录设置的代码模版和区块在所有项目里都可见，代码逻辑可以自由修改，不过分依赖 lowcode 插件内部，比如上面快速创建区块的代码： https://github.com/lowcode-scaffold/lowcode-materials/blob/master/materials/snippets/%E5%BF%AB%E9%80%9F%E5%88%9B%E5%BB%BA%E5%8C%BA%E5%9D%97/script/src/main.ts
