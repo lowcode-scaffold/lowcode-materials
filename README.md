@@ -7,3 +7,12 @@
 ![](https://i.imgur.com/9mVkBga.png)
 
 ![](https://i.imgur.com/J44thU5.png)
+
+vscode 执行如下命令
+
+![](https://i.imgur.com/QWblbfV.png)
+
+出现如下选项，配置成功
+
+![](https://i.imgur.com/UU0wzyy.png)
+

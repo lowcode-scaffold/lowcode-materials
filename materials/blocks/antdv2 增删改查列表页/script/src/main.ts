@@ -51,9 +51,7 @@ export async function handleInitColumnsFromImage() {
     dataIndex: s.words,
     key: s.words,
   }));
-  lowcodeContext.outputChannel.appendLine(JSON.stringify(columns));
   return { ...lowcodeContext.model, columns };
-  return lowcodeContext?.model;
 }
 
 export async function handleAskChatGPT() {
