@@ -1,0 +1,265 @@
+<template>
+  <a-modal
+    :visible="props.visible"
+    :title="props.title"
+    :width="700"
+    @ok="presenter.handleSubmit"
+    @cancel="presenter.handleCancel"
+    :ok-button-props="{ loading: model.loading.value }"
+    :mask-closable="false"
+  >
+    <a-form :label-col="{ span: 4 }" :wrapper-col="{ span: 12 }">
+			<% modifyModal.formItems.map(item => { _%>
+				<% if(item.component === "input") { _%>
+					<a-form-item
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-input 
+							v-model:value="model.formData.<%= item.key %>" 
+							placeholder="<%= item.placeholder %>"
+							allow-clear
+							<% if(item.maxlength) { _%>
+							:maxlength="<%= item.maxlength %>"
+							<% } _%>
+							<% if(item.showCount) { _%>
+							showCount
+							<% } _%>
+						>
+						</a-input>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "input-password") { _%>
+					<a-form-item
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-input-password
+							v-model:value="model.formData.<%= item.key %>" 
+							placeholder="<%= item.placeholder %>"
+							allowClear
+							<% if(item.maxlength) { _%>
+							:maxlength="<%= item.maxlength %>"
+							<% } _%>
+							<% if(item.showCount) { _%>
+							showCount
+							<% } _%>
+						></a-input-password>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "input-number") { _%>
+					<a-form-item
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-input-number
+							v-model:value="model.formData.<%= item.key %>"
+							placeholder="<%= item.placeholder %>"
+							allowClear
+							<% if(item.max) { _%>
+							:max="<%= item.max %>"
+							<% } _%>
+							<% if(item.min) { _%>
+							:min="<%= item.min %>"
+							<% } _%>
+							<% if(item.step) { _%>
+							:step="<%= item.step %>"
+							<% } _%>
+						></a-input-number>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "textarea") { _%>
+					<a-form-item
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-textarea
+							v-model:value="model.formData.<%= item.key %>" 
+							placeholder="<%= item.placeholder %>"
+							allow-clear
+							<% if(item.maxlength) { _%>
+							:maxlength="<%= item.maxlength %>"
+							<% } _%>
+							<% if(item.showCount) { _%>
+							showCount
+							<% } _%>
+						>
+						</a-textarea>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "select") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%> 
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-select
+							placeholder="<%= item.placeholder %>"
+							allow-clear
+							:options="model.options.<%= item.key %>"
+							v-model:value="model.formData.<%= item.key %>"
+							<% if(item.labelInValue) { _%>
+							labelInValue
+							<% } _%>
+							<% if(item.mode) { _%>
+							mode="<%= item.mode %>"
+							<% } _%>
+							optionFilterProp="<%= item.optionFilterProp || 'label' %>"
+							<% if(item.showSearch) { _%>
+							showSearch
+							<% } _%>
+							<% if(item.hideArrow) { _%>
+							:showArrow="false"
+							<% } _%>
+						></a-select>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "radio-group") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-radio-group v-model:value="model.formData.<%= item.key %>">
+							<a-radio
+								v-for="item in model.options.<%= item.key %>"
+								:value="item.value"
+								:key="item.value"
+								>{{ item.label }}
+							</a-radio>
+						</a-radio-group>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "checkbox-group") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%>
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-checkbox-group
+							v-model:value="model.formData.<%= item.key %>"
+							style="width: 100%; margin-top: 6px"
+						>
+							<a-row>
+							<a-col
+								:span="8"
+								v-for="item in model.options.<%= item.key %>"
+								:key="item.value"
+							>
+								<a-checkbox :value="item.value">{{ item.label }} </a-checkbox>
+							</a-col>
+							</a-row>
+						</a-checkbox-group>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "switch") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%> 
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-switch
+							v-model:checked="model.formData.<%= item.key %>"
+							<% if(item.checkedChildren) { _%>
+							checkedChildren="<%= item.checkedChildren %>"
+							<% } _%>
+							<% if(item.unCheckedChildren) { _%>
+							unCheckedChildren="<%= item.unCheckedChildren %>"
+							<% } _%>
+							<% if(item.checkedValue) { _%>
+								checkedValue="<%= item.checkedValue || 'true' %>"
+							<% } _%>
+							<% if(item.unCheckedValue) { _%>
+								unCheckedValue="<%= item.unCheckedValue || 'false' %>"
+							<% } _%>
+						></a-switch>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "date-picker") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%> 
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-date-picker
+							v-model:value="model.formData.<%= item.key %>"
+							placeholder="<%= item.placeholder %>"
+							allow-clear
+							picker="<%= item.picker || 'date' %>"
+							:showTime="<%= item.showTime || false %>"
+							:showNow="<%= item.showNow || false %>"
+							:showToday="<%= item.showToday || false %>"
+						/>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "range-picker") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%> 
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-range-picker
+							v-model:value="model.formData.<%= item.key %>"
+							:placeholder="[<%- item.placeholder || '\'\'' %>,<%- item.placeholder || '\'\'' %>]"
+							allow-clear
+							picker="<%= item.picker || 'date' %>"
+							:showTime="<%= item.showTime || false %>"
+							:showNow="<%= item.showNow || false %>"
+							:showToday="<%= item.showToday || false %>"
+						/>
+					</a-form-item>
+				<% } _%>
+				<% if(item.component === "time-picker") { _%>
+					<a-form-item 
+						<% if(item.label) { _%>
+						label="<%= item.label %>"
+						<% } _%> 
+						v-bind="presenter.validateInfos.<%= item.key %>"
+					>
+						<a-time-picker
+							v-model:value="model.formData.<%= item.key %>"
+							placeholder="<%= item.placeholder %>"
+							allow-clear
+						/>
+					</a-form-item>
+				<% } _%>
+			<% }) _%>
+    </a-form>
+  </a-modal>
+</template>
+<script lang="ts" setup>
+import { usePresenter } from "./presenter";
+
+interface IProps {
+  title: string
+  visible: boolean
+  action: 'add' | 'edit' | 'view'
+  id?: number
+}
+
+interface IEmit {
+  (event: 'cancel'): void
+  (event: 'ok'): void
+}
+
+const props = defineProps<IProps>()
+
+const emit = defineEmits<IEmit>()
+
+const presenter = usePresenter(props, emit);
+const { model } = presenter;
+</script>

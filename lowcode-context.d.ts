@@ -78,6 +78,11 @@ interface Context {
      * @type {string}
      */
     snippetMaterialsPath: string;
+    /**
+     * @description 私有物料路径
+     * @type {string}
+     */
+    privateMaterialsPath: string;
   };
   /**
    * @description lwocode 插件内部使用的一些库，暴露出来避免重复安装

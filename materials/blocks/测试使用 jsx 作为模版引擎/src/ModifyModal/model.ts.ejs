@@ -1,0 +1,53 @@
+import { reactive, ref } from "vue";
+<% if(modifyModal.formItems.some(s => (s.type || "").indexOf("Dayjs") > -1)) { _%>
+import type { Dayjs } from "dayjs";
+<% } _%>
+
+export interface IFormData {
+	id?:number;
+	<% modifyModal.formItems.map(item => { _%>
+		<%= item.key %><% if(item.optional){ _%>?<% } _%>: <%= item.type %>;
+	<% }) _%>
+}
+
+const defaultFormData: IFormData = {
+	<% modifyModal.formItems.map(item => { _%>
+		<%= item.key %>: <%- item.defaultValue || '\"\"' %>,
+	<% }) _%>
+};
+<% if(modifyModal.formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === "checkbox-group")){ %>
+interface IOptionItem {
+  label: string;
+  value: string;
+}
+
+interface IOptions {
+  <% modifyModal.formItems.filter(s => s.component === "select" || s.component === "radio-group" || s.component === "checkbox-group").map(item => { _%>
+		<%= item.key %>: IOptionItem[];
+	<% }) _%>
+}
+
+const defaultOptions: IOptions = {
+  <% modifyModal.formItems.filter(s => s.component === "select" || s.component === "radio-group" || s.component === "checkbox-group").map(item => { _%>
+		<%= item.key %>: [],
+	<% }) _%>
+};
+<% } %>
+
+export const useModel = () => {
+  const formData = reactive<IFormData>({ ...defaultFormData });
+	<% if(modifyModal.formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === "checkbox-group")){ _%>
+  const options = reactive<IOptions>({ ...defaultOptions });
+	<% } _%>
+  const loading = ref(false);
+
+  return { 
+		formData, 
+		<% if(modifyModal.formItems.some(s => s.component === "select" || s.component === "radio-group" || s.component === "checkbox-group")){ _%>
+		options,
+		<% } _%>
+		loading 
+	};
+};
+
+export type Model = ReturnType<typeof useModel>;

@@ -1,0 +1,37 @@
+import { <%= locals.api ? funcName : fetchName %> } from "./api";
+import { Model } from "./model"; 
+
+export default class Service {
+  private model: Model;
+
+  constructor(model: Model) {
+    this.model = model;
+  }
+
+  async <%= serviceName %>() {
+    this.model.loading.list = true;
+    const res = await <%= locals.api ? funcName : fetchName %>({
+			<% filters.map(item => { _%>
+				<%= item.key %>: this.model.filterForm.<%= item.key %>,
+			<% }) _%>
+			<% if(pagination.show) { _%>
+				<%= pagination.page %>: this.model.pagination.page,
+				<%= pagination.size %>: this.model.pagination.pageSize,
+			<% } _%>
+		}).finally(() => {
+			this.model.loading.list = false;
+		});
+    this.model.tableList.value = res<%- result %>.map((s) => {
+      return {
+		...s,
+		<% columns.map((item, index) => { _%>
+			<%= item.key || `column${index+1}` %>: s.<%= item.key || `column${index+1}` %>,
+		<% }) _%>
+		apiResult: s
+      };
+    });
+	<% if(pagination.show) { _%>
+	this.model.pagination.total = res.<%- pagination.total %>;
+	<% } _%>
+  }
+}

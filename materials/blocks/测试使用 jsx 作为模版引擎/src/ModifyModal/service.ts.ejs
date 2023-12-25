@@ -1,0 +1,42 @@
+import { Model } from "./model";
+
+export default class Service {
+  private model: Model;
+
+  constructor(model: Model) {
+    this.model = model;
+  }
+
+  async getDetail(id: number) {
+    // const res = await fetchDetail({ id });
+    // this.model.formData.id = id;
+	<% modifyModal.formItems.map(item => { _%>
+		// this.model.formData.<%= item.key %> = res.result<%= item.key %>;
+	<% }) _%>
+  }
+
+  async create() {
+    // this.model.loading.value = true;
+    // await create({
+	<% modifyModal.formItems.map(item => { _%>
+		// <%= item.key %>: this.model.formData.<%= item.key %>,
+	<% }) _%>
+    // }).finally(() => {
+    //   this.model.loading.value = false;
+    // });
+  }
+
+  async edit() {
+    // this.model.loading.value = true;
+    // await edit(
+    //   { id: this.model.formData.id! },
+    //   {
+	<% modifyModal.formItems.map(item => { _%>
+		// <%= item.key %>: this.model.formData.<%= item.key %>,
+	<% }) _%>
+    //   },
+    // ).finally(() => {
+    //   this.model.loading.value = false;
+    // });
+  }
+}
