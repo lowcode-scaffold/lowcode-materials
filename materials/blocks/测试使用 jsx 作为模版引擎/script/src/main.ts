@@ -4,8 +4,7 @@ import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
-import ts from 'typescript';
-import { render } from '../../../../../share/Tsx/index';
+import { renderTemplates } from '../../../../../share/Tsx/index';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { context } from './context';
@@ -90,28 +89,13 @@ export async function handleAfterCompile() {
     lowcodeContext?.env.privateMaterialsPath || '',
     '.lowcode',
   );
-  const tsxContentStr = fs
-    .readFileSync(
-      path.join(tempWorkPath || '', 'src', 'demo.tsx.template.tsx').toString(),
-    )
-    .toString();
-  const transpileResult = ts.transpileModule(tsxContentStr, {
-    compilerOptions: {
-      jsx: ts.JsxEmit.React,
-      module: 1,
+  await renderTemplates(
+    {
+      ...lowcodeContext?.model,
+      title: '12121',
     },
-  });
-  fs.writeFileSync(
-    path.join(tempWorkPath || '', 'src', 'demo.js'),
-    transpileResult.outputText,
+    path.join(tempWorkPath, 'src'),
   );
-  // eslint-disable-next-line import/no-dynamic-require, global-require, no-eval
-  const element = eval('require')(
-    path.join(tempWorkPath || '', 'src', 'demo.js'),
-  );
-  console.log(111, element, transpileResult.outputText);
-  const content = render(element, { title: 'dsdsd' });
-  console.log(content, 345);
 }
 
 export async function handleComplete() {

@@ -37,5 +37,7 @@ module.exports = {
     'no-param-reassign': 'off',
     'no-new-func': 'off',
     'no-empty': 'off',
+    'import/no-dynamic-require': 'off',
+    'global-require': 'off',
   },
 };
