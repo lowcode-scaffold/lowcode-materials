@@ -4,7 +4,7 @@ import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
-import { renderTemplates } from '../../../../../share/Tsx/index';
+import { renderTemplates } from '../../../../../share/utils/tsx';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { context } from './context';
