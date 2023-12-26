@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { decode } from 'html-entities';
 import * as ReactDOMServer from 'react-dom/server';
 import glob from 'glob';
 import * as fse from 'fs-extra';
@@ -66,5 +67,5 @@ async function renderFile(templateFilepath: string, props: object) {
       (match) => props[match.replace(/\$|\{|\}/g, '')] || '',
     );
   await fse.rename(templateJsFilepath, targetFilePath);
-  await fse.writeFile(targetFilePath, markup);
+  await fse.writeFile(targetFilePath, decode(markup));
 }

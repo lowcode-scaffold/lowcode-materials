@@ -32,6 +32,7 @@
 		"fs-extra": "^11.1.1",
 		"generate-schema": "^2.6.0",
 		"glob": "^7.1.6",
+		"html-entities": "^2.4.0",
 		"json-schema-to-typescript": "^13.1.1",
 		"jsonminify": "^0.4.2",
 		"mockjs": "^1.1.0",
