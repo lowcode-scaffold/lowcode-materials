@@ -1,4 +1,6 @@
 import * as path from 'path';
+import * as vscode from 'vscode';
+import * as fs from 'fs-extra';
 import { context } from './context';
 
 export async function bootstrap() {
@@ -6,5 +8,34 @@ export async function bootstrap() {
   const explorerSelectedPath = path
     .join(lowcodeContext?.explorerSelectedPath || '')
     .replace(/\\/g, '/');
-  const name = explorerSelectedPath.split('/').pop();
+  const explorerSelectedPathArr = explorerSelectedPath.split('/');
+  const name = explorerSelectedPathArr.pop();
+  vscode.window.withProgress(
+    {
+      location: vscode.ProgressLocation.Notification,
+    },
+    async (progress) => {
+      progress.report({
+        message: `loading`,
+      });
+
+      let content = await context.lowcodeContext!.createChatCompletion({
+        messages: [
+          {
+            role: 'system',
+            content: `你是一个翻译家，你的目标是把中文翻译成英文单词，请翻译时使用驼峰格式，小写字母开头，不要带翻译腔，而是要翻译得自然、流畅和地道，使用优美和高雅的表达方式。请翻译下面用户输入的内容`,
+          },
+          {
+            role: 'user',
+            content: name || '',
+          },
+        ],
+      });
+      content = content.charAt(0).toLowerCase() + content.slice(1);
+      fs.renameSync(
+        path.join(lowcodeContext?.explorerSelectedPath || ''),
+        path.join(explorerSelectedPathArr.join('/'), content),
+      );
+    },
+  );
 }
