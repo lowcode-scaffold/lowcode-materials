@@ -79,12 +79,12 @@ const Content: React.FC<IProps> = (props) => (
         {`};`}
       </>
     )}
-    {`export const defaultFormData: IFormData = {`}
+    {`;export const defaultFormData: IFormData = {`}
     {props.filters.map((item) => (
       <>{`${item.key}: undefined,`}</>
     ))}
     {`}`}
-    {`export const useModel = () => {`}
+    {`;export const useModel = () => {`}
     {`const filterForm = reactive<IFormData>({ ...defaultFormData });`}
     {props.filters.some((s) => s.component === 'select') && (
       <>{`const options = reactive<IOptions>({ ...defaultOptions });`}</>
@@ -114,15 +114,14 @@ const Content: React.FC<IProps> = (props) => (
     {props.pagination.show && (
       <>
         {`
-			const modalInfo = reactive<{
-				visible: boolean;
-				title: string;
-				id?: number;
-				action: "add" | "edit" | "view";
+			const pagination = reactive<{
+				page: number;
+				pageSize: number;
+				total: number;
 			}>({
-				visible: false,
-				title: "",
-				action: "add",
+				page: 1,
+				pageSize: 10,
+				total: 0,
 			});
 		`}
       </>
