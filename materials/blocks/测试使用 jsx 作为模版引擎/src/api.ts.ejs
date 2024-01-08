@@ -36,7 +36,7 @@ export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>P
 export function <%= funcName %> (
 <% if (api.req_query.length>0 || api.req_params.length > 0 || api.query_path.params.length > 0) { %>
 params: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params,
-<% } _%>
+<% } _%> 
 <% if (requestBodyType) { %> 
 data: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data
 <% } %> 

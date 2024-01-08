@@ -4,6 +4,7 @@ import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
+import { lint } from '../../../../../share/utils/lint';
 import { renderTemplates } from '../../../../../share/utils/tsx';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
@@ -102,6 +103,13 @@ export async function handleComplete() {
   const { lowcodeContext } = context;
   const createBlockPath = context.lowcodeContext?.createBlockPath;
   if (createBlockPath) {
+    // #region lint
+    lint({
+      createBlockPath,
+      rootPath: lowcodeContext!.env.rootPath,
+    });
+    // #endregion
+
     // #region 更新 mock 服务
     const mockType = fs
       .readFileSync(path.join(createBlockPath, 'temp.mock.type').toString())
