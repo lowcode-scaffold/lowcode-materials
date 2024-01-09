@@ -6,7 +6,7 @@ import { invokeCallback, invokeErrorCallback } from './callback';
 
 type WebViewKeys = 'main' | string;
 
-type Tasks = 'test';
+type Tasks = 'route';
 
 let webviewPanels: {
   key: WebViewKeys;
@@ -54,6 +54,7 @@ export const showWebView = (options: {
    * webview 打开后执行命令，比如转到指定路由
    */
   task?: { task: Tasks; data?: any };
+  getHtmlForWebview?: () => string;
 }) => {
   const webview = webviewPanels.find((s) => s.key === options.key);
   if (webview) {
@@ -88,7 +89,9 @@ export const showWebView = (options: {
     // panel.iconPath = vscode.Uri.file(
     //   path.join(getExtensionPath(), 'asset', 'icon.png'),
     // );
-    panel.webview.html = getHtmlForWebview();
+    panel.webview.html = options.getHtmlForWebview
+      ? options.getHtmlForWebview()
+      : getHtmlForWebview();
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {
