@@ -1,0 +1,9 @@
+{
+  code: number;
+	msg: string;
+	result: {
+		<% items.map((item, index) => { _%>
+			<%= item.key || `item${index+1}` %>: string;
+		<% }) _%>
+	};
+}

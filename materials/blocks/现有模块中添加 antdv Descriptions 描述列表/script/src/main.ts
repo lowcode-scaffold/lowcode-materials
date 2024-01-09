@@ -301,11 +301,9 @@ export async function handleComplete() {
     fs.removeSync(path.join(createBlockPath, 'temp.mock.type'));
     const { mockCode, mockData } = typescriptToMock(mockType);
     const mockTemplate = fs
-      .readFileSync(
-        path.join(createBlockPath, 'temp.mock.script.ejs').toString(),
-      )
+      .readFileSync(path.join(createBlockPath, 'temp.mock.script').toString())
       .toString();
-    fs.removeSync(path.join(createBlockPath, 'temp.mock.script.ejs'));
+    fs.removeSync(path.join(createBlockPath, 'temp.mock.script'));
     const mockScript = ejs.render(mockTemplate, {
       ...lowcodeContext!.model,
       mockCode,
