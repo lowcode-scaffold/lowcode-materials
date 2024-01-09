@@ -14,33 +14,50 @@ let webviewPanels: {
   disposables: vscode.Disposable[];
 }[] = [];
 
-const getHtmlForWebview = () => {
-  const mianScriptUri = 'http://localhost:8000/main.js';
-  const vendorsScriptUri = 'http://localhost:8000/vendors.js';
+const getHtmlForWebview = (dev = false) => {
+  if (dev) {
+    return `
+		<!doctype html>
+		<html lang="en">
+			<head>
+				<script type="module">import { injectIntoGlobalHook } from "http://127.0.0.1:5173/@react-refresh";
+				injectIntoGlobalHook(window);
+				window.$RefreshReg$ = () => {};
+				window.$RefreshSig$ = () => (type) => type;</script>
 
+				<script type="module" src="http://127.0.0.1:5173/@vite/client"></script>
+				<script>
+				   window.vscode = acquireVsCodeApi();
+        </script>
+				<meta charset="UTF-8" />
+				<link rel="icon" type="image/svg+xml" href="http://127.0.0.1:5173/vite.svg" />
+				<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+				<title>Vite + React + TS</title>
+			</head>
+			<body>
+				<div id="root"></div>
+				<script type="module" src="http://127.0.0.1:5173/src/main.tsx"></script>
+			</body>
+		</html>
+		`;
+  }
   return `
 			<!DOCTYPE html>
 			<html>
 			<head>
 				<meta charset="utf-8" />
 				<meta
-				name="viewport"
-				content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
+					name="viewport"
+					content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no"
 				/>
 				<script>
-				    window.routerBase = "/";
-				</script>
-				<script>
-                   window.g_path = "/";
-				</script>
-				<script>
 				   window.vscode = acquireVsCodeApi();
-                </script>
+        </script>
+				<script type="module" crossorigin src="https://lowcode-webview-react-vite.ruoxie.site/js/index.js"></script>
+				<link rel="stylesheet" crossorigin href="https://lowcode-webview-react-vite.ruoxie.site/css/index.css">
 			</head>
 			<body>
 				<div id="root"></div>
-				<script src="${vendorsScriptUri}"></script>
-				<script src="${mianScriptUri}"></script>
 			</body>
 		</html>
 `;
@@ -91,7 +108,7 @@ export const showWebView = (options: {
     // );
     panel.webview.html = options.getHtmlForWebview
       ? options.getHtmlForWebview()
-      : getHtmlForWebview();
+      : getHtmlForWebview(true);
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {
