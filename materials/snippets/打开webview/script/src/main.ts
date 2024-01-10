@@ -6,6 +6,13 @@ export async function bootstrap() {
   const { lowcodeContext } = context;
   showWebView({
     key: 'main',
-    task: { task: 'route', data: { path: '/getClipboardImage' } },
+    task: {
+      task: 'route',
+      data: { path: '/', materialPath: lowcodeContext?.materialPath },
+    },
   });
+}
+
+export function testScript() {
+  window.showInformationMessage('Hello World!');
 }

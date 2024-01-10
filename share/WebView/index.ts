@@ -165,11 +165,13 @@ export const showWebView = (options: {
       disposables,
     });
     if (options.task) {
-      panel.webview.postMessage({
-        cmd: 'vscodePushTask',
-        task: options.task.task,
-        data: options.task.data,
-      });
+      setTimeout(() => {
+        panel.webview.postMessage({
+          cmd: 'vscodePushTask',
+          task: options.task!.task,
+          data: options.task!.data,
+        });
+      }, 500);
     }
   }
 };

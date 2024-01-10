@@ -19,4 +19,8 @@ module.exports = {
     context.lowcodeContext = lowcodeContext;
     await main.bootstrap();
   },
+  testScript: (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    main.testScript();
+  },
 };
