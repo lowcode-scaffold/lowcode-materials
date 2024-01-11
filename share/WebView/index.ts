@@ -1,6 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as vscode from 'vscode';
 import { window } from 'vscode';
+import { CompileContext } from 'lowcode-context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';
 
@@ -71,7 +72,9 @@ export const showWebView = (options: {
    * webview 打开后执行命令，比如转到指定路由
    */
   task?: { task: Tasks; data?: any };
-  getHtmlForWebview?: () => string;
+  htmlForWebview?: string;
+  lowcodeContext?: CompileContext;
+  routes?: Record<string, any>;
 }) => {
   const webview = webviewPanels.find((s) => s.key === options.key);
   if (webview) {
@@ -106,9 +109,9 @@ export const showWebView = (options: {
     // panel.iconPath = vscode.Uri.file(
     //   path.join(getExtensionPath(), 'asset', 'icon.png'),
     // );
-    panel.webview.html = options.getHtmlForWebview
-      ? options.getHtmlForWebview()
-      : getHtmlForWebview(true);
+    panel.webview.html = options.htmlForWebview
+      ? options.htmlForWebview
+      : getHtmlForWebview();
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {
@@ -117,12 +120,28 @@ export const showWebView = (options: {
         data: any;
         skipError?: boolean;
       }) => {
-        if (routes[message.cmd]) {
+        if (options.routes && options.routes[message.cmd]) {
+          try {
+            const res = await options.routes[message.cmd](message, {
+              webview: panel.webview,
+              webviewKey: options.key,
+              task: options.task,
+              ...options.lowcodeContext,
+            });
+            invokeCallback(panel.webview, message.cbid, res);
+          } catch (ex: any) {
+            if (!message.skipError) {
+              window.showErrorMessage(ex.toString());
+            }
+            invokeErrorCallback(panel.webview, message.cbid, ex);
+          }
+        } else if (routes[message.cmd]) {
           try {
             const res = await routes[message.cmd](message, {
               webview: panel.webview,
               webviewKey: options.key,
               task: options.task,
+              ...options.lowcodeContext,
             });
             invokeCallback(panel.webview, message.cbid, res);
           } catch (ex: any) {

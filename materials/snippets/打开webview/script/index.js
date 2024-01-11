@@ -21,6 +21,6 @@ module.exports = {
   },
   testScript: (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
-    main.testScript();
+    return main.testScript();
   },
 };
