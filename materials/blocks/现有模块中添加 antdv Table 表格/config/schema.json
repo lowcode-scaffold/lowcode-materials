@@ -155,211 +155,190 @@
 							"bodyClassName": "p-r p-l p-b"
 						},
 						{
-							"type": "grid",
-							"columns": [
+							"type": "button-group",
+							"buttons": [
 								{
-									"body": [
-										{
-											"type": "input-text",
-											"label": "model 占位符",
-											"name": "text1",
-											"id": "u:966acfd696a1",
-											"mode": "inline",
-											"clearable": false,
-											"readOnly": true,
-											"static": false,
-											"disabled": true,
-											"value": "---lowcode-columns-placeholder---"
-										},
-										{
-											"type": "button",
-											"label": "复制",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "copy",
-															"args": {
-																"copyFormat": "text/plain",
-																"content": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
+									"type": "button",
+									"label": "插入// lowcode-model-import-api",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "runScript",
+												"args": {
+													"method": "insertPlaceholder",
+													"params": "// lowcode-model-import-api"
 												}
-											},
-											"id": "u:12a58b1e717e"
-										},
-										{
-											"type": "button",
-											"label": "插入当前文件中",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "runScript",
-															"args": {
-																"method": "fdfdf",
-																"params": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
-												}
-											},
-											"id": "u:598cfb2239c9",
-											"themeCss": {
-												"className": {
-													"padding-and-margin:default": {
-														"marginLeft": "10px"
-													}
-												}
-											},
-											"className": "className-598cfb2239c9",
-											"level": "primary"
+											}]
 										}
-									],
-									"id": "u:ddea0d7e9308",
-									"md": 12
+									},
+									"className": "max-w-full"
+								},
+								{
+									"type": "button",
+									"label": "复制",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "copy",
+												"args": {
+													"copyFormat": "text/plain",
+													"content": "// lowcode-model-import-api"
+												}
+											}]
+										}
+									},
+									"className": "max-w-full"
 								}
 							],
-							"id": "u:a45dc0ccdd6a"
+							"tiled": true
 						},
 						{
-							"type": "grid",
-							"columns": [
+							"type": "button-group",
+							"buttons": [
 								{
-									"body": [
-										{
-											"type": "input-text",
-											"label": "model 占位符",
-											"name": "text2",
-											"id": "u:eb975bd48df9",
-											"mode": "inline",
-											"clearable": false,
-											"readOnly": true,
-											"static": false,
-											"disabled": true,
-											"value": "---lowcode-columns-placeholder---"
-										},
-										{
-											"type": "button",
-											"label": "复制",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "copy",
-															"args": {
-																"copyFormat": "text/plain",
-																"content": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
+									"type": "button",
+									"label": "插入// lowcode-model-import-api",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "runScript",
+												"args": {
+													"method": "insertPlaceholder",
+													"params": "// lowcode-model-import-api"
 												}
-											},
-											"id": "u:28d704334575"
-										},
-										{
-											"type": "button",
-											"label": "插入当前文件中",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "runScript",
-															"args": {
-																"method": "fdfdf",
-																"params": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
-												}
-											},
-											"id": "u:d9338c3cc1b6",
-											"themeCss": {
-												"className": {
-													"padding-and-margin:default": {
-														"marginLeft": "10px"
-													}
-												}
-											},
-											"className": "className-598cfb2239c9",
-											"level": "primary"
+											}]
 										}
-									],
-									"id": "u:eb008385075d",
-									"md": 12
+									}
+								},
+								{
+									"type": "button",
+									"label": "复制",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "copy",
+												"args": {
+													"copyFormat": "text/plain",
+													"content": "// lowcode-model-import-api"
+												}
+											}]
+										}
+									}
 								}
 							],
-							"id": "u:60e07b2ce7c5"
+							"tiled": true,
+							"className": "m-t-xs"
 						},
 						{
-							"type": "grid",
-							"columns": [
+							"type": "button-group",
+							"buttons": [
 								{
-									"body": [
-										{
-											"type": "input-text",
-											"label": "model 占位符",
-											"name": "text3",
-											"id": "u:2392c968f763",
-											"mode": "inline",
-											"clearable": false,
-											"readOnly": true,
-											"static": false,
-											"disabled": true,
-											"value": "---lowcode-columns-placeholder---"
-										},
-										{
-											"type": "button",
-											"label": "复制",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "copy",
-															"args": {
-																"copyFormat": "text/plain",
-																"content": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
+									"type": "button",
+									"label": "插入// lowcode-model-type",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "runScript",
+												"args": {
+													"method": "insertPlaceholder",
+													"params": "// lowcode-model-type"
 												}
-											},
-											"id": "u:379c3826a83e"
-										},
-										{
-											"type": "button",
-											"label": "插入当前文件中",
-											"onEvent": {
-												"click": {
-													"actions": [
-														{
-															"actionType": "runScript",
-															"args": {
-																"method": "fdfdf",
-																"params": "---lowcode-columns-placeholder---"
-															}
-														}
-													]
-												}
-											},
-											"id": "u:ded57376bd92",
-											"themeCss": {
-												"className": {
-													"padding-and-margin:default": {
-														"marginLeft": "10px"
-													}
-												}
-											},
-											"className": "className-598cfb2239c9",
-											"level": "primary"
+											}]
 										}
-									],
-									"id": "u:ce02af08e00a",
-									"md": 12
+									}
+								},
+								{
+									"type": "button",
+									"label": "复制",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "copy",
+												"args": {
+													"copyFormat": "text/plain",
+													"content": "// lowcode-model-type"
+												}
+											}]
+										}
+									}
 								}
 							],
-							"id": "u:8abf7b366c89"
+							"tiled": true,
+							"className": "m-t-xs"
+						},
+						{
+							"type": "button-group",
+							"buttons": [
+								{
+									"type": "button",
+									"label": "插入// lowcode-model-variable",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "runScript",
+												"args": {
+													"method": "insertPlaceholder",
+													"params": "// lowcode-model-variable"
+												}
+											}]
+										}
+									}
+								},
+								{
+									"type": "button",
+									"label": "复制",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "copy",
+												"args": {
+													"copyFormat": "text/plain",
+													"content": "// lowcode-model-variable"
+												}
+											}]
+										}
+									}
+								}
+							],
+							"tiled": true,
+							"className": "m-t-xs"
+						},
+						{
+							"type": "button-group",
+							"buttons": [
+								{
+									"type": "button",
+									"label": "插入// lowcode-model-return-variable",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "runScript",
+												"args": {
+													"method": "insertPlaceholder",
+													"params": "// lowcode-model-return-variable"
+												}
+											}]
+										}
+									}
+								},
+								{
+									"type": "button",
+									"label": "复制",
+									"onEvent": {
+										"click": {
+											"actions": [{
+												"actionType": "copy",
+												"args": {
+													"copyFormat": "text/plain",
+													"content": "// lowcode-model-return-variable"
+												}
+											}]
+										}
+									}
+								}
+							],
+							"tiled": true,
+							"className": "m-t-xs"
 						}
 					],
 					"submitText": "",

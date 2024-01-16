@@ -1,9 +1,9 @@
 import { INestApplication } from '@nestjs/common';
-import { CompileContext } from 'lowcode-context';
+import { ViewCallContext } from 'lowcode-context';
 import { StatusBarItem } from 'vscode';
 
 export const context: {
-  lowcodeContext?: CompileContext;
+  lowcodeContext?: ViewCallContext;
   nestApp?: INestApplication<any>;
   statusBarItem?: StatusBarItem;
 } = {
