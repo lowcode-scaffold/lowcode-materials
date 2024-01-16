@@ -2,7 +2,7 @@ import * as path from 'path';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
-import { window, workspace } from 'vscode';
+import { window, workspace, Range } from 'vscode';
 import axios from 'axios';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { translate } from '../../../../../share/TypeChatSlim/index';
@@ -79,6 +79,31 @@ export async function handleIntColumnsFromClipboardImage() {
     return { ...lowcodeContext!.model, columns: res.data };
   }
   return lowcodeContext?.model;
+}
+
+export async function handleInsertPlaceholder() {
+  const { lowcodeContext } = context;
+  if (!window.activeTextEditor) {
+    window.showInformationMessage('没有激活的文档');
+    return;
+  }
+  window.activeTextEditor?.edit((editBuilder) => {
+    // editBuilder.replace(activeTextEditor.selection, content);
+    if (window.activeTextEditor?.selection.isEmpty) {
+      editBuilder.insert(
+        window.activeTextEditor.selection.start,
+        lowcodeContext!.params,
+      );
+    } else {
+      editBuilder.replace(
+        new Range(
+          window.activeTextEditor!.selection.start,
+          window.activeTextEditor!.selection.end,
+        ),
+        lowcodeContext!.params,
+      );
+    }
+  });
 }
 
 export async function handleComplete() {

@@ -47,12 +47,22 @@ export async function handleIntFromClipboardImage() {
     return lowcodeContext?.model;
   }
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
-  const items = ocrRes.words_result.map((s) => {
-    const work = s.words.split(/:|：/g)[0];
-    return {
-      key: work,
-      label: work,
-    };
+  const items: { key: string; label: string }[] = [];
+  ocrRes.words_result.map((s, index) => {
+    const includeColon = s.words.includes(':') || s.words.includes('：');
+    if (includeColon) {
+      const work = s.words.split(/:|：/g)[0];
+      items.push({
+        key: work,
+        label: work,
+      });
+    } else if (index % 2 === 0) {
+      const work = s.words.split(/:|：/g)[0];
+      items.push({
+        key: work,
+        label: work,
+      });
+    }
   });
   const schema = fs.readFileSync(
     path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
