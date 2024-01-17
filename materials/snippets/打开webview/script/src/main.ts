@@ -24,7 +24,7 @@ export async function testScript() {
   const { lowcodeContext } = context;
   window.showInformationMessage('Hello World!');
   const res = await lowcodeContext?.createChatCompletion({
-    messages: [{ role: 'user', content: '你好' }],
+    messages: [{ role: 'user', content: '现在是什么时间' }],
     showWebview: true,
   });
   return res;
