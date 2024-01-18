@@ -168,6 +168,10 @@ interface Context {
    * 打开 webview 获取剪贴板里的图片，base64 格式
    */
   getClipboardImage: () => Promise<string | undefined>;
+  /**
+   * @description 最后一次激活的 TextEditor
+   */
+  activeTextEditor?: vscode.TextEditor;
 }
 export interface CompileContext extends Context {
   /**

@@ -83,29 +83,28 @@ export async function handleIntColumnsFromClipboardImage() {
 
 export async function handleInsertPlaceholder() {
   const { lowcodeContext } = context;
-  if (!window.activeTextEditor) {
+  if (!lowcodeContext?.activeTextEditor) {
     window.showInformationMessage('没有激活的文档');
     return;
   }
-  window.activeTextEditor?.edit((editBuilder) => {
+  lowcodeContext?.activeTextEditor?.edit((editBuilder) => {
     // editBuilder.replace(activeTextEditor.selection, content);
-    if (window.activeTextEditor?.selection.isEmpty) {
+    if (lowcodeContext?.activeTextEditor?.selection.isEmpty) {
       editBuilder.insert(
-        window.activeTextEditor.selection.start,
+        lowcodeContext?.activeTextEditor.selection.start,
         lowcodeContext!.params,
       );
     } else {
       editBuilder.replace(
         new Range(
-          window.activeTextEditor!.selection.start,
-          window.activeTextEditor!.selection.end,
+          lowcodeContext?.activeTextEditor!.selection.start,
+          lowcodeContext?.activeTextEditor!.selection.end,
         ),
         lowcodeContext!.params,
       );
     }
   });
 }
-
 export async function handleComplete() {
   const { lowcodeContext } = context;
   const createBlockPath = context.lowcodeContext?.createBlockPath;
