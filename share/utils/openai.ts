@@ -42,9 +42,9 @@ export const getChatGPTConfig: () => ChatGPTConfig = () => {
 };
 
 export const createChatCompletion = (options: {
-  apiKey: string;
-  model: string;
-  maxTokens: number;
+  apiKey?: string;
+  model?: string;
+  maxTokens?: number;
   hostname?: string;
   apiPath?: string;
   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
@@ -55,13 +55,19 @@ export const createChatCompletion = (options: {
     let error = '发生错误：';
     const request = https.request(
       {
-        hostname: options.hostname || 'api.openai.com',
+        hostname:
+          options.hostname || getChatGPTConfig().hostname || 'api.openai.com',
         port: 443,
-        path: options.apiPath || '/v1/chat/completions',
+        path:
+          options.apiPath ||
+          getChatGPTConfig().apiPath ||
+          '/v1/chat/completions',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${options.apiKey}`,
+          Authorization: `Bearer ${
+            options.apiKey || getChatGPTConfig().apiKey
+          }`,
         },
       },
       (res) => {
@@ -165,10 +171,10 @@ export const createChatCompletion = (options: {
       },
     );
     const body = {
-      model: options.model,
+      model: options.model || getChatGPTConfig().model,
       messages: options.messages,
       stream: true,
-      max_tokens: options.maxTokens,
+      max_tokens: options.maxTokens || getChatGPTConfig().maxTokens,
     };
     request.on('error', (error) => {
       // eslint-disable-next-line no-unused-expressions
