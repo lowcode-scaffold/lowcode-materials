@@ -47,7 +47,18 @@ export const createChatCompletion = (options: {
   maxTokens?: number;
   hostname?: string;
   apiPath?: string;
-  messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
+  messages: {
+    role: 'system' | 'user' | 'assistant';
+    content:
+      | string
+      | (
+          | {
+              type: 'image_url';
+              image_url: { url: string };
+            }
+          | { type: 'text'; text: string }
+        )[];
+  }[];
   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
