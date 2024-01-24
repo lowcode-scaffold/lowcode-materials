@@ -3,7 +3,7 @@ import * as fs from 'fs-extra';
 import { window, Range } from 'vscode';
 import { generalBasic } from '../../../../../share/BaiduOCR/index';
 import { translate } from '../../../../../share/TypeChatSlim/index';
-import { createChatCompletion } from '../../../../../share/utils/openai';
+import { createChatCompletion } from '../../../../../share/LLM/openai';
 import { context } from './context';
 import { IColumns } from '../../config/schema';
 
