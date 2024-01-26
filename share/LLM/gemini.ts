@@ -1,34 +1,113 @@
-import { GoogleGenerativeAI } from '@google/generative-ai';
+import { Content, GoogleGenerativeAI, Part } from '@google/generative-ai';
+import { setGlobalDispatcher, ProxyAgent } from 'undici';
 
-// Access your API key (see "Set up your API key" above)
-const genAI = new GoogleGenerativeAI('');
-
-async function run() {
-  // For text-only input, use the gemini-pro model
-  const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
-
-  const chat = model.startChat({
-    history: [
-      {
-        role: 'user',
-        parts: 'Hello, I have 2 dogs in my house.',
-      },
-      {
-        role: 'model',
-        parts: 'Great to meet you. What would you like to know?',
-      },
-    ],
+export const createChatCompletion = async (options: {
+  apiKey: string;
+  model: 'gemini-pro' | 'gemini-pro-vision';
+  maxTokens?: number;
+  hostname?: string;
+  apiPath?: string;
+  messages: {
+    role: 'system' | 'user' | 'assistant';
+    content:
+      | string
+      | (
+          | {
+              type: 'image_url';
+              image_url: { url: string };
+            }
+          | { type: 'text'; text: string }
+        )[];
+  }[];
+  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  topP?: number;
+  temperature?: number;
+  proxyUrl?: string;
+}) => {
+  if (options.proxyUrl) {
+    const dispatcher = new ProxyAgent({
+      uri: new URL(options.proxyUrl).toString(),
+    });
+    setGlobalDispatcher(dispatcher);
+  }
+  const genAI = new GoogleGenerativeAI(options.apiKey);
+  const model = genAI.getGenerativeModel({
+    model: options.model,
     generationConfig: {
-      maxOutputTokens: 100,
+      maxOutputTokens: options.maxTokens,
+      temperature: options.temperature,
+      topP: options.topP,
     },
   });
+  const result = await model.generateContentStream({
+    contents: openAiMessageToGeminiMessage(options.messages),
+  });
+  let combinedResult = '';
+  // eslint-disable-next-line no-restricted-syntax
+  for await (const chunk of result.stream) {
+    const chunkText = chunk.text();
+    if (options.handleChunk) {
+      options.handleChunk({ text: chunkText, hasMore: false });
+    }
+    combinedResult += chunkText;
+  }
+  return combinedResult;
+};
 
-  const msg = 'How many paws are in my house?';
+const openAiMessageToGeminiMessage = (
+  messages: {
+    role: 'system' | 'user' | 'assistant';
+    content:
+      | string
+      | (
+          | {
+              type: 'image_url';
+              image_url: { url: string };
+            }
+          | { type: 'text'; text: string }
+        )[];
+  }[],
+): Content[] => {
+  const result: Content[] = messages
+    .flatMap(({ role, content }) => {
+      if (role === 'system') {
+        return [
+          { role: 'user', parts: [{ text: content }] },
+          { role: 'model', parts: [{ text: '' }] },
+        ];
+      }
 
-  const result = await chat.sendMessage(msg);
-  const response = await result.response;
-  const text = response.text();
-  console.log(text);
-}
+      const parts: Part[] =
+        content == null || typeof content === 'string'
+          ? [{ text: content?.toString() ?? '' }]
+          : content.map((item) =>
+              item.type === 'text'
+                ? { text: item.text }
+                : parseBase64(item.image_url.url),
+            );
 
-run();
+      return [{ role: role === 'user' ? 'user' : 'model', parts }];
+    })
+    .flatMap((item, idx, arr) => {
+      if (item.role === arr.at(idx + 1)?.role && item.role === 'user') {
+        return [item, { role: 'model', parts: [{ text: '' }] }];
+      }
+      return [item];
+    });
+
+  return result;
+};
+
+const parseBase64 = (base64: string): Part => {
+  if (!base64.startsWith('data:')) {
+    return { text: '' };
+  }
+  const [m, data, ..._arr] = base64.split(',');
+  const mimeType = m.match(/:(?<mime>.*?);/)?.groups?.mime ?? 'img/png';
+  return {
+    inlineData: {
+      mimeType,
+      data,
+    },
+  };
+};

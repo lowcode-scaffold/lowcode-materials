@@ -144,6 +144,11 @@
   resolved "https://registry.npmmirror.com/@eslint/js/-/js-8.47.0.tgz#5478fdf443ff8158f9de171c704ae45308696c7d"
   integrity sha512-P6omY1zv5MItm93kLM8s2vr1HICJH8v0dvddDhysbIuZ+vcjOHg5Zbkf1mTkcmi2JA9oBG2anOkRnW8WJTS8Og==
 
+"@fastify/busboy@^2.0.0":
+  version "2.1.0"
+  resolved "https://registry.npmmirror.com/@fastify/busboy/-/busboy-2.1.0.tgz#0709e9f4cb252351c609c6e6d8d6779a8d25edff"
+  integrity sha512-+KpH+QxZU7O4675t3mnkQKcZZg56u+K/Ct2K+N2AZYNVK8kyeo/bI18tI8aPm3tvNNRyTWfj6s5tnGNlcbQRsA==
+
 "@google/generative-ai@^0.1.3":
   version "0.1.3"
   resolved "https://registry.npmmirror.com/@google/generative-ai/-/generative-ai-0.1.3.tgz#8e529d4d86c85b64d297b4abf1a653d613a09a9f"
@@ -4352,6 +4357,13 @@ unbox-primitive@^1.0.2:
     has-bigints "^1.0.2"
     has-symbols "^1.0.3"
     which-boxed-primitive "^1.0.2"
+
+undici@^6.4.0:
+  version "6.4.0"
+  resolved "https://registry.npmmirror.com/undici/-/undici-6.4.0.tgz#7ca0c3f73e1034f3c79e566183b61bb55b1410ea"
+  integrity sha512-wYaKgftNqf6Je7JQ51YzkEkEevzOgM7at5JytKO7BjaURQpERW8edQSMrr2xb+Yv4U8Yg47J24+lc9+NbeXMFA==
+  dependencies:
+    "@fastify/busboy" "^2.0.0"
 
 universalify@^2.0.0:
   version "2.0.0"
