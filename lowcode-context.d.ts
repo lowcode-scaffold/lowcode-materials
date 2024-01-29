@@ -83,6 +83,11 @@ interface Context {
      * @type {string}
      */
     privateMaterialsPath: string;
+    /**
+     * @description ExtensionContext
+     * @type {vscode.ExtensionContext}
+     */
+    extensionContext: vscode.ExtensionContext;
   };
   /**
    * @description lwocode 插件内部使用的一些库，暴露出来避免重复安装

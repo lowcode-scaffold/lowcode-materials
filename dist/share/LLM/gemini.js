@@ -3,15 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createChatCompletion = void 0;
 const generative_ai_1 = require("@google/generative-ai");
 const undici_1 = require("undici");
-const vscode_1 = require("vscode");
 const createChatCompletion = async (options) => {
-    const extension = vscode_1.extensions.getExtension('wjkang.lowcode');
-    if (!extension) {
-        return Promise.resolve('extension is undefined');
-    }
-    const context = await extension.activate();
-    console.log(context, 123);
-    context.secrets.get('uiuiui');
     if (options.proxyUrl) {
         const dispatcher = new undici_1.ProxyAgent({
             uri: new URL(options.proxyUrl).toString(),
@@ -27,19 +19,27 @@ const createChatCompletion = async (options) => {
             topP: options.topP,
         },
     });
-    const result = await model.generateContentStream({
-        contents: openAiMessageToGeminiMessage(options.messages),
-    });
-    let combinedResult = '';
-    // eslint-disable-next-line no-restricted-syntax
-    for await (const chunk of result.stream) {
-        const chunkText = chunk.text();
-        if (options.handleChunk) {
-            options.handleChunk({ text: chunkText, hasMore: false });
+    try {
+        const result = await model.generateContentStream({
+            contents: openAiMessageToGeminiMessage(options.messages),
+        });
+        let combinedResult = '';
+        // eslint-disable-next-line no-restricted-syntax
+        for await (const chunk of result.stream) {
+            const chunkText = chunk.text();
+            if (options.handleChunk) {
+                options.handleChunk({ text: chunkText, hasMore: false });
+            }
+            combinedResult += chunkText;
         }
-        combinedResult += chunkText;
+        return combinedResult;
     }
-    return combinedResult;
+    catch (ex) {
+        if (options.handleChunk) {
+            options.handleChunk({ text: ex.toString(), hasMore: false });
+        }
+        return ex.toString();
+    }
 };
 exports.createChatCompletion = createChatCompletion;
 const openAiMessageToGeminiMessage = (messages) => {

@@ -1,6 +1,5 @@
 import { Content, GoogleGenerativeAI, Part } from '@google/generative-ai';
 import { setGlobalDispatcher, ProxyAgent } from 'undici';
-import { ExtensionContext, extensions } from 'vscode';
 
 type Message = (
   | {
@@ -33,12 +32,6 @@ export const createChatCompletion = async (options: {
   temperature?: number;
   proxyUrl?: string;
 }) => {
-  const extension = extensions.getExtension<ExtensionContext>('wjkang.lowcode');
-  if (!extension) {
-    return Promise.resolve('extension is undefined');
-  }
-  const context = await extension.activate();
-  context.secrets.get('uiuiui');
   if (options.proxyUrl) {
     const dispatcher = new ProxyAgent({
       uri: new URL(options.proxyUrl).toString(),
@@ -54,19 +47,26 @@ export const createChatCompletion = async (options: {
       topP: options.topP,
     },
   });
-  const result = await model.generateContentStream({
-    contents: openAiMessageToGeminiMessage(options.messages),
-  });
-  let combinedResult = '';
-  // eslint-disable-next-line no-restricted-syntax
-  for await (const chunk of result.stream) {
-    const chunkText = chunk.text();
-    if (options.handleChunk) {
-      options.handleChunk({ text: chunkText, hasMore: false });
+  try {
+    const result = await model.generateContentStream({
+      contents: openAiMessageToGeminiMessage(options.messages),
+    });
+    let combinedResult = '';
+    // eslint-disable-next-line no-restricted-syntax
+    for await (const chunk of result.stream) {
+      const chunkText = chunk.text();
+      if (options.handleChunk) {
+        options.handleChunk({ text: chunkText, hasMore: false });
+      }
+      combinedResult += chunkText;
     }
-    combinedResult += chunkText;
+    return combinedResult;
+  } catch (ex: any) {
+    if (options.handleChunk) {
+      options.handleChunk({ text: ex.toString(), hasMore: false });
+    }
+    return ex.toString();
   }
-  return combinedResult;
 };
 
 const openAiMessageToGeminiMessage = (messages: Message): Content[] => {
