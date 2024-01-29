@@ -163,13 +163,3 @@ export const createChatCompletion = (options: {
     request.write(JSON.stringify(body));
     request.end();
   });
-
-createChatCompletion({
-  model: 'gemini-pro',
-  messages: [{ role: 'user', content: '你好，写一篇2000字的作文' }],
-  handleChunk: (data) => {
-    // console.log(data.text || '');
-  },
-}).then((res) => {
-  console.log(res);
-});

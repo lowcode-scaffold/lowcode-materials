@@ -1,3 +1,5 @@
+const gemini = require('../dist/share/LLM/gemini');
+
 module.exports = {
   /**
    * @description
@@ -7,10 +9,18 @@ module.exports = {
    * })} options
    * @returns {Promise<string>}
    */
-  createChatCompletion: (options) => {
+  createChatCompletion: async (options) => {
     if (options.handleChunk) {
-      options.handleChunk({ text: 'hahaha', hasMore: false });
-      return Promise.resolve('hahaha');
+      const res = await gemini.createChatCompletion({
+        messages: options.messages,
+        model: 'gemini-pro',
+        apiKey: '',
+        handleChunk(data) {
+          options.handleChunk(data);
+        },
+        proxyUrl: 'http://127.0.0.1:7890',
+      });
+      return res;
     }
   },
 };

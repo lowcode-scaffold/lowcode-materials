@@ -1,5 +1,4 @@
 .DS_Store
 node_modules/
 .ts-node
-dist
 .lowcoderc

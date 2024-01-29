@@ -1,5 +1,6 @@
 import { Content, GoogleGenerativeAI, Part } from '@google/generative-ai';
 import { setGlobalDispatcher, ProxyAgent } from 'undici';
+import { ExtensionContext, extensions } from 'vscode';
 
 type Message = (
   | {
@@ -32,6 +33,12 @@ export const createChatCompletion = async (options: {
   temperature?: number;
   proxyUrl?: string;
 }) => {
+  const extension = extensions.getExtension<ExtensionContext>('wjkang.lowcode');
+  if (!extension) {
+    return Promise.resolve('extension is undefined');
+  }
+  const context = await extension.activate();
+  context.secrets.get('uiuiui');
   if (options.proxyUrl) {
     const dispatcher = new ProxyAgent({
       uri: new URL(options.proxyUrl).toString(),
