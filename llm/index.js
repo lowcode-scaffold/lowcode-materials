@@ -1,5 +1,6 @@
 const vscode = require('vscode');
 const gemini = require('../dist/share/LLM/gemini');
+const geminiProxy = require('../dist/share/LLM/geminiProxy');
 
 const API_KEY = 'lowcode.GeminiKey';
 
@@ -42,6 +43,17 @@ module.exports = {
       proxyUrl: 'http://127.0.0.1:7890',
     });
     return res;
+    // const res = await geminiProxy.createChatCompletion({
+    //   messages: options.messages,
+    //   model: 'gemini-pro',
+    //   maxTokens: '4096',
+    //   handleChunk(data) {
+    //     if (options.handleChunk) {
+    //       options.handleChunk(data);
+    //     }
+    //   },
+    // });
+    // return res;
   },
 };
 
