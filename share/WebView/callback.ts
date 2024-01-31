@@ -13,14 +13,14 @@ export function invokeCallback<T = any>(
   });
 }
 
-export function invokeChatGPTChunkCallback<T = any>(
+export function invokeLLMChunkCallback<T = any>(
   webview: vscode.Webview,
   cbid: string,
   res: T,
 ) {
   webview.postMessage({
-    cmd: 'vscodeChatGPTChunkCallback',
-    task: 'handleChatGPTChunk',
+    cmd: 'vscodeLLMChunkCallback',
+    task: 'handleLLMChunk',
     cbid,
     data: res,
     code: 200,
