@@ -1,6 +1,7 @@
 import * as vscode from 'vscode';
 import { CompileContext } from 'lowcode-context';
 import { createChatCompletion } from '../../../../../share/LLM/gemini';
+import { createChatCompletion as createChatGPTChatCompletion } from '../../../../../share/LLM/openai';
 import { invokeLLMChunkCallback } from '../../../../../share/WebView/callback';
 import { IMessage } from '../../../../../share/WebView/type';
 
@@ -76,6 +77,34 @@ export const askGemini = async (
       });
     },
     proxyUrl: 'http://127.0.0.1:7890',
+  });
+  return {
+    content: res,
+  };
+};
+
+export const askChatGPT = async (
+  message: IMessage<{
+    messages: Message;
+  }>,
+  lowcodeContext: {
+    webview: vscode.Webview;
+  } & CompileContext,
+) => {
+  const res = await createChatGPTChatCompletion({
+    model: message.data.messages.some(
+      (s) =>
+        Array.isArray(s.content) &&
+        s.content.some((c) => c.type === 'image_url'),
+    )
+      ? 'gpt-4-vision-preview'
+      : undefined,
+    messages: message.data.messages,
+    handleChunk: (data) => {
+      invokeLLMChunkCallback(lowcodeContext.webview, message.cbid, {
+        content: data.text,
+      });
+    },
   });
   return {
     content: res,
