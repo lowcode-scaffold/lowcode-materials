@@ -18,11 +18,27 @@ export const getMaterialPath = async (
   } & CompileContext,
 ) => context.materialPath;
 
+type Message = (
+  | {
+      role: 'system';
+      content: string;
+    }
+  | {
+      role: 'user';
+      content:
+        | string
+        | (
+            | {
+                type: 'image_url';
+                image_url: { url: string };
+              }
+            | { type: 'text'; text: string }
+          )[];
+    }
+)[];
 export const askGemini = async (
   message: IMessage<{
-    sessionId: number;
-    messageId: number;
-    messages: { role: 'system' | 'user'; content: string }[];
+    messages: Message;
   }>,
   lowcodeContext: {
     webview: vscode.Webview;
@@ -37,32 +53,31 @@ export const askGemini = async (
     apiKey = await setApiKey(context);
     if (!apiKey) {
       invokeLLMChunkCallback(lowcodeContext.webview, message.cbid, {
-        sessionId: message.data.sessionId,
-        messageId: message.data.messageId,
         content: 'Please enter your api key',
       });
       return {
-        sessionId: message.data.sessionId,
-        messageId: message.data.messageId,
         content: 'Please enter your api key',
       };
     }
   }
   const res = await createChatCompletion({
-    model: 'gemini-pro',
-    apiKey: '',
+    model: message.data.messages.some(
+      (s) =>
+        Array.isArray(s.content) &&
+        s.content.some((c) => c.type === 'image_url'),
+    )
+      ? 'gemini-pro-vision'
+      : 'gemini-pro',
+    apiKey,
     messages: message.data.messages,
     handleChunk: (data) => {
       invokeLLMChunkCallback(lowcodeContext.webview, message.cbid, {
-        sessionId: message.data.sessionId,
-        messageId: message.data.messageId,
         content: data.text,
       });
     },
+    proxyUrl: 'http://127.0.0.1:7890',
   });
   return {
-    sessionId: message.data.sessionId,
-    messageId: message.data.messageId,
     content: res,
   };
 };
