@@ -7,10 +7,11 @@ export async function bootstrap() {
   const { lowcodeContext } = context;
   showWebView({
     key: 'main',
-    title: 'vite + react',
+    title: 'lowcode chat',
+    viewColumn: 3,
     task: {
       task: 'route',
-      data: { path: '/', materialPath: lowcodeContext?.materialPath },
+      data: { path: '/chat', materialPath: lowcodeContext?.materialPath },
     },
     lowcodeContext: {
       ...lowcodeContext!,
@@ -32,25 +33,25 @@ export async function testScript() {
 
 const getHtmlForWebview = (dev = false) => {
   if (dev) {
-    return `
-			<!doctype html>
-			<html lang="en">
-				<head>
-					<script type="module" src="http://127.0.0.1:5173/@vite/client"></script>
-			    <script>
-						window.vscode = acquireVsCodeApi();
-					</script>
-					<meta charset="UTF-8" />
-					<link rel="icon" type="image/svg+xml" href="http://127.0.0.1:5173/vite.svg" />
-					<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-					<title>Vite + Vue + TS</title>
-				</head>
-				<body>
-					<div id="root"></div>
-					<script type="module" src="http://127.0.0.1:5173/src/main.ts"></script>
-				</body>
-			</html>
-		`;
+    // return `
+    // 	<!doctype html>
+    // 	<html lang="en">
+    // 		<head>
+    // 			<script type="module" src="http://127.0.0.1:5173/@vite/client"></script>
+    // 	    <script>
+    // 				window.vscode = acquireVsCodeApi();
+    // 			</script>
+    // 			<meta charset="UTF-8" />
+    // 			<link rel="icon" type="image/svg+xml" href="http://127.0.0.1:5173/vite.svg" />
+    // 			<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    // 			<title>Vite + Vue + TS</title>
+    // 		</head>
+    // 		<body>
+    // 			<div id="root"></div>
+    // 			<script type="module" src="http://127.0.0.1:5173/src/main.ts"></script>
+    // 		</body>
+    // 	</html>
+    // `;
     return `
 				<!doctype html>
 				<html lang="en">
@@ -88,8 +89,8 @@ const getHtmlForWebview = (dev = false) => {
 				<script>
 				   window.vscode = acquireVsCodeApi();
         </script>
-				<script type="module" crossorigin src="https://lowcode-webview-vue.ruoxie.site/js/index.js"></script>
-				<link rel="stylesheet" crossorigin href="https://lowcode-webview-vue.ruoxie.site/css/index.css">
+				<script type="module" crossorigin src="https://lowcode-webview-react-vite.ruoxie.site/js/index.js"></script>
+				<link rel="stylesheet" crossorigin href="https://lowcode-webview-react-vite.ruoxie.site/css/index.css">
 			</head>
 			<body>
 				<div id="root"></div>

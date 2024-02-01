@@ -6,7 +6,7 @@ const API_KEY = 'lowcode.GeminiKey';
 
 module.exports = {
   /**
-   * @description
+   * @description 替换 lowcode 插件内部的 ChatGPT 请求
    * @param {({
    *   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
    *   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
