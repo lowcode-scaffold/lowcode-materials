@@ -7,8 +7,6 @@ import { invokeCallback, invokeErrorCallback } from './callback';
 
 type WebViewKeys = 'main' | string;
 
-type Tasks = 'route';
-
 let webviewPanels: {
   key: WebViewKeys;
   panel: vscode.WebviewPanel;
@@ -71,7 +69,7 @@ export const showWebView = (options: {
   /**
    * webview 打开后执行命令，比如转到指定路由
    */
-  task?: { task: Tasks; data?: any };
+  task?: { task: string; data?: any };
   htmlForWebview?: string;
   lowcodeContext?: CompileContext;
   routes?: Record<string, any>;
@@ -111,7 +109,7 @@ export const showWebView = (options: {
     // );
     panel.webview.html = options.htmlForWebview
       ? options.htmlForWebview
-      : getHtmlForWebview();
+      : getHtmlForWebview(true);
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {
