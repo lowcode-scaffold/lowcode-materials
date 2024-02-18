@@ -30,6 +30,7 @@ export async function bootstrap() {
         messages: options.messages,
         lowcodeContext: lowcodeContext!,
         htmlForWebview: getHtmlForWebview(true),
+        llm: 'gemini',
       }),
   });
   if (res.success) {

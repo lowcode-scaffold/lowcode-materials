@@ -64,6 +64,7 @@ const getHtmlForWebview = (dev = false) => {
 
 export const showWebView = (options: {
   key: WebViewKeys;
+  lowcodeContext: CompileContext;
   title?: string;
   viewColumn?: vscode.ViewColumn;
   /**
@@ -71,7 +72,6 @@ export const showWebView = (options: {
    */
   task?: { task: string; data?: any };
   htmlForWebview?: string;
-  lowcodeContext?: CompileContext;
   routes?: Record<string, any>;
 }) => {
   const webview = webviewPanels.find((s) => s.key === options.key);

@@ -115,9 +115,13 @@ export const createChatCompletionShowWebView = (options: {
   // 打开 webview，使用 emitter 监听结果，把结果回传给 script
   showWebView({
     key: 'main',
+    lowcodeContext: options.lowcodeContext,
     task: {
       task: 'askLLM',
-      data: options.messages.map((m) => m.content).join('\n'),
+      data: {
+        content: options.messages.map((m) => m.content).join('\n'),
+        llm: options.llm,
+      },
     },
     htmlForWebview: options.htmlForWebview,
   });
