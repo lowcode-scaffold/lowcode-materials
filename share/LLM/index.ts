@@ -63,10 +63,12 @@ export const createChatCompletion = async (options: {
       handleChunk(data) {
         if (options.handleChunk) {
           options.handleChunk(data);
+          emitter.emit('chatGPTChunck', data);
         }
       },
       proxyUrl: 'http://127.0.0.1:7890',
     });
+    emitter.emit('chatGPTComplete', res);
     return res;
   }
   if (options.llm === 'geminiProxy') {
@@ -83,9 +85,11 @@ export const createChatCompletion = async (options: {
       handleChunk(data) {
         if (options.handleChunk) {
           options.handleChunk(data);
+          emitter.emit('chatGPTChunck', data);
         }
       },
     });
+    emitter.emit('chatGPTComplete', res);
     return res;
   }
   const res = await openai.createChatCompletion({
@@ -93,27 +97,21 @@ export const createChatCompletion = async (options: {
     handleChunk(data) {
       if (options.handleChunk) {
         options.handleChunk(data);
+        emitter.emit('chatGPTChunck', data);
       }
     },
   });
+  emitter.emit('chatGPTComplete', res);
   return res;
 };
 
-export const createChatCompletionForScript = (options: {
+export const createChatCompletionShowWebView = (options: {
   messages: Message;
   handleChunk?: (data: { text?: string }) => void;
   lowcodeContext: CompileContext;
   llm?: string;
-  showWebview?: boolean;
+  htmlForWebview?: string;
 }) => {
-  if (!options.showWebview) {
-    return createChatCompletion({
-      messages: options.messages,
-      handleChunk: options.handleChunk,
-      lowcodeContext: options.lowcodeContext,
-      llm: options.llm,
-    });
-  }
   // 打开 webview，使用 emitter 监听结果，把结果回传给 script
   showWebView({
     key: 'main',
@@ -121,6 +119,7 @@ export const createChatCompletionForScript = (options: {
       task: 'askLLM',
       data: options.messages.map((m) => m.content).join('\n'),
     },
+    htmlForWebview: options.htmlForWebview,
   });
   return new Promise<string>((resolve) => {
     emitter.on('chatGPTChunck', (data) => {

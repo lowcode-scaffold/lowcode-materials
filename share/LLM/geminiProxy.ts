@@ -25,7 +25,7 @@ export const createChatCompletion = (options: {
           | { type: 'text'; text: string }
         )[];
   }[];
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
@@ -62,8 +62,7 @@ export const createChatCompletion = (options: {
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
-                    options.handleChunk({ hasMore: true, text: '' });
-                    // emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                    options.handleChunk({ text: '' });
                   }
                   return;
                 }
@@ -71,8 +70,7 @@ export const createChatCompletion = (options: {
                 const data = JSON.parse(element.replace('data: ', ''));
                 if (data.finish_reason === 'stop') {
                   if (options.handleChunk) {
-                    options.handleChunk({ hasMore: true, text: '' });
-                    // emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                    options.handleChunk({ text: '' });
                   }
                   return;
                 }
@@ -81,25 +79,15 @@ export const createChatCompletion = (options: {
                   if (options.handleChunk) {
                     options.handleChunk({
                       text: openaiRes.replaceAll('\\n', '\n'),
-                      hasMore: true,
                     });
-                    // emitter.emit('chatGPTChunck', {
-                    //   text: openaiRes.replaceAll('\\n', '\n'),
-                    //   hasMore: true,
-                    // });
                   }
                   combinedResult += openaiRes;
                 }
               } else {
                 if (options.handleChunk) {
                   options.handleChunk({
-                    hasMore: true,
                     text: element,
                   });
-                  // emitter.emit('chatGPTChunck', {
-                  //   hasMore: true,
-                  //   text: element,
-                  // });
                 }
                 return;
               }
@@ -115,13 +103,8 @@ export const createChatCompletion = (options: {
         res.on('error', (e) => {
           if (options.handleChunk) {
             options.handleChunk({
-              hasMore: true,
               text: e.toString(),
             });
-            // emitter.emit('chatGPTChunck', {
-            //   hasMore: true,
-            //   text: e.toString(),
-            // });
           }
           reject(e);
         });
@@ -129,17 +112,11 @@ export const createChatCompletion = (options: {
           if (error !== '发生错误：') {
             if (options.handleChunk) {
               options.handleChunk({
-                hasMore: true,
                 text: error,
               });
-              // emitter.emit('chatGPTChunck', {
-              //   hasMore: true,
-              //   text: error,
-              // });
             }
           }
           resolve(combinedResult || error);
-          // emitter.emit('chatGPTComplete', combinedResult || error);
         });
       },
     );
@@ -155,8 +132,7 @@ export const createChatCompletion = (options: {
     };
     request.on('error', (error) => {
       // eslint-disable-next-line no-unused-expressions
-      options.handleChunk &&
-        options.handleChunk({ hasMore: true, text: error.toString() });
+      options.handleChunk && options.handleChunk({ text: error.toString() });
       resolve(error.toString());
       // emitter.emit('chatGPTComplete', error.toString());
     });

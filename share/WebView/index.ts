@@ -109,7 +109,7 @@ export const showWebView = (options: {
     // );
     panel.webview.html = options.htmlForWebview
       ? options.htmlForWebview
-      : getHtmlForWebview(true);
+      : getHtmlForWebview();
     const disposables: vscode.Disposable[] = [];
     panel.webview.onDidReceiveMessage(
       async (message: {

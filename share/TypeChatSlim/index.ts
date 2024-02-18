@@ -21,9 +21,7 @@ export async function translate<T extends object>(option: {
       role: 'system' | 'user' | 'assistant';
       content: string;
     }[];
-    handleChunk?:
-      | ((data: { text?: string; hasMore: boolean }) => void)
-      | undefined;
+    handleChunk?: ((data: { text?: string }) => void) | undefined;
     showWebview?: boolean;
   }) => Promise<string>;
   showWebview?: boolean;
@@ -33,6 +31,11 @@ export async function translate<T extends object>(option: {
    */
   completePrompt?: string;
   extendValidate?: (jsonObject: T) => Error | Success<T>;
+  /**
+   * @description 重试次数，默认为 1
+   * @type {number}
+   */
+  tryCount?: number;
 }) {
   let requestPrompt =
     option.completePrompt ||
@@ -41,7 +44,7 @@ export async function translate<T extends object>(option: {
       `The following is a user request:\n` +
       `"""\n${option.request}\n"""\n` +
       `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`;
-  let tryCount = 0;
+  let tryCount = 1;
   // eslint-disable-next-line no-unreachable-loop, no-constant-condition
   while (true) {
     const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
@@ -58,7 +61,6 @@ export async function translate<T extends object>(option: {
         statusBarItem.hide();
         statusBarItem.dispose();
       });
-    console.log(responseText, 123);
     let validation = validate<T>(
       responseText.replace(/```json/g, '').replace(/```/g, ''),
       option.schema,
@@ -75,7 +77,7 @@ export async function translate<T extends object>(option: {
         return validation;
       }
     }
-    if (tryCount > 3) {
+    if (tryCount > (option.tryCount || 0)) {
       return validation;
     }
     requestPrompt += `${responseText}\n${createRepairPrompt(

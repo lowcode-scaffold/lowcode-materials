@@ -39,9 +39,7 @@ interface Context {
       role: 'system' | 'user' | 'assistant';
       content: string;
     }[];
-    handleChunk?:
-      | ((data: { text?: string; hasMore: boolean }) => void)
-      | undefined;
+    handleChunk?: ((data: { text?: string }) => void) | undefined;
     showWebview?: boolean;
   }) => Promise<string>;
   /**

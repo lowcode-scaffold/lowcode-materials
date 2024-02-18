@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { env, window, Range } from 'vscode';
-import { createChatCompletionForScript } from '../../../../../share/LLM';
+import { createChatCompletionShowWebView } from '../../../../../share/LLM';
 import { translate } from '../../../../../share/TypeChatSlim/index';
 import { getMaterial } from '../../../../../share/utils/material';
 import { compile as compileEjs } from '../../../../../share/utils/ejs';
@@ -24,17 +24,13 @@ export async function bootstrap() {
     request: clipboardText,
     createChatCompletion: (options: {
       messages: any;
-      handleChunk?:
-        | ((data: { text?: string | undefined; hasMore: boolean }) => void)
-        | undefined;
-      showWebview?: boolean | undefined;
+      handleChunk?: ((data: { text?: string | undefined }) => void) | undefined;
     }) =>
-      createChatCompletionForScript({
+      createChatCompletionShowWebView({
         messages: options.messages,
         lowcodeContext: lowcodeContext!,
-        showWebview: options.showWebview,
+        htmlForWebview: getHtmlForWebview(true),
       }),
-    showWebview: true,
   });
   if (res.success) {
     const code = compileEjs(template!.commandPrompt, {

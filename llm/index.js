@@ -9,7 +9,7 @@ module.exports = {
    * @description 替换 lowcode 插件内部的 ChatGPT 请求，修改后需要重启对应项目 vscode
    * @param {({
    *   messages: { role: 'system' | 'user' | 'assistant'; content: string }[];
-   *   handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+   *   handleChunk?: (data: { text?: string; }) => void;
    *   lowcodeContext: { env: { extensionContext:  any }};
    * })} options
    * @returns {Promise<string>}

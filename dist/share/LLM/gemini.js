@@ -28,7 +28,7 @@ const createChatCompletion = async (options) => {
         for await (const chunk of result.stream) {
             const chunkText = chunk.text();
             if (options.handleChunk) {
-                options.handleChunk({ text: chunkText, hasMore: false });
+                options.handleChunk({ text: chunkText });
             }
             combinedResult += chunkText;
         }
@@ -36,7 +36,7 @@ const createChatCompletion = async (options) => {
     }
     catch (ex) {
         if (options.handleChunk) {
-            options.handleChunk({ text: ex.toString(), hasMore: false });
+            options.handleChunk({ text: ex.toString() });
         }
         return ex.toString();
     }
@@ -44,32 +44,64 @@ const createChatCompletion = async (options) => {
 exports.createChatCompletion = createChatCompletion;
 const openAiMessageToGeminiMessage = (messages) => {
     const result = [];
-    for (let i = 0; i < messages.length; i++) {
-        const { role, content } = messages[i];
-        const parts = [];
-        if (role === 'system') {
-            result.push({ role: 'user', parts: [{ text: content }] });
-            result.push({ role: 'model', parts: [{ text: '' }] });
-            // eslint-disable-next-line no-continue
-            continue;
-        }
-        if (content == null || typeof content === 'string') {
-            parts.push({ text: content?.toString() ?? '' });
-        }
-        else {
-            for (let j = 0; j < content.length; j++) {
-                const item = content[j];
-                parts.push(item.type === 'text'
-                    ? { text: item.text }
-                    : parseBase64(item
-                        .image_url.url));
+    const hasImage = messages.some((s) => Array.isArray(s.content) && s.content.some((c) => c.type === 'image_url'));
+    if (hasImage) {
+        result.push({ role: 'user', parts: [] });
+        const partsText = [];
+        let imagePart;
+        for (let i = 0; i < messages.length; i++) {
+            const { role, content } = messages[i];
+            if (role === 'system') {
+                partsText.push(content);
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+            if (content == null || typeof content === 'string') {
+                partsText.push(content || '');
+            }
+            else {
+                for (let j = 0; j < content.length; j++) {
+                    const item = content[j];
+                    if (item.type === 'text') {
+                        partsText.push(item.text || '');
+                    }
+                    else {
+                        imagePart = parseBase64(item
+                            .image_url.url);
+                    }
+                }
             }
         }
-        result.push({ role: role === 'user' ? 'user' : 'model', parts });
-        if (i < messages.length - 1 &&
-            messages[i + 1].role === 'user' &&
-            role === 'user') {
-            result.push({ role: 'model', parts: [{ text: '' }] });
+        result[0].parts = [{ text: partsText.join('\n') }, imagePart];
+    }
+    else {
+        for (let i = 0; i < messages.length; i++) {
+            const { role, content } = messages[i];
+            const parts = [];
+            if (role === 'system') {
+                result.push({ role: 'user', parts: [{ text: content }] });
+                result.push({ role: 'model', parts: [{ text: '' }] });
+                // eslint-disable-next-line no-continue
+                continue;
+            }
+            if (content == null || typeof content === 'string') {
+                parts.push({ text: content?.toString() ?? '' });
+            }
+            else {
+                for (let j = 0; j < content.length; j++) {
+                    const item = content[j];
+                    parts.push(item.type === 'text'
+                        ? { text: item.text }
+                        : parseBase64(item
+                            .image_url.url));
+                }
+            }
+            result.push({ role: role === 'user' ? 'user' : 'model', parts });
+            if (i < messages.length - 1 &&
+                messages[i + 1].role === 'user' &&
+                role === 'user') {
+                result.push({ role: 'model', parts: [{ text: '' }] });
+            }
         }
     }
     return result;

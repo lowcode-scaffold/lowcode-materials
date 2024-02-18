@@ -71,8 +71,7 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
                     if (element.includes('data: ')) {
                         if (element.includes('[DONE]')) {
                             if (options.handleChunk) {
-                                options.handleChunk({ hasMore: true, text: '' });
-                                // emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                                options.handleChunk({ text: '' });
                             }
                             return;
                         }
@@ -80,8 +79,7 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
                         const data = JSON.parse(element.replace('data: ', ''));
                         if (data.finish_reason === 'stop') {
                             if (options.handleChunk) {
-                                options.handleChunk({ hasMore: true, text: '' });
-                                // emitter.emit('chatGPTChunck', { hasMore: true, text: '' });
+                                options.handleChunk({ text: '' });
                             }
                             return;
                         }
@@ -90,12 +88,7 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
                             if (options.handleChunk) {
                                 options.handleChunk({
                                     text: openaiRes.replaceAll('\\n', '\n'),
-                                    hasMore: true,
                                 });
-                                // emitter.emit('chatGPTChunck', {
-                                //   text: openaiRes.replaceAll('\\n', '\n'),
-                                //   hasMore: true,
-                                // });
                             }
                             combinedResult += openaiRes;
                         }
@@ -103,13 +96,8 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
                     else {
                         if (options.handleChunk) {
                             options.handleChunk({
-                                hasMore: true,
                                 text: element,
                             });
-                            // emitter.emit('chatGPTChunck', {
-                            //   hasMore: true,
-                            //   text: element,
-                            // });
                         }
                         return;
                     }
@@ -126,13 +114,8 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
         res.on('error', (e) => {
             if (options.handleChunk) {
                 options.handleChunk({
-                    hasMore: true,
                     text: e.toString(),
                 });
-                // emitter.emit('chatGPTChunck', {
-                //   hasMore: true,
-                //   text: e.toString(),
-                // });
             }
             reject(e);
         });
@@ -140,17 +123,11 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
             if (error !== '发生错误：') {
                 if (options.handleChunk) {
                     options.handleChunk({
-                        hasMore: true,
                         text: error,
                     });
-                    // emitter.emit('chatGPTChunck', {
-                    //   hasMore: true,
-                    //   text: error,
-                    // });
                 }
             }
             resolve(combinedResult || error);
-            // emitter.emit('chatGPTComplete', combinedResult || error);
         });
     });
     const body = {
@@ -165,8 +142,7 @@ const createChatCompletion = (options) => new Promise((resolve, reject) => {
     };
     request.on('error', (error) => {
         // eslint-disable-next-line no-unused-expressions
-        options.handleChunk &&
-            options.handleChunk({ hasMore: true, text: error.toString() });
+        options.handleChunk && options.handleChunk({ text: error.toString() });
         resolve(error.toString());
         // emitter.emit('chatGPTComplete', error.toString());
     });

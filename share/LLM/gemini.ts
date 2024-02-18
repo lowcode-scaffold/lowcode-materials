@@ -27,7 +27,7 @@ export const createChatCompletion = async (options: {
   hostname?: string;
   apiPath?: string;
   messages: Message;
-  handleChunk?: (data: { text?: string; hasMore: boolean }) => void;
+  handleChunk?: (data: { text?: string }) => void;
   topP?: number;
   temperature?: number;
   proxyUrl?: string;
@@ -56,14 +56,14 @@ export const createChatCompletion = async (options: {
     for await (const chunk of result.stream) {
       const chunkText = chunk.text();
       if (options.handleChunk) {
-        options.handleChunk({ text: chunkText, hasMore: false });
+        options.handleChunk({ text: chunkText });
       }
       combinedResult += chunkText;
     }
     return combinedResult;
   } catch (ex: any) {
     if (options.handleChunk) {
-      options.handleChunk({ text: ex.toString(), hasMore: false });
+      options.handleChunk({ text: ex.toString() });
     }
     return ex.toString();
   }
