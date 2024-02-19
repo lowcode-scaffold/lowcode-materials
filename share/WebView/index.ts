@@ -1,7 +1,7 @@
 /* eslint-disable no-underscore-dangle */
 import * as vscode from 'vscode';
 import { window } from 'vscode';
-import { CompileContext } from 'lowcode-context';
+import type { CompileContext } from 'lowcode-context';
 import { routes } from './routes';
 import { invokeCallback, invokeErrorCallback } from './callback';
 

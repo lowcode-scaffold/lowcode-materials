@@ -32,6 +32,7 @@ export async function bootstrap() {
         htmlForWebview: getHtmlForWebview(true),
         llm: 'gemini',
       }),
+    tryCount: 3,
   });
   if (res.success) {
     const code = compileEjs(template!.commandPrompt, {

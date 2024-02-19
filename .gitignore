@@ -2,3 +2,5 @@
 node_modules/
 .ts-node
 .lowcoderc
+/**/script/src/*.js
+/share/**/*.js

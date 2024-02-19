@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc --project tsconfig.compiler.json --skipLibCheck",
+    "tsc:src": "tsc './materials/snippets/Pro Chat + TypeChat/script/src/main.ts' --skipLibCheck",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx materials/",
-    "start:dev": "cross-env NODE_ENV=dev nest start --watch"
+    "start:dev": "cross-env NODE_ENV=dev nest start --watch",
+    "ts-check": "tsc  --noEmit --skipLibCheck"
   },
   "repository": {
     "type": "git",

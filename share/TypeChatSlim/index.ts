@@ -32,7 +32,13 @@ export async function translate<T extends object>(option: {
   completePrompt?: string;
   extendValidate?: (jsonObject: T) => Error | Success<T>;
   /**
-   * @description 重试次数，默认为 1
+export const Options = []
+
+export const Map = Options.reduce((obj, { label, value }) => {
+  obj[value] = label
+  return obj
+}, {})
+   * @description 重试次数，默认为重试 3 次
    * @type {number}
    */
   tryCount?: number;
@@ -77,7 +83,7 @@ export async function translate<T extends object>(option: {
         return validation;
       }
     }
-    if (tryCount > (option.tryCount || 0)) {
+    if (tryCount > (option.tryCount || 3)) {
       return validation;
     }
     requestPrompt += `${responseText}\n${createRepairPrompt(
