@@ -1,29 +1,35 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "commonjs",
-    "moduleResolution": "Node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "sourceMap": false,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "strictNullChecks": true,
-    "noImplicitAny": false,
-    "allowJs": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "./dist"
-  },
-  "files": ["./share/LLM/gemini.ts", "./share/LLM/geminiProxy.ts","./share/LLM/openai.ts"],
-  "exclude": ["node_modules", "dist"]
+	"compilerOptions": {
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"strict": true,
+		"jsx": "react-jsx",
+		"sourceMap": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strictNullChecks": true,
+		"noImplicitAny": false,
+		"allowJs": true,
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"rootDir": ".",
+		"outDir": "./dist"
+	},
+	"exclude": [
+		"node_modules",
+		"dist",
+		"llm"
+	]
 }

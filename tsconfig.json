@@ -17,13 +17,18 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "allowJs": true,
-    "lib": ["ESNext", "DOM"],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "./dist",
-    "types": ["./lowcode-context.d.ts"]
+    "outDir": "./dist"
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": [
+    "node_modules",
+    "dist"
+  ]
 }

@@ -1,6 +1,6 @@
 import * as vscode from 'vscode';
 import { CompileContext } from 'lowcode-context';
-import { createChatCompletion } from '../../../share/LLM';
+import { createChatCompletion } from '../../LLM';
 import { IMessage } from '../type';
 import { invokeLLMChunkCallback } from '../callback';
 
