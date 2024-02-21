@@ -1,4 +1,6 @@
 "use strict";
+const main = require('../../../../dist/materials/snippets/测试脚本/script/src/main');
+const { context, } = require('../../../../dist/materials/snippets/测试脚本/script/src/context');
 module.exports = {
     beforeCompile: (context) => {
         context.outputChannel.appendLine(Object.keys(context));

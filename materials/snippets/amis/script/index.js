@@ -1,4 +1,7 @@
-const path = require('path');
+const main = require('../../../../dist/materials/snippets/amis/script/src/main');
+const {
+  context,
+} = require('../../../../dist/materials/snippets/amis/script/src/context');
 
 module.exports = {
   beforeCompile: (context) => {

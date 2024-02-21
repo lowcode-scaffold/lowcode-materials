@@ -23,12 +23,12 @@ async function bootstrap() {
     const res = await (0, index_1.translate)({
         schema,
         typeName: 'IOption',
-        request: clipboardText,
+        request: clipboardText || '客户验收状态:1.无需验收、2.待验收、3已验收',
         createChatCompletion: (options) => (0, LLM_1.createChatCompletionShowWebView)({
             messages: options.messages,
             lowcodeContext: lowcodeContext,
             htmlForWebview: getHtmlForWebview(true),
-            llm: 'gemini',
+            // llm: 'gemini',
         }),
         tryCount: 3,
     });

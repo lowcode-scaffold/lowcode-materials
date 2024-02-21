@@ -1,4 +1,7 @@
-const path = require('path');
+const main = require('../../../../dist/materials/blocks/form-render/script/src/main');
+const {
+  context,
+} = require('../../../../dist/materials/blocks/form-render/script/src/context');
 
 module.exports = {
   beforeCompile: (context) => {},

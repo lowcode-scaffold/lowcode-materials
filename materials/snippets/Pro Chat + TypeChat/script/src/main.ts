@@ -21,7 +21,7 @@ export async function bootstrap() {
   const res = await translate({
     schema,
     typeName: 'IOption',
-    request: clipboardText,
+    request: clipboardText || '客户验收状态:1.无需验收、2.待验收、3已验收',
     createChatCompletion: (options: {
       messages: any;
       handleChunk?: ((data: { text?: string | undefined }) => void) | undefined;
@@ -30,7 +30,7 @@ export async function bootstrap() {
         messages: options.messages,
         lowcodeContext: lowcodeContext!,
         htmlForWebview: getHtmlForWebview(true),
-        llm: 'gemini',
+        // llm: 'gemini',
       }),
     tryCount: 3,
   });

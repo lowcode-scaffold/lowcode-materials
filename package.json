@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "tsc": "tsc --project tsconfig.compiler.json --skipLibCheck",
+    "compile": "tsc --project tsconfig.compiler.json --skipLibCheck",
+    "prod":"node ./build.js prod && npm run compile",
+    "dev":"node ./build.js dev && npm run compile",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx materials/",
     "start:dev": "cross-env NODE_ENV=dev nest start --watch",
     "ts-check": "tsc  --noEmit --skipLibCheck"

@@ -27,3 +27,5 @@ vscode 执行如下命令
 
 只要实现了 `llm/index.js` 中的 `createChatCompletion` 的方法，lowcode 插件内部的 ChatGPT 请求将会转为使用这个方法。不存在这个文件或者没有  `createChatCompletion` 方法会继续使用内部 ChatGPT 请求。https://github.com/lowcode-scaffold/lowcode-materials/blob/master/llm/index.js
 
+开发阶段可以直接运行 TS 代码方便调试，执行 `yarn dev`
+
