@@ -39,5 +39,6 @@ module.exports = {
     'no-empty': 'off',
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
+    'import/no-extraneous-dependencies': 'off',
   },
 };

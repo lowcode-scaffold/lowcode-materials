@@ -52,7 +52,7 @@ getAllFiles(path.join(__dirname, 'materials'))
   .forEach((file) => {
     const materialName = file
       .replace(/\\/g, '/')
-      .replace(`${__dirname}/materials/`, '')
+      .replace(`${__dirname.replace(/\\/g, '/')}/materials/`, '')
       .replace('/script/index.js', '');
     const prodContent = `
 const main = require('../../../../dist/materials/${materialName}/script/src/main');

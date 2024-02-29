@@ -1,3 +1,6 @@
+import { clipboard } from 'electron';
+
 export const bootstrap = () => {
-  utools.showNotification('Hello Word');
+  const text = clipboard.readText();
+  utools.showNotification(text || 'Hello Word');
 };
