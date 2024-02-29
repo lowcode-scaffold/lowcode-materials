@@ -17,18 +17,13 @@
     "strictNullChecks": true,
     "noImplicitAny": false,
     "allowJs": true,
-    "lib": [
-      "ESNext",
-      "DOM"
-    ],
+    "lib": ["ESNext", "DOM"],
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "types": ["utools-api-types", "node"]
   },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ]
+  "exclude": ["node_modules", "dist"]
 }

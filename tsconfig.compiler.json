@@ -22,7 +22,8 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "rootDir": ".",
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "types": ["utools-api-types", "node"]
   },
-  "exclude": ["node_modules", "dist", "llm", "build.js"]
+  "exclude": ["node_modules", "dist", "llm", "build.js", "uTools.js"]
 }
