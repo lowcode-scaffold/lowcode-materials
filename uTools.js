@@ -38,6 +38,7 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
         'Object.defineProperty(exports, "__esModule", { value: true });',
         '',
       )
+      .replace('// @ts-ignore', '')
       .replace(
         'const main_1 = require("./src/main");',
         `const main_1 = require("${mainFilePath}");`,
