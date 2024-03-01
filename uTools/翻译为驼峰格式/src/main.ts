@@ -1,8 +1,9 @@
 import { clipboard } from 'electron';
+import { getOpenaiApiKey } from '../../../share/utils/uTools';
 import { createChatCompletion } from '../../../share/LLM/openaiV2';
 
 export const bootstrap = async () => {
-  const apiKey = await getApiKey();
+  const apiKey = await getOpenaiApiKey();
   const text = clipboard.readText();
   if (!text) {
     utools.showNotification('请先复制内容');
@@ -27,25 +28,3 @@ export const bootstrap = async () => {
   utools.hideMainWindowPasteText(res);
   return res;
 };
-
-const getApiKey = () =>
-  new Promise<string>((resolve, reject) => {
-    // utools.dbStorage.removeItem('lowcode.openaiApiKey'); // 需要更新 api key 的时候打开
-    const cacheKey = utools.dbStorage.getItem('lowcode.openaiApiKey');
-    if (cacheKey) {
-      resolve(cacheKey);
-      return;
-    }
-    const oldClip = clipboard.readText();
-    utools.showNotification('请在输入框中粘贴 api key');
-    utools.setSubInput(
-      (input) => {
-        const key = (input as unknown as { text: string }).text;
-        utools.dbStorage.setItem('lowcode.openaiApiKey', key);
-        clipboard.writeText(oldClip);
-        resolve(key);
-      },
-      '请粘贴 api key',
-      true,
-    );
-  });
