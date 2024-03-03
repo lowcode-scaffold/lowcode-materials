@@ -21,3 +21,10 @@ export const getOpenaiApiKey = () =>
       true,
     );
   });
+
+export const screenCapture = () =>
+  new Promise<string>((resolve, reject) => {
+    utools.screenCapture((res) => {
+      resolve(res);
+    });
+  });

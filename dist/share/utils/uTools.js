@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getOpenaiApiKey = void 0;
+exports.screenCapture = exports.getOpenaiApiKey = void 0;
 const electron_1 = require("electron");
 const getOpenaiApiKey = () => new Promise((resolve, reject) => {
     // utools.dbStorage.removeItem('lowcode.openaiApiKey'); // 需要更新 api key 的时候打开
@@ -19,3 +19,9 @@ const getOpenaiApiKey = () => new Promise((resolve, reject) => {
     }, '请粘贴 api key', true);
 });
 exports.getOpenaiApiKey = getOpenaiApiKey;
+const screenCapture = () => new Promise((resolve, reject) => {
+    utools.screenCapture((res) => {
+        resolve(res);
+    });
+});
+exports.screenCapture = screenCapture;
