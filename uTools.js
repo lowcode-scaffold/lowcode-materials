@@ -42,6 +42,10 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
       .replace(
         'const main_1 = require("./src/main");',
         `const main_1 = require("${mainFilePath}");`,
+      )
+      .replace(
+        '(0, main_1.bootstrap)()',
+        `(0, main_1.bootstrap)("${mainFilePath}")`,
       );
     fs.writeFileSync(file, newContent);
   });
