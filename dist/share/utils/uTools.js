@@ -1,7 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.screenCapture = exports.getOpenaiApiKey = void 0;
+exports.askChatGPT = exports.screenCapture = exports.getOpenaiApiKey = void 0;
 const electron_1 = require("electron");
+const openaiV2_1 = require("../LLM/openaiV2");
 const getOpenaiApiKey = () => new Promise((resolve, reject) => {
     // utools.dbStorage.removeItem('lowcode.openaiApiKey'); // 需要更新 api key 的时候打开
     const cacheKey = utools.dbStorage.getItem('lowcode.openaiApiKey');
@@ -25,3 +26,16 @@ const screenCapture = () => new Promise((resolve, reject) => {
     });
 });
 exports.screenCapture = screenCapture;
+const askChatGPT = async (data) => {
+    const apiKey = await (0, exports.getOpenaiApiKey)();
+    const res = await (0, openaiV2_1.createChatCompletion)({
+        apiKey,
+        hostname: 'api.chatanywhere.com.cn',
+        messages: data.messages,
+        handleChunk(chunck) {
+            data.handleChunk(chunck.text || '');
+        },
+    });
+    return { content: res };
+};
+exports.askChatGPT = askChatGPT;

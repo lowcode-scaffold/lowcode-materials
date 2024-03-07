@@ -1,4 +1,5 @@
 import { clipboard } from 'electron';
+import { createChatCompletion } from '../LLM/openaiV2';
 
 export const getOpenaiApiKey = () =>
   new Promise<string>((resolve, reject) => {
@@ -28,3 +29,37 @@ export const screenCapture = () =>
       resolve(res);
     });
   });
+
+type LLMMessage = (
+  | {
+      role: 'system';
+      content: string;
+    }
+  | {
+      role: 'user';
+      content:
+        | string
+        | (
+            | {
+                type: 'image_url';
+                image_url: { url: string };
+              }
+            | { type: 'text'; text: string }
+          )[];
+    }
+)[];
+export const askChatGPT = async (data: {
+  messages: LLMMessage;
+  handleChunk: (chunck: string) => void;
+}) => {
+  const apiKey = await getOpenaiApiKey();
+  const res = await createChatCompletion({
+    apiKey,
+    hostname: 'api.chatanywhere.com.cn',
+    messages: data.messages,
+    handleChunk(chunck) {
+      data.handleChunk(chunck.text || '');
+    },
+  });
+  return { content: res };
+};
