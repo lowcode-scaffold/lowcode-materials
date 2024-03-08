@@ -7,7 +7,7 @@ export const bootstrap = async (scriptFile?: string) => {
     data: JSON.stringify({
       scriptFile,
       route: '/chat',
-      content: clipboard.readText,
+      content: clipboard.readText(),
     }),
   });
 };
