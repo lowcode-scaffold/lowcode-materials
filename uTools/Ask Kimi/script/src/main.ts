@@ -7,7 +7,7 @@ export const bootstrap = async () => {
     .focus('div[role="textbox"]')
     .paste('你好')
     .wait(300)
-    .press('Enter')
+    // .press('Enter')
     .run({})
     .catch((err) => {
       utools.showNotification(err.message);
