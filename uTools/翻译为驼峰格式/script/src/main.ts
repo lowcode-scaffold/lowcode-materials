@@ -1,6 +1,6 @@
 import { clipboard } from 'electron';
-import { getOpenaiApiKey } from '../../../share/utils/uTools';
-import { createChatCompletion } from '../../../share/LLM/openaiV2';
+import { getOpenaiApiKey } from '../../../../share/utils/uTools';
+import { createChatCompletion } from '../../../../share/LLM/openaiV2';
 
 export const bootstrap = async () => {
   const apiKey = await getOpenaiApiKey();

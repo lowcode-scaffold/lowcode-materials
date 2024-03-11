@@ -1,5 +1,5 @@
 import { clipboard } from 'electron';
-import { screenCapture } from '../../../share/utils/uTools';
+import { screenCapture } from '../../../../share/utils/uTools';
 
 export const bootstrap = async () => {
   const base64 = await screenCapture();
