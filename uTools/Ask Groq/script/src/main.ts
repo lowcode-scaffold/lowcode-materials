@@ -11,9 +11,9 @@ export const bootstrap = async () => {
     .when('#chat')
     .wait(1000)
     .focus('#chat')
-    .wait(300)
-    .paste('你好')
-    .wait(1000)
+    // .wait(300)
+    // .paste('你好')
+    // .wait(1000)
     // .press('Enter')
     .end()
     .run({});

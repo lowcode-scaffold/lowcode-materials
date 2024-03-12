@@ -5,8 +5,8 @@ export const bootstrap = async () => {
     .goto('https://kimi.moonshot.cn/')
     .wait('div[role="textbox"]')
     .focus('div[role="textbox"]')
-    .paste('你好')
-    .wait(300)
+    // .paste('你好')
+    // .wait(300)
     // .press('Enter')
     .run({})
     .catch((err) => {
