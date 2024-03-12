@@ -25,7 +25,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.translate = void 0;
 const ts = __importStar(require("typescript"));
-// import { StatusBarAlignment, window } from 'vscode';
+const vscode_1 = require("vscode");
 const result_1 = require("./result");
 const libText = `interface Array<T> { length: number, [n: number]: T }
 interface Object { toString(): string }
@@ -46,9 +46,9 @@ async function translate(option) {
     let tryCount = 1;
     // eslint-disable-next-line no-unreachable-loop, no-constant-condition
     while (true) {
-        // const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
-        // statusBarItem.text = '$(sync~spin) Ask ChatGPT...';
-        // statusBarItem.show();
+        const statusBarItem = vscode_1.window.createStatusBarItem(vscode_1.StatusBarAlignment.Left);
+        statusBarItem.text = '$(sync~spin) Ask ChatGPT...';
+        statusBarItem.show();
         // eslint-disable-next-line no-await-in-loop
         const responseText = await option
             .createChatCompletion({
@@ -57,8 +57,8 @@ async function translate(option) {
             showWebview: option.showWebview,
         })
             .finally(() => {
-            // statusBarItem.hide();
-            // statusBarItem.dispose();
+            statusBarItem.hide();
+            statusBarItem.dispose();
         });
         let validation = validate(responseText.replace(/```json/g, '').replace(/```/g, ''), option.schema, option.typeName);
         if (validation.success) {

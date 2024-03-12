@@ -8,7 +8,9 @@ export const bootstrap = async (scriptFile?: string) => {
     'config',
   );
   const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
-  const clipboardText = clipboard.readText();
+  const clipboardText =
+    (clipboard.readText() || '').trim() ||
+    '客户验收状态:1.无需验收、2.待验收、3已验收';
   const typeName = 'IOption';
   const requestPrompt =
     `You are a service that translates user requests into JSON objects of type "${typeName}" according to the following TypeScript definitions:\n` +

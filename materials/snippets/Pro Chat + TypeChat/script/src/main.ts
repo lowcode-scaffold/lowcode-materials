@@ -21,7 +21,9 @@ export async function bootstrap() {
   const res = await translate({
     schema,
     typeName: 'IOption',
-    request: clipboardText || '客户验收状态:1.无需验收、2.待验收、3已验收',
+    request:
+      (clipboardText || '').trim() ||
+      '客户验收状态:1.无需验收、2.待验收、3已验收',
     createChatCompletion: (options: {
       messages: any;
       handleChunk?: ((data: { text?: string | undefined }) => void) | undefined;
