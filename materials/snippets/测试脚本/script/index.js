@@ -4,16 +4,15 @@ const {
 } = require('../../../../dist/materials/snippets/测试脚本/script/src/context');
 
 module.exports = {
-  beforeCompile: (context) => {
-    context.outputChannel.appendLine(Object.keys(context));
+  beforeCompile: (lowcodeContext) => {
+    context.outputChannel.appendLine(Object.keys(lowcodeContext));
     context.vscode.window.showErrorMessage('12134');
     return { a: 'lowcode' };
   },
-  afterCompile: (context) => {
-    context.outputChannel.appendLine(Object.keys(context));
+  afterCompile: (lowcodeContext) => {
+    context.outputChannel.appendLine(Object.keys(lowcodeContext));
   },
   onSelect: async (lowcodeContext) => {
-    const res = await lowcodeContext.getClipboardImage();
-    console.log(res.length, 6767);
+    await main.bootstrap();
   },
 };

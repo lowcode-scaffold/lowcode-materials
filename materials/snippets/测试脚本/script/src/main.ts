@@ -1,3 +1,7 @@
-export const main = 1;
+import { window } from 'vscode';
 
-export async function bootstrap() {}
+export async function bootstrap() {
+  window.onDidChangeWindowState((state) => {
+    console.log(state.focused, 123);
+  });
+}
