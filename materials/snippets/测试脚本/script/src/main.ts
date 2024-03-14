@@ -5,3 +5,7 @@ export async function bootstrap() {
     console.log(state.focused, 123);
   });
 }
+
+export function onActivate() {
+  // window.showInformationMessage('你好');
+}

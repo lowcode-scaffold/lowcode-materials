@@ -13,4 +13,7 @@ module.exports = {
     onSelect: async (lowcodeContext) => {
         await main.bootstrap();
     },
+    onActivate: () => {
+        main.onActivate();
+    },
 };
