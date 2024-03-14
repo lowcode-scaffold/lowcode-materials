@@ -48,7 +48,7 @@ const mode = process.argv[2] || 'prod';
 fs.removeSync(path.join(__dirname, 'dist'));
 
 getAllFiles(path.join(__dirname, 'materials'))
-  .filter((s) => s.includes('script/index.js'))
+  .filter((s) => s.includes('script/index.js') && !s.includes('.ejs'))
   .forEach((file) => {
     const materialName = file
       .replace(/\\/g, '/')

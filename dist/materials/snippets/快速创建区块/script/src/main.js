@@ -36,6 +36,7 @@ async function bootstrap() {
         'uniapp/vue3-mvp emit',
         'uniapp/vue3-mvp props',
         'uniapp/vue3-mvp props emit',
+        'lowcode/代码片段',
         'uTools 自动化脚本',
     ].map((s) => s), { placeHolder: '请选择模板' });
     if (!result) {
