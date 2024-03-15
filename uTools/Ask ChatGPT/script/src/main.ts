@@ -2,7 +2,7 @@ import { clipboard } from 'electron';
 import { askChatGPT as askOpenai } from '../../../../share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
-  utools.redirect(['lowcode', '低代码工具'], {
+  utools.redirect(['lowcode', 'lowcode'], {
     type: 'text',
     data: JSON.stringify({
       scriptFile,
