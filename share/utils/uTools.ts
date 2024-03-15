@@ -51,12 +51,23 @@ type LLMMessage = (
 export const askChatGPT = async (data: {
   messages: LLMMessage;
   handleChunk: (chunck: string) => void;
+  hostname?: string;
+  apiKey?: string;
+  apiPath?: string;
+  model?: string;
+  maxTokens?: number;
 }) => {
-  const apiKey = await getOpenaiApiKey();
+  let { apiKey } = data;
+  if (!apiKey) {
+    apiKey = await getOpenaiApiKey();
+  }
   const res = await createChatCompletion({
     apiKey,
-    hostname: 'api.chatanywhere.com.cn',
+    hostname: data.hostname,
+    apiPath: data.apiPath,
     messages: data.messages,
+    model: data.model,
+    maxTokens: data.maxTokens,
     handleChunk(chunck) {
       data.handleChunk(chunck.text || '');
     },

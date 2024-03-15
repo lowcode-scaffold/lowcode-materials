@@ -27,11 +27,17 @@ const screenCapture = () => new Promise((resolve, reject) => {
 });
 exports.screenCapture = screenCapture;
 const askChatGPT = async (data) => {
-    const apiKey = await (0, exports.getOpenaiApiKey)();
+    let { apiKey } = data;
+    if (!apiKey) {
+        apiKey = await (0, exports.getOpenaiApiKey)();
+    }
     const res = await (0, openaiV2_1.createChatCompletion)({
         apiKey,
-        hostname: 'api.chatanywhere.com.cn',
+        hostname: data.hostname,
+        apiPath: data.apiPath,
         messages: data.messages,
+        model: data.model,
+        maxTokens: data.maxTokens,
         handleChunk(chunck) {
             data.handleChunk(chunck.text || '');
         },
