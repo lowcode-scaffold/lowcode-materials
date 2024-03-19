@@ -71,6 +71,7 @@
     "cross-env": "^7.0.3",
     "dotenv-cli": "^7.3.0",
     "electron": "^29.1.0",
+    "esbuild": "^0.20.2",
     "eslint": "^8.47.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-prettier": "^9.0.0",
