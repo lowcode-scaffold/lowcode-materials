@@ -1,0 +1,57 @@
+{
+	"type": "page",
+	"body": [
+		{
+			"type": "form",
+			"id": "u:67967afb0e69",
+			"title": "",
+			"body": [
+				{
+					"type": "textarea",
+					"label": "原始类型",
+					"name": "originalType",
+					"id": "u:1772600049f6",
+					"minRows": 10,
+					"maxRows": 20
+				},
+				{
+					"type": "textarea",
+					"label": "目标类型",
+					"name": "targetType",
+					"id": "u:07bd55b0bd60",
+					"minRows": 10,
+					"maxRows": 20
+				},
+				{
+					"type": "input-text",
+					"label": "原始变量",
+					"name": "originalVariable",
+					"id": "u:1bc921a6215e"
+				},
+				{
+					"type": "input-text",
+					"label": "目标变量",
+					"name": "targetVariable",
+					"id": "u:0237afad67b1"
+				}
+			],
+			"submitText": "",
+			"actions": [],
+			"feat": "Insert"
+		}
+	],
+	"id": "u:d87dbf6bf8df",
+	"pullRefresh": {
+		"disabled": true
+	},
+	"regions": [
+		"body"
+	],
+	"style": {},
+	"asideResizor": false,
+	"themeCss": {
+		"baseControlClassName": {
+			"boxShadow:default": " 0px 0px 0px 0px transparent"
+		}
+	}
+}

@@ -2,4 +2,3 @@
 node_modules/
 .ts-node
 .lowcoderc
-dist/uTools

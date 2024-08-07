@@ -49,6 +49,10 @@
 										{
 											"label": "select",
 											"value": "select"
+										},
+										{
+											"label": "range-picker",
+											"value": "range-picker"
 										}
 									],
 									"id": "u:995915eabcca",
@@ -57,11 +61,23 @@
 									"value": ""
 								},
 								{
+									"type": "switch",
+									"label": "后端接口查询",
+									"option": "",
+									"name": "remoteFetch",
+									"falseValue": false,
+									"trueValue": true,
+									"id": "u:3a46d16f89c9",
+									"value": false,
+									"visibleOn": "${filters[index].component==='select'}"
+								},
+								{
 									"type": "input-text",
 									"label": "placeholder",
 									"name": "placeholder",
 									"id": "u:d7f1a8a39449",
-									"description": ""
+									"description": "",
+									"visibleOn": "${filters[index].component==='select'||filters[index].component==='input'}"
 								}
 							],
 							"id": "u:186f183e9320",
@@ -692,6 +708,7 @@
 				"/ModifyModal/index.vue.ejs",
 				"/ModifyModal/model.ts.ejs",
 				"/ModifyModal/presenter.tsx.ejs",
+				"/ModifyModal/presenter.ts.ejs",
 				"/ModifyModal/service.ts.ejs"
 			]
 		}

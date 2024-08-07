@@ -1,5 +1,5 @@
 import * as path from 'path';
-import { window, env, workspace } from 'vscode';
+import { window, workspace } from 'vscode';
 import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
@@ -10,6 +10,26 @@ import { context } from './context';
 import { PageConfig } from '../../config/schema';
 import { typescriptToMock } from '../../../../../share/utils/json';
 
+export async function handleOCR() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: true,
+      params: '',
+      model: lowcodeContext?.model,
+    };
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: true,
+    params: ocrRes.words_result.map((s) => s.words).join('\r\n'),
+    model: lowcodeContext?.model,
+  };
+}
+
 export async function handleInitFiltersFromImage() {
   const { lowcodeContext } = context;
   if (!lowcodeContext?.clipboardImage) {
@@ -17,23 +37,22 @@ export async function handleInitFiltersFromImage() {
     return lowcodeContext?.model;
   }
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
-  env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
-  window.showInformationMessage('内容已经复制到剪贴板');
-  const filters = ocrRes.words_result
-    .map((s) => s.words)
-    .reduce((result, value, index, array) => {
-      if (index % 2 === 0) {
-        result.push(array.slice(index, index + 2));
-      }
-      return result;
-    }, [] as string[][]);
-  const formatedFilters = filters.map((s) => ({
-    component: s[1].indexOf('选择') > -1 ? 'select' : 'input',
-    key: s[0].replace(/:|：/g, '').trim(),
-    label: s[0].replace(/:|：/g, '').trim(),
-    placeholder: s[1],
-  }));
-  return { ...lowcodeContext.model, filters: formatedFilters };
+  const filters = ocrRes.words_result.map((s) => s.words);
+  const formatedFilters = filters.map((item) => {
+    const s = item.replace(/：|：/g, ':').split(':');
+    return {
+      component: (s[1] || '').indexOf('选择') > -1 ? 'select' : 'input',
+      key: s[0].replace(/:|：/g, '').trim(),
+      label: s[0].replace(/:|：/g, '').trim(),
+      placeholder: s[1],
+    };
+  });
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: false,
+    params: '',
+    model: { ...lowcodeContext.model, filters: formatedFilters },
+  };
 }
 
 export async function handleInitColumnsFromImage() {
@@ -43,15 +62,18 @@ export async function handleInitColumnsFromImage() {
     return lowcodeContext?.model;
   }
   const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
-  env.clipboard.writeText(ocrRes.words_result.map((s) => s.words).join('\r\n'));
-  window.showInformationMessage('内容已经复制到剪贴板');
   const columns = ocrRes.words_result.map((s) => ({
     slot: false,
     title: s.words,
     dataIndex: s.words,
     key: s.words,
   }));
-  return { ...lowcodeContext.model, columns };
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: false,
+    params: '',
+    model: { ...lowcodeContext.model, columns },
+  };
 }
 
 export async function handleAskChatGPT() {
@@ -77,7 +99,12 @@ export async function handleAskChatGPT() {
   });
   lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
   if (res.success) {
-    return { ...res.data };
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: false,
+      params: '',
+      model: { ...res.data },
+    };
   }
   return lowcodeContext!.model;
 }
@@ -109,11 +136,11 @@ export async function handleComplete() {
       createBlockPath: createBlockPath.replace(':', ''),
     });
     const mockProjectPathRes = await axios
-      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .get('http://localhost:3000/mockProjectPath', { timeout: 1000 })
       .catch(() => {
-        window.showInformationMessage(
-          '获取 mock 项目路径失败，跳过更新 mock 服务',
-        );
+        // window.showInformationMessage(
+        //   '获取 mock 项目路径失败，跳过更新 mock 服务',
+        // );
       });
     if (mockProjectPathRes?.data.result) {
       const projectName = workspace.rootPath

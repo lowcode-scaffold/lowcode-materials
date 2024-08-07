@@ -46,7 +46,7 @@
 									"number[]",
 									"boolean[]",
 									"[Dayjs,Dayjs]",
-									"图片、视频、文件，默认值选空数组"
+									"图片、文件上传选此项，默认值选空数组"
 								],
 								"widget": "select",
 								"default": "string"
@@ -97,8 +97,7 @@
 									"time-picker",
 									"range-picker",
 									"transfer",
-									"UploadImages",
-									"UploadVideo"
+									"uploadFiles"
 								],
 								"enumNames": [
 									"input",
@@ -113,8 +112,7 @@
 									"time-picker",
 									"range-picker",
 									"transfer",
-									"UploadImages(图片上传)",
-									"UploadVideo(视频上传)"
+									"uploadFiles（图片、文件上传）"
 								],
 								"widget": "select"
 							},

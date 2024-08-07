@@ -1,9 +1,7 @@
 // lowcode-model-type
 export interface I<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>FormData {
 	<% formItems.map(item => { _%>
-		/**
-		* <%= item.label %>
-		*/
+		/** <%= item.label %> */
 		<%= item.key %><% if(item.optional){ _%>?<% } _%>: <%= item.type %>;
 	<% }) _%>
 }

@@ -7,9 +7,7 @@ import { I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Result 
 <% if(!locals.api){ %>
 interface ITableListItem {
 	<% columns.map((item, index) => { _%>
-			/**
-		* <%= item.title %>
-		*/
+		/** <%= item.title %> */
 		<%= item.key || `column${index+1}` %>: string;
 	<% }) _%>
 	/**
@@ -20,11 +18,9 @@ interface ITableListItem {
 <% } %>
 interface IFormData {
 	<% filters.map(item => { _%>
-		/**
-		* <%= item.label %>
-		*/
+		/** <%= item.label %> */
 		<% if(item.component === "range-picker") { _%>
-			<%= item.key %>?: string[];
+			<%= item.key %>?: [string,string];
 		<% } _%>
 		<% if(item.component !== "range-picker") { _%>
 			<%= item.key %>?: string;

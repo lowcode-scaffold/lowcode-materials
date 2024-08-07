@@ -10,9 +10,32 @@ export default class Service {
 
   async <%= serviceName %>() {
     this.model.loading.list = true;
+		<% filters.map(item => { _%>
+			<% if(item.component === "range-picker") { _%>
+				let <%= item.key %>Start: string | undefined = undefined;
+				let <%= item.key %>End: string | undefined = undefined;
+				if (
+				this.model.filterForm.<%= item.key %> &&
+				this.model.filterForm.<%= item.key %>[0]
+				) {
+					<%= item.key %>Start = `${this.model.filterForm.<%= item.key %>[0]} 00:00:00`;
+				}
+				if (
+				this.model.filterForm.<%= item.key %> &&
+				this.model.filterForm.<%= item.key %>[1]
+				) {
+					<%= item.key %>End = `${this.model.filterForm.<%= item.key %>[1]} 23:59:59`;
+				}
+			<% } _%>
+		<% }) _%>
     const res = await <%= locals.api ? funcName : fetchName %>({
 			<% filters.map(item => { _%>
-				<%= item.key %>: this.model.filterForm.<%= item.key %>,
+				<% if(item.component !== "range-picker") { _%>
+					<%= item.key %>: this.model.filterForm.<%= item.key %>,
+				<% } else { _%>
+					<%= item.key %>Start: <%= item.key %>Start,
+					<%= item.key %>End: <%= item.key %>End,
+				<% } _%>
 			<% }) _%>
 			<% if(pagination.show) { _%>
 				<%= pagination.page %>: this.model.pagination.page,
@@ -34,4 +57,12 @@ export default class Service {
 	this.model.pagination.total = res.<%- pagination.total %>;
 	<% } _%>
   }
+
+	<% filters.filter(item => item.component === "select" && item.remoteFetch).map(item => { _%> 
+		async search<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>(value: string) {
+			const res = await Promise.resolve([{ label: "1", value: "1" }]);
+			this.model.options.<%= item.key %> = res;
+		}
+		
+	<% }) _%>
 }

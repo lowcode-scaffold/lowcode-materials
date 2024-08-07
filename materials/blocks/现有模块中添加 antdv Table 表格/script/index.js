@@ -11,7 +11,10 @@ module.exports = {
     main.handleComplete();
   },
   intColumnsFromOcrText: (lowcodeContext) => {
-    let columns = lowcodeContext.params.split('\n');
+    let columns = lowcodeContext.params
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .split('\n');
     columns = columns.map((s) => ({
       slot: false,
       title: s,
@@ -35,5 +38,10 @@ module.exports = {
     context.lowcodeContext = lowcodeContext;
     main.handleInsertPlaceholder();
     return context.model;
+  },
+  OCR: async (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    const res = await main.handleOCR();
+    return res;
   },
 };

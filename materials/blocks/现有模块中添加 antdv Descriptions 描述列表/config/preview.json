@@ -1,12 +1,16 @@
 {
-  "title": "现有模块中添加 antdv Descriptions 描述列表",
-  "description": "现有模块中添加 antdv Descriptions 描述列表",
-  "img": [
-    "https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
-  ],
-  "category": [],
-  "schema": "amis",
-  "scripts": [
+	"title": "",
+	"description": "",
+	"img": [
+		"https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
+	],
+	"category": [],
+	"schema": "amis",
+	"scripts": [
+		{
+			"method": "OCR",
+			"remark": "OCR 识别剪贴版截图"
+		},
 		{
 			"method": "initFromOcrText",
 			"remark": "初始化列表，参数中粘贴 ocr 识别出的结果，每一行表示一项，也可以手动输入"
@@ -19,5 +23,5 @@
 			"method": "intFromClipboardImage",
 			"remark": "读取剪贴板截图并翻译，初始化列表"
 		}
-  ]
+	]
 }

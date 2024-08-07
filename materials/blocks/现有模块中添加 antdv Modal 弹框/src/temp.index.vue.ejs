@@ -1,0 +1,10 @@
+<!-- lowcode-vue-template -->
+<a-modal
+	title="<%= title %>"
+	:visible="model.<%= variableName %>Modal.visible"
+	:confirm-loading="model.<%= variableName %>Modal.loading"
+	@cancel="presenter.handleToggle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalVisible(false)"
+	@ok="presenter.handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalOk"
+>
+	modal
+</a-modal>

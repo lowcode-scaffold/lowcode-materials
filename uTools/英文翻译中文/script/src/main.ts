@@ -1,17 +1,13 @@
 import { clipboard } from 'electron';
-import { getOpenaiApiKey } from '../../../../share/utils/uTools';
 import { createChatCompletion } from '../../../../share/LLM/openaiV2';
 
 export const bootstrap = async () => {
-  const apiKey = await getOpenaiApiKey();
   const text = clipboard.readText();
   if (!text) {
     utools.showNotification('请先复制内容');
     return;
   }
   const res = await createChatCompletion({
-    apiKey,
-    hostname: 'api.chatanywhere.com.cn',
     messages: [
       {
         role: 'system',

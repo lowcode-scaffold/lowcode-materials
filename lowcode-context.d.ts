@@ -187,6 +187,12 @@ export interface CompileContext extends Context {
    * @type {string}
    */
   explorerSelectedPath: string;
+  /** 脚本方法名，runScript 方法才有 */
+  method: string;
+  /** 脚本方法名，runScript 方法才有 */
+  script: string;
+  /** 脚本方法参数，runScript 方法才有 */
+  params: string;
 }
 
 export interface ViewCallContext extends Context {

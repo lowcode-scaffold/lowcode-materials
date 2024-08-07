@@ -1,0 +1,123 @@
+import Service from "./service";
+import { defaultFormData, useModel } from "./model";
+import { createVNode, onMounted } from "vue";
+import { message, Modal } from "ant-design-vue";
+import { ExclamationCircleOutlined } from "@ant-design/icons-vue";
+<% if(filters.some(item => item.component === "select" && item.remoteFetch)) { _%>
+import { useDebounceFn } from "@vueuse/core";
+<% } _%>
+
+export const usePresenter = () => {
+  const model = useModel();
+  const service = new Service(model);
+
+  onMounted(() => {
+    service.<%= serviceName %>();
+  });
+
+  const handleClear = () => {
+		Object.assign(model.filterForm, defaultFormData)
+		<% if(pagination.show) { _%>
+			model.pagination.page = 1;
+		<% } _%>
+    service.<%= serviceName %>();
+  };
+
+  const handleSearch = () => {
+		<% if(pagination.show) { _%>
+			model.pagination.page = 1;
+		<% } _%>
+    service.<%= serviceName %>();
+  };
+
+  <% if(pagination.show) { _%>
+  const handlePageChange = (page: number, pageSize: number) => {
+    if (pageSize !== model.pagination.pageSize) {
+      model.pagination.pageSize = pageSize;
+      model.pagination.page = 1;
+    } else {
+      model.pagination.page = page;
+    }
+    service.<%= serviceName %>();
+  };
+  <% } _%>
+
+	<% filters.filter(item => item.component === "select" && item.remoteFetch).map(item => { _%> 
+	const handleSearch<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %> = useDebounceFn((value: string) => {
+		if (!value) {
+			return;
+		}
+		service.search<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>(value);
+	}, 400);
+	
+	<% }) _%>
+
+  const handleDel = (record: typeof model.tableList.value[0]) => {
+    Modal.confirm({
+      title: "此操作将删除该选项，是否继续？",
+      icon: createVNode(ExclamationCircleOutlined),
+			okText: "确定",
+      cancelText: "取消",
+      onOk() {
+        message.success("删除成功");
+      },
+    });
+  };
+
+  const handleCreate = () => {
+	<% if(includeModifyModal) { _%>
+    model.modalInfo.visible = true;
+    model.modalInfo.title = "新建";
+    model.modalInfo.action = "add";
+    model.modalInfo.id = undefined;
+	<% } _%>
+  };
+
+  const handleEdit = (record: typeof model.tableList.value[0]) => {
+	<% if(includeModifyModal) { _%>
+    model.modalInfo.visible = true;
+    model.modalInfo.title = "编辑";
+    model.modalInfo.action = "edit";
+    model.modalInfo.id = record.id;
+	<% } _%>
+  };
+
+  <% if(includeModifyModal) { _%>
+  const handleView = (record: typeof model.tableList.value[0]) => {
+    model.modalInfo.visible = true;
+    model.modalInfo.title = "查看";
+    model.modalInfo.action = "view";
+    model.modalInfo.id = record.id;
+  };
+
+  const handleModalOk = () => {
+    model.modalInfo.visible = false;
+    service.<%= serviceName %>();
+  };
+
+  const handleModalCancel = () => {
+    model.modalInfo.visible = false;
+  };
+  <% } _%>
+
+  return {
+    model,
+    service,
+    handleClear,
+    handleSearch,
+	<% if(pagination.show) { _%>
+	handlePageChange,
+  <% } _%>
+	<% filters.filter(item => item.component === "select" && item.remoteFetch).map(item => { _%> 
+		handleSearch<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>,
+	<% }) _%>
+	handleDel,
+	handleCreate,
+    handleEdit,
+	<% if(includeModifyModal) { _%>
+	handleView,
+	handleModalOk,
+	handleModalCancel
+	<% } _%>
+  };
+};

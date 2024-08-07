@@ -4,20 +4,22 @@
 	:data-source="model.<%= variableName %>.value"
 	:pagination="false"
 >
-<% columns.filter(item => item.slot).map((item, index) => { _%>
-	<template #<%= item.key %>="{ record }">
-		{{ record.<%= item.key %> }}
-	</template>
-	<% }) _%>
-	<template #operation="{ record }">
-		<a-space :size="0">
-			<a-button
-				type="link"
-				size="small"
-			>
-				编辑
-			</a-button>
-		</a-space>
+	<template #bodyCell="{ column, record }">
+		<% columns.filter(item => item.slot).map((item, index) => { _%>
+			<template v-if="column.key === '<%= item.key %>'">
+				{{ record.<%= item.key %> }}
+			</template>
+		<% }) _%>
+		<template v-if="column.key === 'operation'">
+			<a-space :size="0">
+				<a-button
+					type="link"
+					size="small"
+				>
+					编辑
+				</a-button>
+			</a-space>
+		</template>
 	</template>
 </a-table>
 <% if(pagination.show) { _%>
@@ -29,6 +31,7 @@
 	:total="model.<%= variableName %>Pagination.total"
 	show-size-changer
 	show-quick-jumper
+	:show-total="(total:number) => `共搜索到 ${total} 条数据`"
 ></a-pagination>
 <% } _%> 
 // lowcode-vue-columns
@@ -40,13 +43,11 @@ const <%= variableName %>TableColumns = [
 			dataIndex: "<%= item.dataIndex || `column${index+1}` %>",
 			key: "<%= item.key || `column${index+1}` %>",
 			<% if(item.width) {%>width: "<%= item.width %>",<% } _%>
-			<% if(item.slot) {%>slots: { customRender: "<%= item.key %>"},<% } _%>
 		},
 	<% }) _%>
 	{
 		title: "操作",
 		key: "operation",
-		width: 100,
-		slots:{customRender: "operation"}
+		width: 100
 	}
 ];

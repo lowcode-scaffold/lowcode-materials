@@ -1,12 +1,16 @@
 {
-	"title": "现有模块中添加 antdv Form 表单",
-	"description": "现有模块中添加 antdv Form 表单",
+	"title": "",
+	"description": "",
 	"img": [
 		"https://gitee.com/img-host/img-host/raw/master/2020/11/05/1604587962875.jpg"
 	],
 	"category": [],
 	"schema": "form-render",
 	"scripts": [
+		{
+			"method": "OCR",
+			"remark": "OCR 识别剪贴版截图"
+		},
 		{
 			"method": "initFromOcrText",
 			"remark": "初始化列表，参数中粘贴 ocr 识别出的结果，每一行表示一项，也可以手动输入"

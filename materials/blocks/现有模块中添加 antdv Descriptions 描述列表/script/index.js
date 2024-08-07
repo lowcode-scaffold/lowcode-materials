@@ -11,7 +11,10 @@ module.exports = {
     main.handleComplete();
   },
   initFromOcrText: (lowcodeContext) => {
-    let items = lowcodeContext.params.split('\n');
+    let items = lowcodeContext.params
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .split('\n');
     items = items.map((s) => ({
       key: s.split(/:|：/g)[0],
       label: s.split(/:|：/g)[0],
@@ -26,6 +29,12 @@ module.exports = {
   intFromClipboardImage: async (lowcodeContext) => {
     context.lowcodeContext = lowcodeContext;
     const res = await main.handleIntFromClipboardImage();
+    return res;
+  },
+
+  OCR: async (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
+    const res = await main.handleOCR();
     return res;
   },
 };

@@ -7,18 +7,23 @@ const instance = axios.create({
 // 请求拦截
 instance.interceptors.request.use(
   // @ts-ignore
-  (config) => ({
-    ...config,
-    headers: {
-      ...config.headers,
-      'content-type': 'application/x-www-form-urlencoded',
-    },
-    params: {
-      ...config.params,
-      access_token:
-        '24.3195599ffa4d3f13183d6ee2b203047e.2592000.1707361359.282335-39735241',
-    },
-  }),
+  async (config) => {
+    let token = '';
+    if (!config.url?.includes('/oauth/2.0/token')) {
+      token = await getAccessToken();
+    }
+    return {
+      ...config,
+      headers: {
+        ...config.headers,
+        'content-type': 'application/x-www-form-urlencoded',
+      },
+      params: {
+        ...config.params,
+        access_token: token,
+      },
+    };
+  },
   (error) => Promise.reject(error),
 );
 
@@ -36,3 +41,16 @@ instance.interceptors.response.use(
 type Request = <T = unknown>(config: AxiosRequestConfig) => Promise<T>;
 
 export const request = instance.request as Request;
+
+const getAccessToken = async () => {
+  const res = await request<{ access_token: string }>({
+    url: 'https://aip.baidubce.com/oauth/2.0/token',
+    method: 'POST',
+    params: {
+      client_id: 'xxxxx',
+      client_secret: 'xxxxxxxx',
+      grant_type: 'client_credentials',
+    },
+  });
+  return res.access_token;
+};

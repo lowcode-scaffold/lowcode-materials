@@ -1,7 +1,9 @@
 /* eslint-disable no-shadow */
 import * as https from 'https';
+import * as http from 'http';
 import { TextDecoder } from 'util';
 import { workspace } from 'vscode';
+import { oneAPIConfig } from '../utils/shareData';
 
 type ChatGPTConfig = {
   hostname: string;
@@ -47,6 +49,8 @@ export const createChatCompletion = (options: {
   maxTokens?: number;
   hostname?: string;
   apiPath?: string;
+  port?: number;
+  notHttps?: boolean;
   messages: {
     role: 'system' | 'user' | 'assistant';
     content:
@@ -62,22 +66,28 @@ export const createChatCompletion = (options: {
   handleChunk?: (data: { text?: string }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
+    const config = oneAPIConfig();
     let combinedResult = '';
     let error = '发生错误：';
-    const request = https.request(
+    const h = config?.notHttps || options.notHttps ? http : https;
+    const request = h.request(
       {
         hostname:
-          options.hostname || getChatGPTConfig().hostname || 'api.openai.com',
-        port: 443,
+          options.hostname ||
+          config?.hostname ||
+          getChatGPTConfig().hostname ||
+          'api.openai.com',
+        port: options.port || config?.port || 443,
         path:
           options.apiPath ||
+          config?.apiPath ||
           getChatGPTConfig().apiPath ||
           '/v1/chat/completions',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
           Authorization: `Bearer ${
-            options.apiKey || getChatGPTConfig().apiKey
+            options.apiKey || config?.apiKey || getChatGPTConfig().apiKey
           }`,
         },
       },
@@ -159,10 +169,11 @@ export const createChatCompletion = (options: {
       },
     );
     const body = {
-      model: options.model || getChatGPTConfig().model,
+      model: options.model || config?.model || getChatGPTConfig().model,
       messages: options.messages,
       stream: true,
-      max_tokens: options.maxTokens || getChatGPTConfig().maxTokens,
+      max_tokens:
+        options.maxTokens || config?.maxTokens || getChatGPTConfig().maxTokens,
     };
     request.on('error', (error) => {
       // eslint-disable-next-line no-unused-expressions

@@ -1,0 +1,16 @@
+// lowcode-presenter-handle
+const handleToggle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalVisible = (visible: boolean) => {
+	if (visible) {
+		model.<%= variableName %>Modal.visible = true;
+	} else {
+		model.<%= variableName %>Modal.visible = false;
+	}
+};
+
+const handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalOk = () => {
+	model.<%= variableName %>Modal.visible = false;
+};
+// lowcode-presenter-return-handle
+handleToggle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalVisible,
+handle<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>ModalOk,
+	

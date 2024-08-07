@@ -32,12 +32,6 @@ export async function translate<T extends object>(option: {
   completePrompt?: string;
   extendValidate?: (jsonObject: T) => Error | Success<T>;
   /**
-export const Options = []
-
-export const Map = Options.reduce((obj, { label, value }) => {
-  obj[value] = label
-  return obj
-}, {})
    * @description 重试次数，默认为重试 3 次
    * @type {number}
    */
@@ -53,20 +47,24 @@ export const Map = Options.reduce((obj, { label, value }) => {
   let tryCount = 1;
   // eslint-disable-next-line no-unreachable-loop, no-constant-condition
   while (true) {
-    const statusBarItem = window.createStatusBarItem(StatusBarAlignment.Left);
-    statusBarItem.text = '$(sync~spin) Ask ChatGPT...';
-    statusBarItem.show();
     // eslint-disable-next-line no-await-in-loop
-    const responseText = await option
-      .createChatCompletion({
-        messages: [{ role: 'user', content: requestPrompt }],
-        handleChunk: undefined,
-        showWebview: option.showWebview,
-      })
-      .finally(() => {
-        statusBarItem.hide();
-        statusBarItem.dispose();
-      });
+    let responseText = await option.createChatCompletion({
+      messages: [{ role: 'user', content: requestPrompt }],
+      handleChunk: undefined,
+      showWebview: option.showWebview,
+    });
+
+    let match = /```json([\s\S]*?)```/g.exec(responseText);
+    if (match && match[1]) {
+      // eslint-disable-next-line prefer-destructuring
+      responseText = match[1];
+    } else {
+      match = /```([\s\S]*?)```/g.exec(responseText);
+    }
+    if (match && match[1]) {
+      // eslint-disable-next-line prefer-destructuring
+      responseText = match[1];
+    }
     let validation = validate<T>(
       responseText.replace(/```json/g, '').replace(/```/g, ''),
       option.schema,

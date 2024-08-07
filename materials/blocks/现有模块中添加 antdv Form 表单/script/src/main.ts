@@ -1,6 +1,87 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
+import { window } from 'vscode';
 import { context } from './context';
+import { generalBasic } from '../../../../../share/BaiduOCR/index';
+import { translate } from '../../../../../share/TypeChatSlim/index';
+import { IFormItems } from '../../config/schema';
+
+export async function handleOCR() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: true,
+      params: '',
+      model: lowcodeContext?.model,
+    };
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: true,
+    params: ocrRes.words_result.map((s) => s.words).join('\r\n'),
+    model: lowcodeContext?.model,
+  };
+}
+
+const scriptHandle: {
+  [method: string]: () => Promise<{
+    updateModelImmediately: boolean;
+    onlyUpdateParams: boolean;
+    params?: string;
+    model: any;
+  }>;
+} = {
+  askChatGPT: async () => {
+    const { lowcodeContext } = context;
+    const schema = fs.readFileSync(
+      path.join(lowcodeContext!.materialPath, 'config/schema.ts'),
+      'utf8',
+    );
+    const typeName = 'IFormItems';
+    const res = await translate<IFormItems>({
+      schema,
+      typeName,
+      request: JSON.stringify(
+        (lowcodeContext!.model as { formItems: IFormItems }).formItems,
+      ),
+      completePrompt:
+        `你是一个根据以下 TypeScript 类型定义将用户请求转换为 "${typeName}" 类型的 JSON 对象的服务，并且按照字段的注释进行处理:\n` +
+        `\`\`\`\n${schema}\`\`\`\n` +
+        `以下是用户请求:\n` +
+        `"""\n${JSON.stringify(
+          (lowcodeContext!.model as { formItems: IFormItems }).formItems,
+        )}\n"""\n` +
+        `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`,
+      createChatCompletion: lowcodeContext!.createChatCompletion,
+      showWebview: true,
+      extendValidate: (jsonObject) => ({ success: true, data: jsonObject }),
+    });
+    lowcodeContext!.outputChannel.appendLine(JSON.stringify(res, null, 2));
+    if (res.success) {
+      return {
+        updateModelImmediately: false,
+        onlyUpdateParams: false,
+        params: '',
+        model: { ...lowcodeContext?.model, formItems: res.data },
+      };
+    }
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: false,
+      params: '',
+      model: lowcodeContext?.model,
+    };
+  },
+};
+
+export async function handleRunScript() {
+  const { lowcodeContext } = context;
+  const res = await scriptHandle[lowcodeContext!.method]();
+  return res;
+}
 
 export async function handleComplete() {
   const createBlockPath = context.lowcodeContext?.createBlockPath;
@@ -10,7 +91,7 @@ export async function handleComplete() {
       .readFileSync(path.join(createBlockPath, 'temp.model.ts'))
       .toString();
     let modelFileContentOld = fs
-      .readFileSync(path.join(createBlockPath, 'model.ts').toString())
+      .readFileSync(path.join(createBlockPath, 'model.ts'))
       .toString();
 
     const keywords = [
@@ -80,10 +161,10 @@ export async function handleComplete() {
 
     // #region 更新 service.ts 文件
     const serviceFileContent = fs
-      .readFileSync(path.join(createBlockPath, 'temp.service.ts').toString())
+      .readFileSync(path.join(createBlockPath, 'temp.service.ts'))
       .toString();
     let serviceFileContentOld = fs
-      .readFileSync(path.join(createBlockPath, 'service.ts').toString())
+      .readFileSync(path.join(createBlockPath, 'service.ts'))
       .toString()
       .trim();
 
@@ -109,13 +190,16 @@ export async function handleComplete() {
 
     // #endregion
 
-    // #region 更新 presenter.tsx 文件
+    // #region 更新 presenter 文件
     const presenterFileContent = fs
-      .readFileSync(path.join(createBlockPath, 'temp.presenter.tsx').toString())
+      .readFileSync(path.join(createBlockPath, 'temp.presenter.ts'))
       .toString();
-    let presenterFileContentOld = fs
-      .readFileSync(path.join(createBlockPath, 'presenter.tsx').toString())
-      .toString();
+
+    let presenterFile = path.join(createBlockPath, 'presenter.ts');
+    if (!fs.existsSync(presenterFile)) {
+      presenterFile = path.join(createBlockPath, 'presenter.tsx');
+    }
+    let presenterFileContentOld = fs.readFileSync(presenterFile).toString();
 
     const presenterSplitArr = presenterFileContent.split(
       new RegExp(
@@ -149,11 +233,8 @@ export async function handleComplete() {
       '// lowcode-presenter-return',
       presenterReturn,
     );
-    fs.writeFileSync(
-      path.join(createBlockPath, 'presenter.tsx'),
-      presenterFileContentOld,
-    );
-    fs.removeSync(path.join(createBlockPath, 'temp.presenter.tsx'));
+    fs.writeFileSync(presenterFile, presenterFileContentOld);
+    fs.removeSync(path.join(createBlockPath, 'temp.presenter.ts'));
     // #endregion
 
     // #region 更新 index.vue 文件

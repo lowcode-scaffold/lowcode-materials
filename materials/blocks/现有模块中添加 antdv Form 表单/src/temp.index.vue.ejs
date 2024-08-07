@@ -205,7 +205,7 @@
 			>
 				<a-range-picker
 					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
-					:placeholder="[<%- item.placeholder || '\'\'' %>,<%- item.placeholder || '\'\'' %>]"
+					:placeholder="['<%- item.placeholder || '\'\'' %>','<%- item.placeholder || '\'\'' %>']"
 					allow-clear
 					picker="<%= item.picker || 'date' %>"
 					:showTime="<%= item.showTime || false %>"
@@ -228,59 +228,24 @@
 				/>
 			</a-form-item>
 		<% } _%>
-		<% if(item.component === "UploadImages") { _%>
+		<% if(item.component === "uploadFiles") { _%>
 			<a-form-item 
 				<% if(item.label) { _%>
 				label="<%= item.label %>"
 				<% } _%> 
 				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
 			>
-				<upload-images
-					:cropperData="{
-						autoCrop: true, // 是否默认生成截图框
-						autoCropWidth: 375, // 默认生成截图框宽度，不可超过外框750
-						autoCropHeight: 375, // 默认生成截图框高度，不可超过外框550
-						enlarge: 2, // 截图比例
-						fixedBox: true, // 是否开启截图框宽高固定比例
-						infoTrue: true,
-						high: false, //是否按照设备的dpr 输出等比例图片，必须为false，否则会根据设备变化
-					}"
-					isNeedCut
-					:checkWidth="(width: number, height: number) => {
-						if (width !== height) return '请上传正方形图片'
-						if (width < 750 || height < 750) return '请上传长宽≥750*750图片'
-					}"
-					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
-					:limit="1"
-				></upload-images>
-			</a-form-item>
-		<% } _%>
-		<% if(item.component === "UploadVideo") { _%>
-			<a-form-item 
-				<% if(item.label) { _%>
-				label="<%= item.label %>"
-				<% } _%> 
-				v-bind="presenter.validate<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>Infos.<%= item.key %>"
-			>
-				<upload-video
-					v-model:value="model.<%= variableName %>FormData.<%= item.key %>"
-					:limit="1"
-					:size="20"
-					:duration="2"
-					:maxDefinition="1080"
-					:minDefinition="360"
-					:maxRatio="'16:9'"
-					:types="'mp4, 3gp'"
-			/>
+				<upload-files
+					v-model:values="model.<%= variableName %>FormData.<%= item.key %>"
+					listType="picture-card"
+					formatLimit="jpg,png"
+				/>
 			</a-form-item>
 		<% } _%>
 	<% }) _%>
 </a-form>
 // lowcode-vue-import
-<% if(formItems.some(s => s.component === "UploadImages")){ _%>
-import UploadImages from '@/components/UploadImages.vue'
-<% } _%>
-<% if(formItems.some(s => s.component === "UploadVideo")){ _%>
-import UploadVideo from '@/components/UploadVideo.vue'
+<% if(formItems.some(s => s.component === "uploadFiles")){ _%>
+import UploadFiles from '@/components/UploadFiles/index.vue';
 <% } _%>
 

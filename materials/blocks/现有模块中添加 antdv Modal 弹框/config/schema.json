@@ -1,0 +1,35 @@
+{
+	"type": "page",
+	"body": [
+		{
+			"type": "form",
+			"title": "",
+			"body": [
+				{
+					"type": "input-text",
+					"label": "变量名",
+					"name": "variableName",
+					"id": "u:2b8da51d12fc"
+				},
+				{
+					"type": "input-text",
+					"label": "title",
+					"name": "title"
+				}
+			],
+			"submitText": "",
+			"id": "u:b3438715e11f"
+		}
+	],
+	"pullRefresh": {
+		"disabled": true
+	},
+	"regions": [
+		"body"
+	],
+	"style": {
+		"boxShadow": " 0px 0px 0px 0px transparent"
+	},
+	"asideResizor": false,
+	"id": "u:87ed78162ffc"
+}

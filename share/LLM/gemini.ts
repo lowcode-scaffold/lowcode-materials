@@ -1,5 +1,6 @@
 import { Content, GoogleGenerativeAI, Part } from '@google/generative-ai';
 import { setGlobalDispatcher, ProxyAgent } from 'undici';
+import { oneAPIConfig } from '../utils/shareData';
 
 type Message = (
   | {
@@ -21,8 +22,8 @@ type Message = (
 )[];
 
 export const createChatCompletion = async (options: {
-  apiKey: string;
-  model: 'gemini-pro' | 'gemini-pro-vision';
+  apiKey?: string;
+  model?: 'gemini-pro' | 'gemini-pro-vision';
   maxTokens?: number;
   hostname?: string;
   apiPath?: string;
@@ -32,17 +33,18 @@ export const createChatCompletion = async (options: {
   temperature?: number;
   proxyUrl?: string;
 }) => {
-  if (options.proxyUrl) {
+  const config = oneAPIConfig();
+  if (options.proxyUrl || config?.proxyUrl) {
     const dispatcher = new ProxyAgent({
-      uri: new URL(options.proxyUrl).toString(),
+      uri: new URL(options.proxyUrl || config?.proxyUrl || '').toString(),
     });
     setGlobalDispatcher(dispatcher);
   }
-  const genAI = new GoogleGenerativeAI(options.apiKey);
+  const genAI = new GoogleGenerativeAI(options.apiKey || config?.apiKey || '');
   const model = genAI.getGenerativeModel({
-    model: options.model,
+    model: options.model || config?.model || '',
     generationConfig: {
-      maxOutputTokens: options.maxTokens,
+      maxOutputTokens: options.maxTokens || config?.maxTokens,
       temperature: options.temperature,
       topP: options.topP,
     },

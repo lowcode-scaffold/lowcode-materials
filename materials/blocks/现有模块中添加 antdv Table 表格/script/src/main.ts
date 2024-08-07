@@ -10,6 +10,26 @@ import { context } from './context';
 import { IColumns } from '../../config/schema';
 import { typescriptToMock } from '../../../../../share/utils/json';
 
+export async function handleOCR() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: true,
+      params: '',
+      model: lowcodeContext?.model,
+    };
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: true,
+    params: ocrRes.words_result.map((s) => s.words).join('\r\n'),
+    model: lowcodeContext?.model,
+  };
+}
+
 export async function handleAskChatGPT() {
   const { lowcodeContext } = context;
   const schema = fs.readFileSync(
@@ -275,13 +295,16 @@ export async function handleComplete() {
     }
     // #endregion
 
-    // #region 更新 presenter.tsx 文件
+    // #region 更新 presenter 文件
     const presenterFileContent = fs
-      .readFileSync(path.join(createBlockPath, 'temp.presenter.tsx').toString())
+      .readFileSync(path.join(createBlockPath, 'temp.presenter.ts'))
       .toString();
-    let presenterFileContentOld = fs
-      .readFileSync(path.join(createBlockPath, 'presenter.tsx').toString())
-      .toString();
+
+    let presenterFile = path.join(createBlockPath, 'presenter.ts');
+    if (!fs.existsSync(presenterFile)) {
+      presenterFile = path.join(createBlockPath, 'presenter.tsx');
+    }
+    let presenterFileContentOld = fs.readFileSync(presenterFile).toString();
 
     const presenterSplitArr = presenterFileContent.split(
       new RegExp(
@@ -322,15 +345,12 @@ export async function handleComplete() {
       '// lowcode-presenter-return-handlePageChange',
       presenterReturnMethod,
     );
-    fs.writeFileSync(
-      path.join(createBlockPath, 'presenter.tsx'),
-      presenterFileContentOld,
-    );
-    fs.removeSync(path.join(createBlockPath, 'temp.presenter.tsx'));
+    fs.writeFileSync(presenterFile, presenterFileContentOld);
+    fs.removeSync(path.join(createBlockPath, 'temp.presenter.ts'));
     try {
       execa.sync('node', [
         path.join(workspace.rootPath!, '/node_modules/eslint/bin/eslint.js'),
-        path.join(createBlockPath, 'presenter.tsx'),
+        presenterFile,
         '--resolve-plugins-relative-to',
         workspace.rootPath!,
         '--fix',
@@ -418,9 +438,9 @@ export async function handleComplete() {
       createBlockPath: createBlockPath.replace(':', ''),
     });
     const mockProjectPathRes = await axios
-      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .get('http://localhost:3000/mockProjectPath', { timeout: 1000 })
       .catch(() => {
-        window.showErrorMessage('获取 mock 项目路径失败');
+        // window.showErrorMessage('获取 mock 项目路径失败');
       });
     if (mockProjectPathRes?.data.result) {
       const projectName = workspace.rootPath

@@ -1,27 +1,4 @@
-import { clipboard } from 'electron';
 import { createChatCompletion } from '../LLM/openaiV2';
-
-export const getOpenaiApiKey = () =>
-  new Promise<string>((resolve, reject) => {
-    // utools.dbStorage.removeItem('lowcode.openaiApiKey'); // 需要更新 api key 的时候打开
-    const cacheKey = utools.dbStorage.getItem('lowcode.openaiApiKey');
-    if (cacheKey) {
-      resolve(cacheKey);
-      return;
-    }
-    const oldClip = clipboard.readText();
-    utools.showNotification('请在输入框中粘贴 api key');
-    utools.setSubInput(
-      (input) => {
-        const key = (input as unknown as { text: string }).text;
-        utools.dbStorage.setItem('lowcode.openaiApiKey', key);
-        clipboard.writeText(oldClip);
-        resolve(key);
-      },
-      '请粘贴 api key',
-      true,
-    );
-  });
 
 export const screenCapture = () =>
   new Promise<string>((resolve, reject) => {
@@ -54,17 +31,17 @@ export const askChatGPT = async (data: {
   hostname?: string;
   apiKey?: string;
   apiPath?: string;
+  port?: number;
+  notHttps?: boolean;
   model?: string;
   maxTokens?: number;
 }) => {
-  let { apiKey } = data;
-  if (!apiKey) {
-    apiKey = await getOpenaiApiKey();
-  }
   const res = await createChatCompletion({
-    apiKey,
+    apiKey: data.apiKey,
     hostname: data.hostname,
     apiPath: data.apiPath,
+    port: data.port,
+    notHttps: data.notHttps,
     messages: data.messages,
     model: data.model,
     maxTokens: data.maxTokens,

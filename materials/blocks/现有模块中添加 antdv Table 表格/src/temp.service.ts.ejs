@@ -2,7 +2,7 @@
 import {fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>} from './api';
 // lowcode-service-method
 async get<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>() {
-	const res = await fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>()
+	const res = await fetch<%= variableName.slice(0, 1).toUpperCase() + variableName.slice(1) %>({})
 	this.model.<%= variableName %>.value = res<%- result %>.map((s) => {
 		return {
 	...s,

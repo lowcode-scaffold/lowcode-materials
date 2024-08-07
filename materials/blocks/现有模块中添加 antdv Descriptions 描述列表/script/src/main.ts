@@ -10,6 +10,26 @@ import { context } from './context';
 import { IItems } from '../../config/schema';
 import { typescriptToMock } from '../../../../../share/utils/json';
 
+export async function handleOCR() {
+  const { lowcodeContext } = context;
+  if (!lowcodeContext?.clipboardImage) {
+    window.showInformationMessage('剪贴板里没有截图');
+    return {
+      updateModelImmediately: false,
+      onlyUpdateParams: true,
+      params: '',
+      model: lowcodeContext?.model,
+    };
+  }
+  const ocrRes = await generalBasic({ image: lowcodeContext!.clipboardImage! });
+  return {
+    updateModelImmediately: false,
+    onlyUpdateParams: true,
+    params: ocrRes.words_result.map((s) => s.words).join('\r\n'),
+    model: lowcodeContext?.model,
+  };
+}
+
 export async function handleAskChatGPT() {
   const { lowcodeContext } = context;
   const schema = fs.readFileSync(
@@ -321,9 +341,9 @@ export async function handleComplete() {
       createBlockPath: createBlockPath.replace(':', ''),
     });
     const mockProjectPathRes = await axios
-      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .get('http://localhost:3000/mockProjectPath', { timeout: 1000 })
       .catch(() => {
-        window.showErrorMessage('获取 mock 项目路径失败');
+        // window.showErrorMessage('获取 mock 项目路径失败');
       });
     if (mockProjectPathRes?.data.result) {
       const projectName = workspace.rootPath

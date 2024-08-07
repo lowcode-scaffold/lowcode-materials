@@ -1,4 +1,4 @@
-将项目 clone 到本地，安装依赖
+将项目 clone 到本地，安装依赖，执行 yarn build
 
 安装 [lowcode](https://marketplace.visualstudio.com/items?itemName=wjkang.lowcode) 插件
 

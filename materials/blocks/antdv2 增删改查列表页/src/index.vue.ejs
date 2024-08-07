@@ -1,14 +1,23 @@
 <template>
-  <a-row :gutter="30">
+  <a-row class="filterForm" :gutter="30">
     <% filters.map(item => { _%> 
-		  <a-col :xs="24" :sm="24" :md="12" :lg="8" :xl="6">
+		  <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="8" :xxl="6">
 				<% if(item.component === "select") { %>
 				<a-form-item label="<%= item.label %>">
 					<a-select
 						v-model:value="model.filterForm.<%= item.key %>"
 						:options="model.options.<%= item.key %>"
 						placeholder="<%= item.placeholder %>"
+						show-search
 						allow-clear
+						<% if(item.remoteFetch) { _%>
+						:filter-option="false"
+						<% } _%>
+						option-filter-prop="label"
+						@change="presenter.handleSearch"
+						<% if(item.remoteFetch) { _%>
+						@search="presenter.handleSearch<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>"
+						<% } _%>
 					></a-select>
 				</a-form-item>
 				<% } _%> 
@@ -18,6 +27,7 @@
 						v-model:value="model.filterForm.<%= item.key %>"
 						placeholder="<%= item.placeholder %>"
 						allow-clear
+						@press-enter="presenter.handleSearch"
 					></a-input>
 				</a-form-item>
 				<% } _%> 
@@ -25,14 +35,16 @@
 				<a-form-item label="<%= item.label %>">
 					<a-range-picker
 						v-model:value="model.filterForm.<%= item.key %>"
+						:placeholder="['开始时间', '结束时间']"
+						format="YYYY-MM-DD"
 						valueFormat="YYYY-MM-DD"
-						:allowClear="false"
+						@change="presenter.handleSearch"
 					/>
 				</a-form-item>
 				<% } _%> 
 			</a-col>
 		<% }) _%>
-		<a-col style="margin-bottom: 10px; text-align: right; flex: 1">
+		<a-col style="text-align: right; flex: 1">
 			<a-space>
 				<a-button @click="presenter.handleClear">重置</a-button>
         <a-button @click="presenter.handleSearch" type="primary">查询</a-button>
@@ -104,6 +116,7 @@
     :total="model.pagination.total"
     show-size-changer
     show-quick-jumper
+	:show-total="(total: number) => `共 ${total} 条`"
   ></a-pagination>
   <% } _%> <% if(includeModifyModal) { _%>
   <ModifyModal

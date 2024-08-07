@@ -1,11 +1,15 @@
 /* eslint-disable no-shadow */
 import * as https from 'https';
+import * as http from 'http';
 import { TextDecoder } from 'util';
+import { oneAPIConfig } from '../utils/shareData';
 
 export const createChatCompletion = (options: {
-  apiKey: string;
+  apiKey?: string;
   hostname?: string;
   apiPath?: string;
+  port?: number;
+  notHttps?: boolean;
   model?: string;
   maxTokens?: number;
   messages: {
@@ -23,17 +27,19 @@ export const createChatCompletion = (options: {
   handleChunk?: (data: { text?: string }) => void;
 }) =>
   new Promise<string>((resolve, reject) => {
+    const config = oneAPIConfig();
     let combinedResult = '';
     let error = '发生错误：';
-    const request = https.request(
+    const h = options.notHttps || config?.notHttps ? http : https;
+    const request = h.request(
       {
-        hostname: options.hostname || 'api.openai.com',
-        port: 443,
-        path: options.apiPath || '/v1/chat/completions',
+        hostname: options.hostname || config?.hostname || 'api.openai.com',
+        port: options.port || config?.port || 443,
+        path: options.apiPath || config?.apiPath || '/v1/chat/completions',
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${options.apiKey}`,
+          Authorization: `Bearer ${options.apiKey || config?.apiKey}`,
         },
       },
       (res) => {
@@ -71,7 +77,7 @@ export const createChatCompletion = (options: {
                 if (openaiRes) {
                   if (options.handleChunk) {
                     options.handleChunk({
-                      text: openaiRes.replaceAll('\\n', '\n'),
+                      text: openaiRes, // .replaceAll('\\n', '\n'),
                     });
                   }
                   combinedResult += openaiRes;
@@ -114,10 +120,10 @@ export const createChatCompletion = (options: {
       },
     );
     const body = {
-      model: options.model || 'gpt-3.5-turbo',
+      model: options.model || config?.model || 'gpt-3.5-turbo',
       messages: options.messages,
       stream: true,
-      max_tokens: options.maxTokens || 2000,
+      max_tokens: options.maxTokens || config?.maxTokens || 2000,
     };
     request.on('error', (error) => {
       // eslint-disable-next-line no-unused-expressions

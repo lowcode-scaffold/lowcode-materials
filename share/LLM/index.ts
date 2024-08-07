@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import { CompileContext } from 'lowcode-context';
+import { oneAPIConfig } from '../utils/shareData';
 import { showWebView } from '../WebView';
 import { emitter } from '../utils/emitter';
 import * as gemini from './gemini';
@@ -33,22 +34,15 @@ export const createChatCompletion = async (options: {
   lowcodeContext: CompileContext;
   llm?: string;
 }) => {
+  const config = oneAPIConfig();
   if (options.llm === 'gemini') {
-    const context = options.lowcodeContext.env.extensionContext;
-    // await context.secrets.delete(API_KEY); // 需要更新 API KEY 的时候打开
-    let apiKey = await context.secrets.get(API_KEY);
+    const apiKey = config?.apiKey;
 
     if (!apiKey) {
-      vscode.window.showWarningMessage(
-        'Enter your API KEY to save it securely.',
-      );
-      apiKey = await setApiKey(context);
-      if (!apiKey) {
-        if (options.handleChunk) {
-          options.handleChunk({ text: 'Please enter your api key' });
-        }
-        return 'Please enter your api key';
+      if (options.handleChunk) {
+        options.handleChunk({ text: 'Please config your api key' });
       }
+      return 'Please config your api key';
     }
     const res = await gemini.createChatCompletion({
       messages: options.messages,
@@ -66,7 +60,7 @@ export const createChatCompletion = async (options: {
           emitter.emit('chatGPTChunck', data);
         }
       },
-      proxyUrl: 'http://127.0.0.1:7890',
+      proxyUrl: config?.proxyUrl || 'http://127.0.0.1:7890',
     });
     emitter.emit('chatGPTComplete', res);
     return res;
@@ -138,20 +132,3 @@ export const createChatCompletionShowWebView = (options: {
     });
   });
 };
-
-async function setApiKey(context) {
-  const apiKey = await vscode.window.showInputBox({
-    title: 'Enter your API KEY',
-    password: true,
-    placeHolder: '**************************************',
-    ignoreFocusOut: true,
-  });
-
-  if (!apiKey) {
-    vscode.window.showWarningMessage('Empty value');
-    return;
-  }
-
-  await context.secrets.store(API_KEY, apiKey);
-  return apiKey;
-}
