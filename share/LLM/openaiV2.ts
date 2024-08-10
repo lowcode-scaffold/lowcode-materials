@@ -1,3 +1,4 @@
+/* eslint-disable no-continue */
 /* eslint-disable no-shadow */
 import * as https from 'https';
 import * as http from 'http';
@@ -29,7 +30,7 @@ export const createChatCompletion = (options: {
   new Promise<string>((resolve, reject) => {
     const config = oneAPIConfig();
     let combinedResult = '';
-    let error = '发生错误：';
+    const error = '发生错误：';
     const h = options.notHttps || config?.notHttps ? http : https;
     const request = h.request(
       {
@@ -43,27 +44,32 @@ export const createChatCompletion = (options: {
         },
       },
       (res) => {
+        let preDataLast = '';
         res.on('data', async (chunk) => {
           const text = new TextDecoder('utf-8').decode(chunk);
           const data = text.split('\n\n').filter((s) => s);
           for (let i = 0; i < data.length; i++) {
             try {
               let element = data[i];
-              if (element.includes('data: ')) {
+              if (i === data.length - 1 && !data[i].endsWith('}')) {
+                preDataLast = data[i];
+                continue;
+              }
+              if (element.startsWith('data: ')) {
                 if (element.trim() === 'data:') {
                   // 处理只返回了 data: 的情况
-                  return;
+                  continue;
                 }
-              } else if (element.includes('delta')) {
+              } else {
                 // 处理没有 data 开头
-                element = `data: ${element}`;
+                element = preDataLast + element;
               }
               if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
                   }
-                  return;
+                  continue;
                 }
                 // remove 'data: '
                 const data = JSON.parse(element.replace('data: ', ''));
@@ -71,31 +77,27 @@ export const createChatCompletion = (options: {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
                   }
-                  return;
+                  continue;
                 }
                 const openaiRes = data.choices[0].delta.content;
+                console.log(openaiRes);
                 if (openaiRes) {
                   if (options.handleChunk) {
                     options.handleChunk({
-                      text: openaiRes, // .replaceAll('\\n', '\n'),
+                      text: openaiRes.replaceAll('\\n', '\n'),
                     });
                   }
                   combinedResult += openaiRes;
                 }
               } else {
-                if (options.handleChunk) {
-                  options.handleChunk({
-                    text: element,
-                  });
-                }
-                return;
+                console.log('no includes data: ', element);
               }
             } catch (e) {
               console.error({
-                e,
+                e: (e as Error).toString(),
                 element: data[i],
               });
-              error = (e as Error).toString();
+              // error = (e as Error).toString();
             }
           }
         });
