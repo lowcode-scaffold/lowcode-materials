@@ -692,6 +692,7 @@
 				"/ModifyModal/index.vue.ejs",
 				"/ModifyModal/model.ts.ejs",
 				"/ModifyModal/presenter.tsx.ejs",
+				"/ModifyModal/presenter.ts.ejs",
 				"/ModifyModal/service.ts.ejs"
 			]
 		}

@@ -1,0 +1,28 @@
+{
+	"scripts": [
+		{
+			"method": "initFiltersFromImage",
+			"remark": "使用 OCR 识别查询条件截图内容"
+		},
+		{
+			"method": "initFiltersFromText",
+			"remark": "使用文本初始化查询条件"
+		},
+		{
+			"method": "initColumnsFromText",
+			"remark": "使用文本初始化表格"
+		},
+		{
+			"method": "initColumnsFromImage",
+			"remark": "使用截图初始化表格"
+		},
+		{
+			"method": "askChatGPT",
+			"remark": "使用 ChatGPT 翻译模版数据里的指定中文字段"
+		},
+		{
+			"method": "generateCode",
+			"remark": "生成代码"
+		}
+	]
+}

@@ -4,7 +4,8 @@ const {
 } = require('../../../../dist/materials/snippets/自动保存活动窗口/script/src/context');
 
 module.exports = {
-  onActivate: () => {
+  onActivate: (lowcodeContext) => {
+    context.lowcodeContext = lowcodeContext;
     main.onActivate();
   },
 };

@@ -1,5 +1,5 @@
 <template>
-  <a-row :gutter="30">
+  <a-row class="filterForm" :gutter="30">
     <% filters.map(item => { _%> 
 		  <a-col :xs="24" :sm="24" :md="12" :lg="12" :xl="8" :xxl="6">
 				<% if(item.component === "select") { %>
@@ -8,7 +8,16 @@
 						v-model:value="model.filterForm.<%= item.key %>"
 						:options="model.options.<%= item.key %>"
 						placeholder="<%= item.placeholder %>"
+						show-search
 						allow-clear
+						<% if(item.remoteFetch) { _%>
+						:filter-option="false"
+						<% } _%>
+						option-filter-prop="label"
+						@change="presenter.handleSearch"
+						<% if(item.remoteFetch) { _%>
+						@search="presenter.handleSearch<%= item.key.slice(0, 1).toUpperCase() + item.key.slice(1) %>"
+						<% } _%>
 					></a-select>
 				</a-form-item>
 				<% } _%> 
@@ -18,6 +27,7 @@
 						v-model:value="model.filterForm.<%= item.key %>"
 						placeholder="<%= item.placeholder %>"
 						allow-clear
+						@press-enter="presenter.handleSearch"
 					></a-input>
 				</a-form-item>
 				<% } _%> 
@@ -25,8 +35,10 @@
 				<a-form-item label="<%= item.label %>">
 					<a-range-picker
 						v-model:value="model.filterForm.<%= item.key %>"
+						:placeholder="['开始时间', '结束时间']"
+						format="YYYY-MM-DD"
 						valueFormat="YYYY-MM-DD"
-						:allowClear="false"
+						@change="presenter.handleSearch"
 					/>
 				</a-form-item>
 				<% } _%> 
@@ -49,61 +61,64 @@
     :data-source="model.tableList.value"
     :pagination="false"
   >
-	<% columns.filter(item => item.slot).map((item, index) => { _%>
-		<template #<%= item.key %>="{ record }">
-			{{ record.<%= item.key %> }}
-		</template>
-		<% }) _%>
-		<template #operation="{ record }">
-			<a-space :size="0">
-				<% if(includeModifyModal) { _%>
-				<a-button
-					type="link"
-					size="small"
-					@click="
-						() => {
-							presenter.handleView(record);
-						}
-					"
-				>
-					查看
-				</a-button>
-				<% } _%>
-				<a-button
-					type="link"
-					size="small"
-					@click="
-						() => {
-							presenter.handleEdit(record);
-						}
-					"
-				>
-					编辑
-				</a-button>
-				<a-button
-					type="link"
-					danger
-					size="small"
-					@click="
-						() => {
-							presenter.handleDel(record);
-						}
-					"
-				>
-					删除
-				</a-button>
-			</a-space>
+		<template #bodyCell="{ column, record }">
+			<% columns.filter(item => item.slot).map((item, index) => { _%>
+				<template v-if="column.key === '<%= item.key %>'">
+					{{ record.<%= item.key %> }}
+				</template>
+			<% }) _%>
+			<template v-if="column.key === 'operation'">
+				<a-space :size="0">
+					<% if(includeModifyModal) { _%>
+					<a-button
+						type="link"
+						size="small"
+						@click="
+							() => {
+								presenter.handleView(record);
+							}
+						"
+					>
+						查看
+					</a-button>
+					<% } _%>
+					<a-button
+						type="link"
+						size="small"
+						@click="
+							() => {
+								presenter.handleEdit(record);
+							}
+						"
+					>
+						编辑
+					</a-button>
+					<a-button
+						type="link"
+						danger
+						size="small"
+						@click="
+							() => {
+								presenter.handleDel(record);
+							}
+						"
+					>
+						删除
+					</a-button>
+				</a-space>
+			</template>
 		</template>
   </a-table>
   <% if(pagination.show) { _%>
   <a-pagination
     style="margin-top: 10px"
     @change="presenter.handlePageChange"
-		@showSizeChange="presenter.handlePageChange"
+	@showSizeChange="presenter.handlePageChange"
     v-model:current="model.pagination.page"
     :total="model.pagination.total"
     show-size-changer
     show-quick-jumper
+	:show-total="(total: number) => `共 ${total} 条`"
   ></a-pagination>
   <% } _%> <% if(includeModifyModal) { _%>
   <ModifyModal
@@ -133,14 +148,12 @@
   			dataIndex: "<%= item.dataIndex || `column${index+1}` %>",
   			key: "<%= item.key || `column${index+1}` %>",
   			<% if(item.width) {%>width: "<%= item.width %>",<% } _%>
-				<% if(item.slot) {%>slots: { customRender: "<%= item.key %>"},<% } _%>
   		},
   	<% }) _%>
   	{
       title: "操作",
       key: "operation",
-  		width: 100,
-			slots:{customRender: "operation"}
+  		width: 100
     }
   ];
 </script>

@@ -1,4 +1,4 @@
-import request from "@/utils/request";
+import { request } from "@/utils/request";
 <% if (locals.api) { %>
 // #region <%= api.title %>
 <%= type %>
@@ -36,12 +36,12 @@ export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>P
 export function <%= funcName %> (
 <% if (api.req_query.length>0 || api.req_params.length > 0 || api.query_path.params.length > 0) { %>
 params: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params,
-<% } _%> 
+<% } _%>
 <% if (requestBodyType) { %> 
 data: I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Data
 <% } %> 
 ) {
-return request<<%= typeName %>["result"]>({
+return request<<%= typeName %>>({
 	  url: `http://127.0.0.1:3000<%= api.query_path.path.replace(/\{/g,"${params.") %>`, 
 		method: '<%= api.method %>',
 		<% if(api.req_query.length>0 || api.req_params.length > 0) { %>params,<% } _%>
@@ -74,7 +74,12 @@ export interface I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %
 
 export interface I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Params {
 	<% filters.map(item => { _%>
-		<%= item.key %>?: string;
+		<% if(item.component !== "range-picker") { _%>
+			 <%= item.key %>?: string;
+		<% } else { _%>
+			<%= item.key %>Start?: string;
+			<%= item.key %>End?: string;
+		<% } _%>
 	<% }) _%>
 	<% if (pagination.show) { _%>
 		<%= pagination.page %>: number;
@@ -85,9 +90,9 @@ export interface I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %
 export function <%= fetchName %>(
 params: I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Params
 ) {
-return request<I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Result["result"]>({
-	url: `http://127.0.0.1:3000/<%= createBlockPath %>/<%= fetchName %>`, 
-	method: 'GET',
+return request<I<%= fetchName.slice(0, 1).toUpperCase() + fetchName.slice(1) %>Result>({
+	url: `http://127.0.0.1:3000<%= createBlockPath %>/<%= fetchName %>`, 
+	method: "GET",
 	params,
 });
 }

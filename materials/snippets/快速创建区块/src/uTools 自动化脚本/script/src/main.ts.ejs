@@ -1,3 +1,8 @@
 import { clipboard } from 'electron';
 
-export const bootstrap = async () => '1212';
+export const bootstrap = async (scriptFile?: string) => {
+  utools.redirect(['lowcode', 'lowcode'], {
+    type: 'text',
+    data: JSON.stringify({ scriptFile, route: '/chat' }),
+  });
+};

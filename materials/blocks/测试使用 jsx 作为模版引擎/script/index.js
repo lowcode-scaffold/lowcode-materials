@@ -27,29 +27,19 @@ module.exports = {
     return res;
   },
   initFiltersFromText: (lowcodeContext) => {
-    // 处理如下 ocr 结果
-    // 客户姓名：
-    // 请输入
-    // 手机号：
-    // 全部
-    // 合同编号：
-    // 全部
-    // 变更单状态：
-    // 请选择
     let filters = lowcodeContext.params
-      .split('\n')
-      .reduce((result, value, index, array) => {
-        if (index % 2 === 0) {
-          result.push(array.slice(index, index + 2));
-        }
-        return result;
-      }, []);
-    filters = filters.map((s) => ({
-      component: s[1].indexOf('选择') > -1 ? 'select' : 'input',
-      key: s[0].replace(/:|：/g, '').trim(),
-      label: s[0].replace(/:|：/g, '').trim(),
-      placeholder: s[1],
-    }));
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .split('\n');
+    filters = filters.map((item) => {
+      const s = item.replace(/：|：/g, ':').split(':');
+      return {
+        component: (s[1] || '').indexOf('选择') > -1 ? 'select' : 'input',
+        key: s[0].trim(),
+        label: s[0].trim(),
+        placeholder: s[1] || '',
+      };
+    });
     lowcodeContext.outputChannel.appendLine(JSON.stringify(filters));
     return { ...lowcodeContext.model, filters };
   },
@@ -59,7 +49,10 @@ module.exports = {
     return res;
   },
   initColumnsFromText: (lowcodeContext) => {
-    let columns = lowcodeContext.params.split('\n');
+    let columns = lowcodeContext.params
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .split('\n');
     columns = columns.map((s) => ({
       slot: false,
       title: s,

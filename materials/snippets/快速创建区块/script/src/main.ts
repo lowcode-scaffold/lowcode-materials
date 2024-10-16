@@ -14,6 +14,7 @@ export async function bootstrap() {
       'uniapp/vue3-mvp props emit',
       'lowcode/代码片段',
       'uTools 自动化脚本',
+      'uTools 动态表单',
     ].map((s) => s),
     { placeHolder: '请选择模板' },
   );

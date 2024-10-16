@@ -59,8 +59,8 @@ const getHtmlForWebview = (dev = false) => {
 				<script>
 				   window.vscode = acquireVsCodeApi();
         </script>
-				<script type="module" crossorigin src="https://lowcode-webview-react-vite.ruoxie.site/js/index.js"></script>
-				<link rel="stylesheet" crossorigin href="https://lowcode-webview-react-vite.ruoxie.site/css/index.css">
+				<script type="module" crossorigin src="http://lowcode-utools.oss-cn-beijing.aliyuncs.com/vscode.index.js"></script>
+				<link rel="stylesheet" crossorigin href="http://lowcode-utools.oss-cn-beijing.aliyuncs.com/vscode.index.css">
 			</head>
 			<body>
 				<div id="root"></div>

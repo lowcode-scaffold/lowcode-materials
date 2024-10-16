@@ -10,11 +10,6 @@ module.exports = {
     context.outputChannel.appendLine(__filename);
     context.outputChannel.appendLine(process.cwd());
     context.outputChannel.appendLine(JSON.stringify(context.model));
-    if (!context.model.includeModifyModal) {
-      context.libs.fsExtra.removeSync(
-        path.join(path.join(context.env.tempWorkPath, 'src', 'ModifyModal')),
-      );
-    }
   },
   askChatGPT: async (context) => {
     const statusBarItem = context.vscode.window.createStatusBarItem(

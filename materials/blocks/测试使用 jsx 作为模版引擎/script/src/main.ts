@@ -133,11 +133,11 @@ export async function handleComplete() {
       createBlockPath: createBlockPath.replace(':', ''),
     });
     const mockProjectPathRes = await axios
-      .get('http://localhost:3001/mockProjectPath', { timeout: 1000 })
+      .get('http://localhost:3000/mockProjectPath', { timeout: 1000 })
       .catch(() => {
-        window.showInformationMessage(
-          '获取 mock 项目路径失败，跳过更新 mock 服务',
-        );
+        // window.showInformationMessage(
+        //   '获取 mock 项目路径失败，跳过更新 mock 服务',
+        // );
       });
     if (mockProjectPathRes?.data.result) {
       const projectName = workspace.rootPath
