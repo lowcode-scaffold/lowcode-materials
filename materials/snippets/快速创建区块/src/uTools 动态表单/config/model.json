@@ -1,14 +1,14 @@
 {
-	"filters": [],
-	"columns": [],
-	"pagination": {
-		"show": true,
-		"page": "page",
-		"size": "size",
-		"total": "result.total"
-	},
-	"includeModifyModal": false,
-	"fetchName": "fetchTableList",
-	"result": "[\"result\"][\"records\"]",
-	"serviceName": "getTableList"
+  "filters": [],
+  "columns": [],
+  "pagination": {
+    "show": true,
+    "page": "page",
+    "size": "size",
+    "total": "result.total"
+  },
+  "includeModifyModal": false,
+  "fetchName": "fetchTableList",
+  "result": "[\"result\"][\"records\"]",
+  "serviceName": "getTableList"
 }

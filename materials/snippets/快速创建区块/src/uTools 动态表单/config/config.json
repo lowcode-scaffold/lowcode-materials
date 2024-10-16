@@ -13,11 +13,7 @@
 			"remark": "使用文本初始化表格"
 		},
 		{
-			"method": "initColumnsFromImage",
-			"remark": "使用截图初始化表格"
-		},
-		{
-			"method": "askChatGPT",
+			"method": "openChatGPT",
 			"remark": "使用 ChatGPT 翻译模版数据里的指定中文字段"
 		},
 		{
