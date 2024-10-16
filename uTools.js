@@ -95,7 +95,7 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
       bundle: true,
       minify: true,
       // only needed if you have dependencies
-      external: ['electron'],
+      external: ['electron', 'typescript-json-schema'],
       platform: 'node',
       format: 'cjs',
       outfile: mainFilePath.replace('/main', '/mainBundle.js'),
@@ -129,12 +129,6 @@ const copyDir = () => {
           const copyDirPath = path.join(childDirPath, copyDirName);
           fs.copySync(
             copyDirPath,
-            path.join(distDirPath, dirName, copyDirName),
-          );
-          console.log(
-            'copy ',
-            copyDirPath,
-            ' to ',
             path.join(distDirPath, dirName, copyDirName),
           );
         }

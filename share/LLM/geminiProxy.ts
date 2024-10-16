@@ -30,7 +30,7 @@ export const createChatCompletion = (options: {
 }) =>
   new Promise<string>((resolve, reject) => {
     let combinedResult = '';
-    let error = '发生错误：';
+    const error = '发生错误：';
     const request = https.request(
       {
         hostname: 'api.gemini-chat.pro', // https://github.com/blacksev/Gemini-Next-Web API
@@ -65,7 +65,7 @@ export const createChatCompletion = (options: {
                 // 处理没有 data 开头
                 element = preDataLast + element;
               }
-              if (element.startsWith('data: ')) {
+              if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
@@ -92,16 +92,13 @@ export const createChatCompletion = (options: {
                 }
               } else {
                 console.log('no includes data: ', element);
-                if (options.handleChunk) {
-                  options.handleChunk({ text: element });
-                }
               }
             } catch (e) {
               console.error({
                 e: (e as Error).toString(),
                 element: data[i],
               });
-              error = (e as Error).toString();
+              // error = (e as Error).toString();
             }
           }
         });

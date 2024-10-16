@@ -6,6 +6,7 @@ const dataFile = path.join(homedir(), '.lowcode', 'data.json');
 
 export type ShareData = {
   activeWindow?: string;
+  selectedFolder?: string;
   oneAPI?: {
     apiKey: string;
     hostname?: string;
@@ -25,7 +26,14 @@ export type ShareData = {
 
 export const getShareData = () => {
   if (fs.existsSync(dataFile)) {
-    return fs.readJSONSync(dataFile) as ShareData;
+    const data = fs.readJSONSync(dataFile) as ShareData;
+    if (data.activeWindow) {
+      data.activeWindow =
+        process.platform === 'win32' && data.activeWindow.startsWith('/')
+          ? data.activeWindow.substring(1)
+          : data.activeWindow;
+    }
+    return data;
   }
   return {} as ShareData;
 };

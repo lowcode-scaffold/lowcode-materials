@@ -4,7 +4,9 @@ import { clipboard } from 'electron';
 
 export const bootstrap = async (scriptFile?: string) => {
   const configPath = path.join(
-    scriptFile!.replace('/script/src/main', '').replace('dist/', ''),
+    scriptFile!
+      .replace('/script/src/mainBundle', '')
+      .replace('/script/src/main', ''),
     'config',
   );
   const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');

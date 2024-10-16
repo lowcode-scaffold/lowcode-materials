@@ -1,0 +1,11 @@
+customerName：甲方姓名
+customerMobile：甲方手机号
+receiverMobile：报价单手机号
+idCard：证件号码
+idCardType：证件类型
+houseAddress：房屋地址
+orderCode：报价单号
+designArea：设计面积（可修改）
+productType：产品类型
+totalAmount：总报价款
+designPrice：设计单价（可修改）

@@ -30,4 +30,4 @@ type LLMMessage = (
 export const askChatGPT = (data: {
   messages: LLMMessage;
   handleChunk: (chunck: string) => void;
-}) => askOpenai({ ...data, hostname: 'api.chatanywhere.com.cn' });
+}) => askOpenai({ ...data });

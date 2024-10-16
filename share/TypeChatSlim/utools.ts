@@ -53,11 +53,7 @@ export async function translate<T extends object>(option: {
         handleChunk: undefined,
       })
       .finally(() => {});
-    let validation = validate<T>(
-      responseText.replace(/```json/g, '').replace(/```/g, ''),
-      option.schema,
-      option.typeName,
-    );
+    let validation = validate<T>(responseText, option.schema, option.typeName);
     if (validation.success) {
       // 走额外的校验
       if (option.extendValidate) {
@@ -103,14 +99,16 @@ function createRepairPrompt(validationError: string) {
   );
 }
 
-function validate<T extends object>(
+export function validate<T extends object>(
   jsonText: string,
   schema: string,
   typeName: string,
 ) {
   let jsonObject;
   try {
-    jsonObject = JSON.parse(jsonText) as object;
+    jsonObject = JSON.parse(
+      jsonText.replace(/```json/g, '').replace(/```/g, ''),
+    ) as object;
   } catch (e) {
     return error(e instanceof SyntaxError ? e.message : 'JSON parse error');
   }

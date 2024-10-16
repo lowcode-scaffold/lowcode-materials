@@ -30,7 +30,7 @@ export const createChatCompletion = (options: {
   new Promise<string>((resolve, reject) => {
     const config = oneAPIConfig();
     let combinedResult = '';
-    let error = '发生错误：';
+    const error = '发生错误：';
     const h = options.notHttps || config?.notHttps ? http : https;
     const request = h.request(
       {
@@ -64,7 +64,7 @@ export const createChatCompletion = (options: {
                 // 处理没有 data 开头
                 element = preDataLast + element;
               }
-              if (element.startsWith('data: ')) {
+              if (element.includes('data: ')) {
                 if (element.includes('[DONE]')) {
                   if (options.handleChunk) {
                     options.handleChunk({ text: '' });
@@ -91,16 +91,13 @@ export const createChatCompletion = (options: {
                 }
               } else {
                 console.log('no includes data: ', element);
-                if (options.handleChunk) {
-                  options.handleChunk({ text: element });
-                }
               }
             } catch (e) {
               console.error({
                 e: (e as Error).toString(),
                 element: data[i],
               });
-              error = (e as Error).toString();
+              // error = (e as Error).toString();
             }
           }
         });
