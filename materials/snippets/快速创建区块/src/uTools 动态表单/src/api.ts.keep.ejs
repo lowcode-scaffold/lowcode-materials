@@ -26,7 +26,7 @@ export interface I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>P
 
 /**
 * <%= api.title %> 
-* /project/<%= api.project_id %>/interface/api/<%= api._id %> 
+* https://yapi.onewo.com/project/<%= api.project_id %>/interface/api/<%= api._id %> 
 * @author <%= api.username %>  
 * 
 <% if (api.req_query.length > 0 || api.req_params.length > 0 || api.query_path.params.length > 0) { -%>* @param {I<%= funcName.slice(0, 1).toUpperCase() + funcName.slice(1) %>Params} params<%- "\n" %><% } _%>

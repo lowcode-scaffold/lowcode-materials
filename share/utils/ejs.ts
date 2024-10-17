@@ -67,7 +67,11 @@ export async function renderEjsTemplates(
         Promise.all(
           templateFiles.map((file) => {
             const filepath = path.join(templateDir, file);
-            return renderFile(filepath, templateData);
+            return renderFile(
+              filepath,
+              templateData,
+              file.includes('.keep.ejs'),
+            );
           }),
         )
           .then(() => resolve())
@@ -77,14 +81,28 @@ export async function renderEjsTemplates(
   });
 }
 
-async function renderFile(templateFilepath: string, data: ejs.Data) {
-  const content = await ejs.renderFile(templateFilepath, data);
-  const targetFilePath = templateFilepath
-    .replace(/\.ejs$/, '')
-    .replace(
-      /\$\{.+?\}/gi,
-      (match) => data[match.replace(/\$|\{|\}/g, '')] || '',
-    );
-  await fse.rename(templateFilepath, targetFilePath);
-  await fse.writeFile(targetFilePath, content);
+async function renderFile(
+  templateFilepath: string,
+  data: ejs.Data,
+  keepRawContent: boolean,
+) {
+  if (!keepRawContent) {
+    const content = await ejs.renderFile(templateFilepath, data);
+    const targetFilePath = templateFilepath
+      .replace(/\.ejs$/, '')
+      .replace(
+        /\$\{.+?\}/gi,
+        (match) => data[match.replace(/\$|\{|\}/g, '')] || '',
+      );
+    await fse.rename(templateFilepath, targetFilePath);
+    await fse.writeFile(targetFilePath, content);
+  } else {
+    const targetFilePath = templateFilepath
+      .replace(/\.keep\.ejs$/, '.ejs')
+      .replace(
+        /\$\{.+?\}/gi,
+        (match) => data[match.replace(/\$|\{|\}/g, '')] || '',
+      );
+    await fse.rename(templateFilepath, targetFilePath);
+  }
 }

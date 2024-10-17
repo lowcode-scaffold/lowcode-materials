@@ -21,13 +21,13 @@ const schema = {
       data: {},
       title: '',
       body: [
-        {
-          type: 'input-text',
-          id: 'u:11b127c5df46',
-          label: 'activeWindow',
-          name: 'activeWindow',
-          description: '',
-        },
+        // {
+        //   type: 'input-text',
+        //   id: 'u:11b127c5df46',
+        //   label: 'activeWindow',
+        //   name: 'activeWindow',
+        //   description: '',
+        // },
         {
           type: 'combo',
           label: 'oneAPI',
