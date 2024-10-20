@@ -1,5 +1,5 @@
 import { clipboard } from 'electron';
-import { askChatGPT as askOpenai } from '../../../../share/utils/uTools';
+import { askChatGPT as askOpenai } from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
   const clipboardText =

@@ -1,8 +1,8 @@
 import path from 'path';
 import fs from 'fs';
 import { clipboard } from 'electron';
-import { translate } from '../../../../share/TypeChatSlim/utools';
-import { askChatGPT as askOpenai } from '../../../../share/utils/uTools';
+import { translate } from '@share/TypeChatSlim/utools';
+import { askChatGPT as askOpenai } from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
   const configPath = path.join(

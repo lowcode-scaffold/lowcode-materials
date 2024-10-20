@@ -1,5 +1,5 @@
 import { clipboard } from 'electron';
-import { createChatCompletion } from '../../../../share/LLM/openaiV2';
+import { createChatCompletion } from '@share/LLM/openaiV2';
 
 export const bootstrap = async () => {
   const text = clipboard.readText();

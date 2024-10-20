@@ -1,4 +1,4 @@
-import { askChatGPT as askOpenai } from '../../../../share/utils/uTools';
+import { askChatGPT as askOpenai } from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
   utools.redirect(['lowcode', 'lowcode'], {

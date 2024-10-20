@@ -1,6 +1,6 @@
 import { clipboard } from 'electron';
 import * as execa from 'execa';
-import { getShareData } from '../../../../share/utils/shareData';
+import { getShareData } from '@share/utils/shareData';
 
 export const bootstrap = (scriptFile?: string) => {
   const { activeWindow } = getShareData();

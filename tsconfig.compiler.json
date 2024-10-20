@@ -1,36 +1,47 @@
 {
-  "compilerOptions": {
-    "target": "ESNext",
-    "useDefineForClassFields": true,
-    "module": "commonjs",
-    "moduleResolution": "Node",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "strict": true,
-    "jsx": "react-jsx",
-    "sourceMap": false,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "esModuleInterop": true,
-    "noUnusedLocals": false,
-    "noUnusedParameters": false,
-    "strictNullChecks": true,
-    "noImplicitAny": false,
-    "allowJs": true,
-    "lib": ["ESNext", "DOM"],
-    "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "baseUrl": ".",
-    "rootDir": ".",
-    "outDir": "./dist",
-    "types": ["utools-api-types", "node"]
-  },
-  "exclude": [
-    "node_modules",
-    "dist",
-    "llm",
-    "build.js",
-    "uTools.js",
-    "esbuild.js"
-  ]
+	"compilerOptions": {
+		"target": "ESNext",
+		"useDefineForClassFields": true,
+		"module": "commonjs",
+		"moduleResolution": "Node",
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
+		"strict": true,
+		"jsx": "react-jsx",
+		"sourceMap": false,
+		"resolveJsonModule": true,
+		"isolatedModules": true,
+		"esModuleInterop": true,
+		"noUnusedLocals": false,
+		"noUnusedParameters": false,
+		"strictNullChecks": true,
+		"noImplicitAny": false,
+		"allowJs": true,
+		"lib": [
+			"ESNext",
+			"DOM"
+		],
+		"skipLibCheck": true,
+		"allowSyntheticDefaultImports": true,
+		"baseUrl": ".",
+		"rootDir": ".",
+		"paths": {
+			"@share/*": [
+				"share/*"
+			]
+		},
+		"outDir": "./dist",
+		"types": [
+			"utools-api-types",
+			"node"
+		]
+	},
+	"exclude": [
+		"node_modules",
+		"dist",
+		"llm",
+		"build.js",
+		"uTools.js",
+		"esbuild.js"
+	]
 }

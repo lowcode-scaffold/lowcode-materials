@@ -4,11 +4,11 @@ import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
 import { clipboard } from 'electron';
-import { validate } from '../../../../share/TypeChatSlim/utools';
-import { generalBasic } from '../../../../share/BaiduOCR/index';
-import { getShareData } from '../../../../share/utils/shareData';
-import { renderEjsTemplates } from '../../../../share/utils/ejs';
-import { typescriptToMock } from '../../../../share/utils/platformIndependent/json';
+import { validate } from '@share/TypeChatSlim/utools';
+import { generalBasic } from '@share/BaiduOCR/index';
+import { getShareData } from '@share/utils/shareData';
+import { renderEjsTemplates } from '@share/utils/ejs';
+import { typescriptToMock } from '@share/utils/platformIndependent/json';
 
 export type MethodHandle = (data: {
   method: string;

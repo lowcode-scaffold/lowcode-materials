@@ -1,8 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
-import {
-  getShareData,
-  saveShareData as save,
-} from '../../../../share/utils/shareData';
+import { getShareData, saveShareData as save } from '@share/utils/shareData';
 
 export const bootstrap = async (scriptFile?: string) => {
   utools.redirect(['lowcode', 'lowcode'], {

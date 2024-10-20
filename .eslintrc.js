@@ -40,5 +40,8 @@ module.exports = {
     'import/no-dynamic-require': 'off',
     'global-require': 'off',
     'import/no-extraneous-dependencies': 'off',
+    'no-template-curly-in-string': 'off',
+    'arrow-body-style': 'off',
+    'prefer-promise-reject-errors': 'off',
   },
 };

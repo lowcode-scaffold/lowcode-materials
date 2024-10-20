@@ -103,13 +103,23 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
     build({
       entryPoints: [`${mainFilePath}.js`],
       bundle: false,
-      minify: true,
+      minify: false,
       // only needed if you have dependencies
       // external: ['electron'],
       platform: 'node',
       format: 'cjs',
       outfile: `${mainFilePath}.js`,
       allowOverwrite: true,
+    }).then(() => {
+      const conetnt = fs.readFileSync(`${mainFilePath}.js`).toString();
+      fs.writeFileSync(
+        `${mainFilePath}.js`,
+        `const moduleAlias = require('module-alias');
+moduleAlias.addAlias('@share', '${path
+          .join(__dirname, 'dist', 'share')
+          .replace(/\\/g, '/')}');
+					${conetnt}`,
+      );
     });
   });
 

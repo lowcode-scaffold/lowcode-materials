@@ -1,6 +1,6 @@
 import { clipboard } from 'electron';
-import { getDynamicFormConfig } from '../../../../share/utils/dynamicForm';
-import { askChatGPT as askOpenai } from '../../../../share/utils/uTools';
+import { getDynamicFormConfig } from '@share/utils/dynamicForm';
+import { askChatGPT as askOpenai } from '@share/utils/uTools';
 import * as controller from './controller';
 import { MethodHandle } from './controller';
 
