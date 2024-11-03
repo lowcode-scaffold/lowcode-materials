@@ -1,8 +1,8 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { window, Range } from 'vscode';
-import { generalBasic } from '../../../../../share/BaiduOCR/index';
-import { translate } from '../../../../../share/TypeChatSlim/index';
+import { generalBasic } from '@share/BaiduOCR/index';
+import { translate } from '@share/TypeChatSlim/index';
 import { context } from './context';
 import { IColumns } from '../../config/schema';
 

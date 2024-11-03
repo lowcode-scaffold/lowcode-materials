@@ -55,6 +55,13 @@ getAllFiles(path.join(__dirname, 'materials'))
       .replace(`${__dirname.replace(/\\/g, '/')}/materials/`, '')
       .replace('/script/index.js', '');
     const prodContent = `
+const path = require('path');
+const moduleAlias = require('module-alias');
+
+moduleAlias.addAlias(
+  '@share',
+  path.join(__dirname.split('materials')[0], 'dist/share'),
+);
 const main = require('../../../../dist/materials/${materialName}/script/src/main');
 const {
   context,

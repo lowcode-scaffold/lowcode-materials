@@ -1,16 +1,16 @@
 import path from 'path';
 import fs from 'fs';
 import { clipboard } from 'electron';
-import { translate } from '@share/TypeChatSlim/utools';
-import { askChatGPT as askOpenai } from '@share/utils/uTools';
+import { validate } from '@share/TypeChatSlim/utools';
+import { compile as compileEjs } from '@share/utils/ejs';
+import {
+  askChatGPT as askOpenai,
+  getBlockConfigPath,
+  getBlockJsonValidSchema,
+} from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
-  const configPath = path.join(
-    scriptFile!
-      .replace('/script/src/mainBundle', '/config')
-      .replace('/script/src/main', '/config'),
-  );
-  const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
+  const schema = getBlockJsonValidSchema(scriptFile!);
   const clipboardText =
     (clipboard.readText() || '').trim() ||
     '客户验收状态:1.无需验收、2.待验收、3已验收';
@@ -56,30 +56,63 @@ export const askChatGPT = async (data: {
   handleChunk: (chunck: string) => void;
   scriptFile: string;
 }) => {
+  const configPath = getBlockConfigPath(data.scriptFile);
+  const schema = getBlockJsonValidSchema(data.scriptFile);
+  const template = fs.readFileSync(
+    path.join(configPath, 'template.ejs'),
+    'utf8',
+  );
+  const typeName = 'IOption';
+
+  if (
+    data.messages.length >= 3 &&
+    (data.messages[data.messages.length - 1].content as string).includes('>>>')
+  ) {
+    const name = (data.messages[data.messages.length - 1].content as string)
+      .split('>>>')[1]
+      .trim();
+    const jsonValid = validate(
+      data.messages[data.messages.length - 2].content as string,
+      schema,
+      typeName,
+    );
+    if (jsonValid.success) {
+      setTimeout(() => {
+        const code = compileEjs(template, {
+          rawSelectedText: name || '请手动修改名称',
+          content: JSON.stringify(jsonValid.data),
+        } as any);
+        clipboard.writeText(code);
+        utools.outPlugin();
+        utools.hideMainWindowPasteText(code);
+      }, 300);
+    } else {
+      data.handleChunk(`
+
+> 生成代码时 JSON 校验不通过
+
+${jsonValid.message}
+						`);
+    }
+    return '';
+  }
   const content = await askOpenai({
     messages: data.messages,
     handleChunk: data.handleChunk,
   });
+  const valid = validate(content.content, schema, typeName);
+  if (valid.success) {
+    data.handleChunk(`
+
+JSON 校验通过，输入\`>>>\`生成代码
+			`);
+  } else {
+    data.handleChunk(`
+
+> JSON 校验不通过
+
+${valid.message}
+						`);
+  }
   return content;
-  // const configPath = path.join(
-  //   data.scriptFile
-  //     .replace('/script/src/mainBundle', '/config')
-  //     .replace('/script/src/main', '/config'),
-  // );
-  // const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
-  // const res = await translate({
-  //   schema,
-  //   typeName: 'IOption',
-  //   scriptFile: data.scriptFile,
-  //   request: '',
-  //   showWebview: true,
-  //   async createChatCompletion(options) {
-  //     const content = await askOpenai({
-  //       messages: data.messages,
-  //       handleChunk: data.handleChunk,
-  //     });
-  //     return content.content;
-  //   },
-  // });
-  // return { content: res.responseText };
 };

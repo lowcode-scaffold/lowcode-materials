@@ -1,3 +1,10 @@
+const path = require('path');
+const moduleAlias = require('module-alias');
+
+moduleAlias.addAlias(
+  '@share',
+  path.join(__dirname.split('materials')[0], 'dist/share'),
+);
 const main = require('../../../../dist/materials/blocks/测试使用 jsx 作为模版引擎/script/src/main');
 const {
   context,

@@ -1,9 +1,9 @@
 import * as vscode from 'vscode';
 import { CompileContext } from 'lowcode-context';
-import { createChatCompletion } from '../../../../../share/LLM/gemini';
-import { createChatCompletion as createChatGPTChatCompletion } from '../../../../../share/LLM/openai';
-import { invokeLLMChunkCallback } from '../../../../../share/WebView/callback';
-import { IMessage } from '../../../../../share/WebView/type';
+import { createChatCompletion } from '@share/LLM/gemini';
+import { createChatCompletion as createChatGPTChatCompletion } from '@share/LLM/openai';
+import { invokeLLMChunkCallback } from '@share/WebView/callback';
+import { IMessage } from '@share/WebView/type';
 
 const API_KEY = 'lowcode.GeminiKey';
 

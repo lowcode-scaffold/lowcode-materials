@@ -4,13 +4,13 @@ import * as fs from 'fs-extra';
 import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
-import { lint } from '../../../../../share/utils/lint';
-import { renderTemplates } from '../../../../../share/utils/tsx';
-import { translate } from '../../../../../share/TypeChatSlim/index';
-import { generalBasic } from '../../../../../share/BaiduOCR/index';
+import { lint } from '@share/utils/lint';
+import { renderTemplates } from '@share/utils/tsx';
+import { translate } from '@share/TypeChatSlim/index';
+import { generalBasic } from '@share/BaiduOCR/index';
+import { typescriptToMock } from '@share/utils/json';
 import { context } from './context';
 import { PageConfig } from '../../config/schema';
-import { typescriptToMock } from '../../../../../share/utils/json';
 
 export async function handleInitFiltersFromImage() {
   const { lowcodeContext } = context;

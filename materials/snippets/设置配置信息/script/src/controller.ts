@@ -1,11 +1,8 @@
 import * as vscode from 'vscode';
 import { CompileContext } from 'lowcode-context';
-import {
-  getShareData,
-  saveShareData,
-} from '../../../../../share/utils/shareData';
-import { getDynamicFormConfig } from '../../../../../share/utils/dynamicForm';
-import { IMessage } from '../../../../../share/WebView/type';
+import { getShareData, saveShareData } from '@share/utils/shareData';
+import { getDynamicFormConfig } from '@share/utils/dynamicForm';
+import { IMessage } from '@share/WebView/type';
 
 type RunDynamicFormScript = (
   message: IMessage<{

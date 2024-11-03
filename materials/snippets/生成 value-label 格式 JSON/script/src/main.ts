@@ -1,10 +1,10 @@
 import fs from 'fs';
 import path from 'path';
 import { env, window, Range } from 'vscode';
-import { translate } from '../../../../../share/TypeChatSlim/index';
-import { getMaterial } from '../../../../../share/utils/material';
-import { compile as compileEjs } from '../../../../../share/utils/ejs';
-import { pasteToEditor } from '../../../../../share/utils/editor';
+import { translate } from '@share/TypeChatSlim/index';
+import { getMaterial } from '@share/utils/material';
+import { compile as compileEjs } from '@share/utils/ejs';
+import { pasteToEditor } from '@share/utils/editor';
 import { context } from './context';
 
 export async function bootstrap() {

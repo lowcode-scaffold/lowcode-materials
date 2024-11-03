@@ -1,8 +1,8 @@
 import * as path from 'path';
 import { window } from 'vscode';
 import * as fs from 'fs-extra';
+import { renderEjsTemplates } from '@share/utils/ejs';
 import { context } from './context';
-import { renderEjsTemplates } from '../../../../../share/utils/ejs';
 
 export async function bootstrap() {
   const { lowcodeContext } = context;

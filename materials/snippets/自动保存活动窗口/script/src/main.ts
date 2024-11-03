@@ -1,5 +1,5 @@
 import { Uri, commands, env, window, workspace } from 'vscode';
-import { saveShareData } from '../../../../../share/utils/shareData';
+import { saveShareData } from '@share/utils/shareData';
 import { context } from './context';
 
 export function onActivate() {

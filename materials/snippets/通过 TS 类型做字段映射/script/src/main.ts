@@ -1,5 +1,5 @@
 import { window } from 'vscode';
-import { showWebView } from '../../../../../share/WebView';
+import { showWebView } from '@share/WebView';
 import { routes } from './routes';
 import { context } from './context';
 

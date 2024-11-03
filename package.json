@@ -7,8 +7,8 @@
     "compile": "tsc --project tsconfig.compiler.json --skipLibCheck",
     "uTools": "node ./uTools.js",
     "build": "npm run prod",
-    "prod": "node ./build.js prod && npm run compile && npm run uTools",
-    "dev": "node ./build.js dev && npm run compile && npm run uTools",
+    "prod": "node ./buildMaterials.js prod && npm run compile && npm run uTools",
+    "dev": "node ./buildMaterials.js dev && npm run compile && npm run uTools",
     "lint": "eslint --ext .ts,.tsx,.js,.jsx materials/",
     "start:dev": "cross-env NODE_ENV=dev nest start --watch",
     "tsc": "tsc  --noEmit --skipLibCheck"

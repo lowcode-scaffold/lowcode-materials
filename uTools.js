@@ -29,7 +29,7 @@ function getAllFiles(dirPath) {
 
 getAllFiles(path.join(__dirname, 'dist', 'uTools'))
   .filter((s) => s.includes('index.js'))
-  .forEach((file) => {
+  .forEach(async (file) => {
     if (file.includes('下载脚本')) {
       const content = fs.readFileSync(file).toString();
       // const newContent = content.replace(
@@ -90,7 +90,7 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
       .replace(/\\/g, '/')
       .replace('index.js', 'indexBundle.js');
     fs.writeFileSync(indexBundleFile, indexBundleContent);
-    build({
+    await build({
       entryPoints: [`${mainFilePath}.js`],
       bundle: true,
       minify: true,
@@ -100,6 +100,15 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
       format: 'cjs',
       outfile: mainFilePath.replace('/main', '/mainBundle.js'),
     });
+    const conetnt = fs.readFileSync(`${mainFilePath}.js`).toString();
+    fs.writeFileSync(
+      `${mainFilePath}.js`,
+      `const moduleAlias = require('module-alias');
+moduleAlias.addAlias('@share', '${path
+        .join(__dirname, 'dist', 'share')
+        .replace(/\\/g, '/')}');
+				${conetnt}`,
+    );
     build({
       entryPoints: [`${mainFilePath}.js`],
       bundle: false,
@@ -110,16 +119,6 @@ getAllFiles(path.join(__dirname, 'dist', 'uTools'))
       format: 'cjs',
       outfile: `${mainFilePath}.js`,
       allowOverwrite: true,
-    }).then(() => {
-      const conetnt = fs.readFileSync(`${mainFilePath}.js`).toString();
-      fs.writeFileSync(
-        `${mainFilePath}.js`,
-        `const moduleAlias = require('module-alias');
-moduleAlias.addAlias('@share', '${path
-          .join(__dirname, 'dist', 'share')
-          .replace(/\\/g, '/')}');
-					${conetnt}`,
-      );
     });
   });
 

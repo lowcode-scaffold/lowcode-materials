@@ -1,9 +1,9 @@
 import * as path from 'path';
 import * as fs from 'fs-extra';
 import { window } from 'vscode';
+import { generalBasic } from '@share/BaiduOCR/index';
+import { translate } from '@share/TypeChatSlim/index';
 import { context } from './context';
-import { generalBasic } from '../../../../../share/BaiduOCR/index';
-import { translate } from '../../../../../share/TypeChatSlim/index';
 import { IFormItems } from '../../config/schema';
 
 export async function handleOCR() {

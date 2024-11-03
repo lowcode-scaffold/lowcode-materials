@@ -1,5 +1,5 @@
 import { window, Range, env } from 'vscode';
-import { generalBasic } from '../../../../../share/BaiduOCR/index';
+import { generalBasic } from '@share/BaiduOCR/index';
 import { context } from './context';
 
 export async function bootstrap() {

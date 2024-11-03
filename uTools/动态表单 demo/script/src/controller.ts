@@ -4,29 +4,12 @@ import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
 import { clipboard } from 'electron';
-import { validate } from '@share/TypeChatSlim/utools';
 import { generalBasic } from '@share/BaiduOCR/index';
-import { getShareData } from '@share/utils/shareData';
 import { renderEjsTemplates } from '@share/utils/ejs';
 import { typescriptToMock } from '@share/utils/platformIndependent/json';
-
-export type MethodHandle = (data: {
-  method: string;
-  params: string;
-  model: object;
-  scriptFile: string;
-}) => Promise<{
-  /** 立即更新 model */
-  updateModelImmediately?: boolean;
-  /** 仅更新参数 */
-  onlyUpdateParams?: boolean;
-  params?: string;
-  /** 打开 Chat */
-  showChat?: boolean;
-  /** Chat Content */
-  chatContent?: string;
-  model: object;
-}>;
+import { getShareData } from '@share/utils/shareData';
+import { MethodHandle } from '@share/uTools/webviewBaseController';
+import { getBlockJsonValidSchema } from '@share/utils/uTools';
 
 export const initFiltersFromImage: MethodHandle = async (data) => {
   const availableFormats = clipboard.availableFormats('clipboard');
@@ -85,14 +68,9 @@ export const initColumnsFromText: MethodHandle = async (data) => {
 };
 
 export const openChatGPT: MethodHandle = async (data) => {
-  const configPath = path.join(
-    data.scriptFile
-      .replace('/script/src/mainBundle', '/config')
-      .replace('/script/src/main', '/config'),
-  );
-  const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
+  const schema = getBlockJsonValidSchema(data.scriptFile);
   const clipboardText = JSON.stringify(data.model);
-  const typeName = 'IOption';
+  const typeName = 'PageConfig';
   const requestPrompt =
     `You are a service that translates user requests into JSON objects of type "${typeName}" according to the following TypeScript definitions:\n` +
     `\`\`\`\n${schema}\`\`\`\n` +
@@ -216,18 +194,4 @@ export const generateCode: MethodHandle = async (data) => {
     onlyUpdateParams: true,
     params: `代码生成目录：${selectedFolder}`,
   };
-};
-
-export const validateJSON = (data: {
-  jsonText: string;
-  scriptFile: string;
-}) => {
-  const configPath = path.join(
-    data.scriptFile
-      .replace('/script/src/mainBundle', '/config')
-      .replace('/script/src/main', '/config'),
-  );
-  const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
-  const typeName = 'PageConfig';
-  return validate(data.jsonText, schema, typeName);
 };

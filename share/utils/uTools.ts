@@ -1,3 +1,5 @@
+import path from 'path';
+import * as fs from 'fs-extra';
 import { createChatCompletion } from '../LLM/openaiV2';
 
 export const screenCapture = () =>
@@ -50,4 +52,39 @@ export const askChatGPT = async (data: {
     },
   });
   return { content: res };
+};
+
+export const getBlockJsonValidSchema = (
+  mainScriptFile: string,
+  schemaFileName = 'schema.ts',
+) => {
+  const configPath = getBlockConfigPath(mainScriptFile);
+  return fs.readFileSync(path.join(configPath, schemaFileName), 'utf8');
+};
+
+/** 获取脚本目录 */
+export const getBlockPath = (mainScriptFile: string) => {
+  return path.join(
+    mainScriptFile
+      .replace('/script/src/mainBundle', '')
+      .replace('/script/src/main', ''),
+  );
+};
+
+export const getBlockConfigPath = (mainScriptFile: string) => {
+  const configPath = path.join(
+    mainScriptFile
+      .replace('/script/src/mainBundle', '/config')
+      .replace('/script/src/main', '/config'),
+  );
+  return configPath;
+};
+
+export const getBlockTemplatePath = (mainScriptFile: string) => {
+  const configPath = path.join(
+    mainScriptFile
+      .replace('/script/src/mainBundle', '/src')
+      .replace('/script/src/main', '/src'),
+  );
+  return configPath;
 };

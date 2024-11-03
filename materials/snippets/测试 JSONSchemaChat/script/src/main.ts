@@ -1,7 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import { env, window, Range } from 'vscode';
-import { translate } from '../../../../../share/JSONSchemaChat/index';
+import { translate } from '@share/JSONSchemaChat/index';
 import { context } from './context';
 
 export async function bootstrap() {

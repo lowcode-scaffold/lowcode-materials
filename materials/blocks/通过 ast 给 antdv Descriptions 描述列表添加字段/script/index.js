@@ -1,3 +1,10 @@
+const path = require('path');
+const moduleAlias = require('module-alias');
+
+moduleAlias.addAlias(
+  '@share',
+  path.join(__dirname.split('materials')[0], 'dist/share'),
+);
 const main = require('../../../../dist/materials/blocks/通过 ast 给 antdv Descriptions 描述列表添加字段/script/src/main');
 const {
   context,

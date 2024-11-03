@@ -1,15 +1,8 @@
-import path from 'path';
-import fs from 'fs';
 import { clipboard } from 'electron';
+import { getBlockJsonValidSchema } from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
-  const configPath = path.join(
-    scriptFile!
-      .replace('/script/src/mainBundle', '')
-      .replace('/script/src/main', ''),
-    'config',
-  );
-  const schema = fs.readFileSync(path.join(configPath, 'schema.ts'), 'utf8');
+  const schema = getBlockJsonValidSchema(scriptFile!);
   const clipboardText =
     (clipboard.readText() || '').trim() ||
     '客户验收状态:1.无需验收、2.待验收、3已验收';

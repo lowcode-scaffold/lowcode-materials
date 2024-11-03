@@ -4,11 +4,11 @@ import * as execa from 'execa';
 import * as ejs from 'ejs';
 import axios from 'axios';
 import { workspace, window } from 'vscode';
-import { translate } from '../../../../../share/TypeChatSlim/index';
-import { generalBasic } from '../../../../../share/BaiduOCR/index';
+import { translate } from '@share/TypeChatSlim/index';
+import { generalBasic } from '@share/BaiduOCR/index';
+import { typescriptToMock } from '@share/utils/json';
 import { context } from './context';
 import { IItems } from '../../config/schema';
-import { typescriptToMock } from '../../../../../share/utils/json';
 
 export async function handleOCR() {
   const { lowcodeContext } = context;
