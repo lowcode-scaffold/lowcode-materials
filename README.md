@@ -36,11 +36,13 @@ vscode 执行如下命令
 ![image](https://github.com/user-attachments/assets/5eb13ef1-150b-450c-9b53-018cbbdf59a1)
 
 
-### 开发调试
-
-开发阶段可以直接运行 TS 代码方便调试，执行 `yarn dev`
-
 ### uTools 自动化脚本
 
 安装依赖后执行 yarn prod，uTools 中安装自动化脚本插件，新建脚本，把 dist/utools 目录下的各个 index.js 内容复制过去就行。
+
+一个生成特定代码的例子：
+
+![](https://github.com/user-attachments/assets/ebd19d40-1f92-49d3-ab13-aa7272ff04f9)
+
+![](https://github.com/user-attachments/assets/b0a4e635-08cf-4e09-8469-6d73c76c17d3)
 
