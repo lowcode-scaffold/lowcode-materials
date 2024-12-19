@@ -38,7 +38,15 @@ vscode 执行如下命令
 
 ### uTools 自动化脚本
 
-安装依赖后执行 yarn prod，uTools 中安装自动化脚本插件，新建脚本，把 dist/utools 目录下的各个 index.js 内容复制过去就行。
+安装依赖后执行 yarn build，uTools 中安装自动化脚本插件，新建脚本，把 dist/utools 目录下的各个 index.js 内容复制过去就行。
+
+![image](https://github.com/user-attachments/assets/ee3cd944-850b-478b-b1e7-03fa8a79d3a2)
+
+![image](https://github.com/user-attachments/assets/3b307be1-70ab-4524-9a2d-9b19419965a4)
+
+
+部分脚本需要配合插件使用，插件下载：[lowcode-1.0.0.upxs](https://github.com/lowcode-scaffold/lowcode-materials/releases)
+
 
 一个生成特定代码的例子：
 
