@@ -10,6 +10,7 @@ import {
 } from '@share/utils/uTools';
 
 export const bootstrap = async (scriptFile?: string) => {
+  const configPath = getBlockConfigPath(scriptFile!);
   const schema = getBlockJsonValidSchema(scriptFile!);
   const clipboardText =
     (clipboard.readText() || '').trim() ||
@@ -21,98 +22,23 @@ export const bootstrap = async (scriptFile?: string) => {
     `The following is a user request:\n` +
     `"""\n${clipboardText}\n"""\n` +
     `The following is the user request translated into a JSON object with 2 spaces of indentation and no properties with the value undefined:\n`;
-  utools.redirect(['lowcode', 'lowcode'], {
-    type: 'text',
-    data: JSON.stringify({
-      scriptFile,
-      route: '/chat',
-      content: requestPrompt,
-    }),
-  });
-};
-
-type LLMMessage = (
-  | {
-      role: 'system';
-      content: string;
-    }
-  | {
-      role: 'user';
-      content:
-        | string
-        | (
-            | {
-                type: 'image_url';
-                image_url: { url: string };
-              }
-            | { type: 'text'; text: string }
-          )[];
-    }
-)[];
-
-// 给页面调用的
-export const askChatGPT = async (data: {
-  messages: LLMMessage;
-  handleChunk: (chunck: string) => void;
-  scriptFile: string;
-}) => {
-  const configPath = getBlockConfigPath(data.scriptFile);
-  const schema = getBlockJsonValidSchema(data.scriptFile);
-  const template = fs.readFileSync(
-    path.join(configPath, 'template.ejs'),
-    'utf8',
-  );
-  const typeName = 'IOption';
-
-  if (
-    data.messages.length >= 3 &&
-    (data.messages[data.messages.length - 1].content as string).includes('>>>')
-  ) {
-    const name = (data.messages[data.messages.length - 1].content as string)
-      .split('>>>')[1]
-      .trim();
-    const jsonValid = validate(
-      data.messages[data.messages.length - 2].content as string,
-      schema,
-      typeName,
-    );
-    if (jsonValid.success) {
-      setTimeout(() => {
-        const code = compileEjs(template, {
-          rawSelectedText: name || '请手动修改名称',
-          content: JSON.stringify(jsonValid.data),
-        } as any);
-        clipboard.writeText(code);
-        utools.outPlugin();
-        utools.hideMainWindowPasteText(code);
-      }, 300);
-    } else {
-      data.handleChunk(`
-
-> 生成代码时 JSON 校验不通过
-
-${jsonValid.message}
-						`);
-    }
-    return '';
-  }
   const content = await askOpenai({
-    messages: data.messages,
-    handleChunk: data.handleChunk,
+    messages: [{ role: 'user', content: requestPrompt }],
+    handleChunk: () => {},
   });
   const valid = validate(content.content, schema, typeName);
   if (valid.success) {
-    data.handleChunk(`
-
-JSON 校验通过，输入\`>>>\`生成代码
-			`);
+    const template = fs.readFileSync(
+      path.join(configPath, 'template.ejs'),
+      'utf8',
+    );
+    const code = compileEjs(template, {
+      rawSelectedText: '请手动修改名称',
+      content: JSON.stringify(valid.data),
+    } as any);
+    utools.outPlugin();
+    utools.hideMainWindowPasteText(code);
   } else {
-    data.handleChunk(`
-
-> JSON 校验不通过
-
-${valid.message}
-						`);
+    return valid.message;
   }
-  return content;
 };

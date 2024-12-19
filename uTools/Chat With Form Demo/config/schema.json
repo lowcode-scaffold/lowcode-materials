@@ -1,0 +1,56 @@
+{
+	"type": "page",
+	"body": [
+		{
+			"type": "form",
+			"body": [
+				{
+					"type": "input-file",
+					"name": "file",
+					"label": "",
+					"accept": "*",
+					"id": "u:c04ee740c509",
+					"asBase64": true,
+					"btnLabel": "文件上传",
+					"multiple": false,
+					"uploadType": "bos",
+					"proxy": false,
+					"autoUpload": true,
+					"useChunk": false,
+					"drag": true,
+					"asBlob": false,
+					"bos": "default"
+				},
+				{
+					"type": "select",
+					"label": "选项",
+					"name": "select",
+					"id": "u:fce7d967cf31",
+					"multiple": false,
+					"source": "${items}"
+				}
+			],
+			"title": "",
+			"submitText": "",
+			"id": "u:750900f46569",
+			"actions": [],
+			"feat": "Insert",
+			"dsType": "api",
+			"labelAlign": "left"
+		}
+	],
+	"pullRefresh": {
+		"disabled": true
+	},
+	"regions": [
+		"body"
+	],
+	"style": {},
+	"asideResizor": false,
+	"themeCss": {
+		"baseControlClassName": {
+			"boxShadow:default": " 0px 0px 0px 0px transparent"
+		}
+	},
+	"id": "u:92f76614d33d"
+}

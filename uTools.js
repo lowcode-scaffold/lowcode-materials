@@ -30,26 +30,6 @@ function getAllFiles(dirPath) {
 getAllFiles(path.join(__dirname, 'dist', 'uTools'))
   .filter((s) => s.includes('index.js'))
   .forEach(async (file) => {
-    if (file.includes('下载脚本')) {
-      const content = fs.readFileSync(file).toString();
-      // const newContent = content.replace(
-      //   'Object.defineProperty(exports, "__esModule", { value: true });',
-      //   '',
-      // );
-      fs.writeFileSync(file, content);
-      build({
-        entryPoints: [file],
-        bundle: true,
-        minify: false,
-        // only needed if you have dependencies
-        external: ['electron'],
-        platform: 'node',
-        format: 'cjs',
-        outfile: file,
-        allowOverwrite: true,
-      });
-      return;
-    }
     const mainFilePath = file
       .replace(/\\/g, '/')
       .replace('index.js', 'src/main');
@@ -121,6 +101,24 @@ moduleAlias.addAlias('@share', '${path
       allowOverwrite: true,
     });
   });
+
+// bundle other files
+['share/uTools/webviewBaseController.js'].forEach(async (file) => {
+  const entryFile = path.join(__dirname, 'dist', file);
+  build({
+    entryPoints: [entryFile],
+    bundle: true,
+    minify: true,
+    // only needed if you have dependencies
+    external: ['electron'],
+    platform: 'node',
+    format: 'cjs',
+    outfile: entryFile.replace('.js', 'Bundle.js'),
+    allowOverwrite: true,
+  });
+});
+
+// 复制物料文件
 
 const copyDir = () => {
   const dirPath = path.join(__dirname, 'uTools');

@@ -99,14 +99,27 @@ function createRepairPrompt(validationError: string) {
   );
 }
 
-function validate<T extends object>(
+export function validate<T extends object>(
   jsonText: string,
   schema: string,
   typeName: string,
 ) {
   let jsonObject;
   try {
-    jsonObject = JSON.parse(jsonText) as object;
+    let match = /```json([\s\S]*?)```/g.exec(jsonText);
+    if (match && match[1]) {
+      // eslint-disable-next-line prefer-destructuring
+      jsonText = match[1];
+    } else {
+      match = /```([\s\S]*?)```/g.exec(jsonText);
+    }
+    if (match && match[1]) {
+      // eslint-disable-next-line prefer-destructuring
+      jsonText = match[1];
+    }
+    jsonObject = JSON.parse(
+      jsonText.replace(/```json/g, '').replace(/```/g, ''),
+    ) as object;
   } catch (e) {
     return error(e instanceof SyntaxError ? e.message : 'JSON parse error');
   }

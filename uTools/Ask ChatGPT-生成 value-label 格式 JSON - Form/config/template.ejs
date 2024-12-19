@@ -1,0 +1,6 @@
+export const <%- rawSelectedText %>Options = <%- content %>
+
+export const <%- rawSelectedText %>Map = <%- rawSelectedText %>Options.reduce((obj, { label, value }) => {
+  obj[value] = label
+  return obj
+}, {})

@@ -15,10 +15,13 @@ export type MethodHandle = (data: {
   updateModelImmediately?: boolean;
   /** 仅更新参数 */
   onlyUpdateParams?: boolean;
+  /** 要更新的参数 */
   params?: string;
-  /** 打开 Chat */
+  /** 打开 LLM Chat，DynamicForm Page使用 */
   showChat?: boolean;
-  /** Chat Content */
+  /** 关闭表单界面, Chat Page 使用 */
+  closeForm?: boolean;
+  /** LLM Chat Content */
   chatContent?: string;
   model: object;
 }>;
@@ -40,9 +43,7 @@ export const getDynamicForm: GetDynamicForm = (data) => {
 
 // #endregion
 
-// #region 动态表单页面 LLM 交互
-
-type LLMMessage = (
+export type LLMMessage = (
   | {
       role: 'system';
       content: string;
@@ -60,6 +61,8 @@ type LLMMessage = (
           )[];
     }
 )[];
+
+// #region 动态表单页面 LLM 交互
 
 export type AskChatGPTForDynamicFormPageWebviewData = {
   params: string;
@@ -132,4 +135,39 @@ ${valid.message}`);
     };
   };
 
+// #endregion
+
+// #region 处理页面 ChatGPT 请求
+export type AskChatGPTData = {
+  params: string;
+  model: object;
+  scriptFile: string;
+  messages: LLMMessage;
+  handleChunk: (chunck: string) => void;
+};
+
+export type AskChatGPT = (
+  data: AskChatGPTData & {
+    /** 用于校验 json 数据的 TS 类型名称 */
+    validateJsonSchemaTypeName?: string;
+  },
+) => Promise<{
+  /** LLM 返回内容 */
+  content: string;
+  /** 立即更新 model */
+  updateModelImmediately?: boolean;
+  /** 仅更新参数 */
+  onlyUpdateParams?: boolean;
+  /** 要更新的参数 */
+  params?: string;
+  /** 打开表单界面, Chat Page 使用 */
+  showForm?: boolean;
+  /** 表单数据 */
+  model?: object;
+}>;
+export const askChatGPT: AskChatGPT = (data: {
+  messages: LLMMessage;
+  handleChunk: (chunck: string) => void;
+  model?: object;
+}) => askOpenai({ ...data, model: undefined });
 // #endregion
