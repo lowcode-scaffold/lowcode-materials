@@ -15,6 +15,7 @@ export async function bootstrap() {
       'lowcode/代码片段',
       'uTools 自动化脚本',
       'uTools 动态表单',
+      'uTools askChatGPT',
     ].map((s) => s),
     { placeHolder: '请选择模板' },
   );

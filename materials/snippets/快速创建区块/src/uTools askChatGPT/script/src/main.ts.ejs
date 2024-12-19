@@ -1,0 +1,18 @@
+import { LLMMessage } from '@share/uTools/webviewBaseController';
+import { askChatGPT as askOpenai } from '@share/utils/uTools';
+
+export const bootstrap = async (scriptFile?: string) => {
+  const requestPrompt = '你好';
+  const content = await askOpenai({
+    messages: [{ role: 'user', content: requestPrompt }],
+    handleChunk: () => {},
+  });
+  utools.outPlugin();
+  utools.hideMainWindowPasteText(content.content);
+};
+
+// 给页面调用的
+export const askChatGPT = (data: {
+  messages: LLMMessage;
+  handleChunk: (chunck: string) => void;
+}) => askOpenai({ ...data });
