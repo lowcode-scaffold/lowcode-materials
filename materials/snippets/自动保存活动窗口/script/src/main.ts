@@ -21,7 +21,7 @@ export function onActivate() {
   });
 
   // 获取选中的文件夹
-  commands.getCommands(true).then((res) => {
+  commands.getCommands().then((res) => {
     if (!res.some((s) => s.includes('lowcode.getSelectedFolder'))) {
       const getSelectedFolder = commands.registerCommand(
         'lowcode.getSelectedFolder',
