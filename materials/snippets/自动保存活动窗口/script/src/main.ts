@@ -21,24 +21,30 @@ export function onActivate() {
   });
 
   // 获取选中的文件夹
-  const getSelectedFolder = commands.registerCommand(
-    'lowcode.getSelectedFolder',
-    async () => {
-      const oriClipboardText = await env.clipboard.readText();
-      await commands.executeCommand('copyFilePath');
-      const folder = await env.clipboard.readText();
-      env.clipboard.writeText(oriClipboardText);
-      const newUri = Uri.file(folder);
-      saveShareData({
-        selectedFolder:
-          process.platform === 'win32' && newUri.path.startsWith('/')
-            ? newUri.path.substring(1)
-            : newUri.path,
-      });
-      console.log(newUri.path);
-    },
-  );
-  setTimeout(() => {
-    lowcodeContext?.env.extensionContext.subscriptions.push(getSelectedFolder);
-  }, 500);
+  commands.getCommands(true).then((res) => {
+    if (!res.some((s) => s.includes('lowcode.getSelectedFolder'))) {
+      const getSelectedFolder = commands.registerCommand(
+        'lowcode.getSelectedFolder',
+        async () => {
+          const oriClipboardText = await env.clipboard.readText();
+          await commands.executeCommand('copyFilePath');
+          const folder = await env.clipboard.readText();
+          env.clipboard.writeText(oriClipboardText);
+          const newUri = Uri.file(folder);
+          saveShareData({
+            selectedFolder:
+              process.platform === 'win32' && newUri.path.startsWith('/')
+                ? newUri.path.substring(1)
+                : newUri.path,
+          });
+          console.log(newUri.path);
+        },
+      );
+      setTimeout(() => {
+        lowcodeContext?.env.extensionContext.subscriptions.push(
+          getSelectedFolder,
+        );
+      }, 1000);
+    }
+  });
 }

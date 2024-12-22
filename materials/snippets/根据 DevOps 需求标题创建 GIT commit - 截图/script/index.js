@@ -1,9 +1,22 @@
 const path = require('path');
 const moduleAlias = require('module-alias');
 
+function splitStringByLastKeyword(inputString, keyword) {
+  const lastIndex = inputString.lastIndexOf(keyword);
+
+  if (lastIndex === -1) {
+    return [inputString, ''];
+  }
+
+  const part1 = inputString.slice(0, lastIndex);
+  const part2 = inputString.slice(lastIndex + keyword.length);
+
+  return [part1, part2];
+}
+
 moduleAlias.addAlias(
   '@share',
-  path.join(__dirname.split('materials')[0], 'dist/share'),
+  path.join(splitStringByLastKeyword(__dirname, 'materials')[0], 'dist/share'),
 );
 const main = require('../../../../dist/materials/snippets/根据 DevOps 需求标题创建 GIT commit - 截图/script/src/main');
 const {
