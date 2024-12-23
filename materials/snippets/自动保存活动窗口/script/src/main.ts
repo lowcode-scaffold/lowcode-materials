@@ -40,11 +40,9 @@ export function onActivate() {
           console.log(newUri.path);
         },
       );
-      setTimeout(() => {
-        lowcodeContext?.env.extensionContext.subscriptions.push(
-          getSelectedFolder,
-        );
-      }, 1000);
+      lowcodeContext?.env.extensionContext.subscriptions.push(
+        getSelectedFolder,
+      );
     }
   });
 }
