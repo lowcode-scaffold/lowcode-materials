@@ -26,5 +26,4 @@ export const bootstrap = async (scriptFile?: string) => {
   res = res.replace(/`/g, '');
   utools.outPlugin();
   utools.hideMainWindowPasteText(res);
-  return res;
 };

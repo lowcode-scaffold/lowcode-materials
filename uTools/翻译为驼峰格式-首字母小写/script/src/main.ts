@@ -22,5 +22,4 @@ export const bootstrap = async () => {
   res = res.charAt(0).toLowerCase() + res.slice(1);
   utools.outPlugin();
   utools.hideMainWindowPasteText(res);
-  return res;
 };

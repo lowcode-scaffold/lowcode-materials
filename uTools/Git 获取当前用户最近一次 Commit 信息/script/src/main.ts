@@ -27,7 +27,7 @@ export const bootstrap = (scriptFile?: string) => {
     if (res.stdout) {
       utools.outPlugin();
       utools.hideMainWindowPasteText(res.stdout);
-      return res.stdout;
+      return;
     }
     return JSON.stringify(res);
   } catch (ex) {
